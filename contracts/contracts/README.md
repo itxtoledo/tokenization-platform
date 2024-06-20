@@ -1,7 +1,3 @@
-# Tokenization Platform Diagram 
-
-Here's a markdown document that provides an overview and abstract structure of the smart contracts:
-
 # Smart Contracts Overview
 
 ## Contracts
@@ -84,6 +80,3 @@ Here's a markdown document that provides an overview and abstract structure of t
   - **Returns:** `uint8`
   - **Description:** Returns the number of decimals used by the token (overridden to return 18).
 
----
-
-This document provides a structured overview of each contract along with a description of the key functions and their purposes.

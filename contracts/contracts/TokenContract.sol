@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-//After search I found it is recommended to use ^0.8.0 version, we can change this anytime later 
-pragma solidity ^0.8.0;
+//After search I found it is recommended to use ^0.8.20 version, we can change this anytime later defore deployment if needed
+pragma solidity ^0.8.20;
 
 //library provides the basic implementation of an ERC20 token.
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";

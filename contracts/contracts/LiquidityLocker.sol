@@ -41,3 +41,6 @@ contract LiquidityLocker is Ownable {
         locks[user].pop(); // Remove the last element
     }
 }
+
+// this contract is deployed on SepoliaETH TestNet 
+// The contract address is 0xdc131c0e552a49a12b900f4d61acffba07558c2d

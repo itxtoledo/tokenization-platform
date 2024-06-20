@@ -68,3 +68,6 @@ contract Presale is Ownable {
         payable(msg.sender).transfer(amount); // Refund the contributed Ether amount to the contributor
     }
 }
+
+// this contract is deployed on SepoliaETH TestNet 
+// The contract address is 0x4b6d246ac54051cc225ab2c63ddcd8f90e1b812b

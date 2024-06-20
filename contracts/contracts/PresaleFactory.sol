@@ -26,3 +26,7 @@ contract PresaleFactory {
         emit PresaleCreated(address(presale), token, startTime, endTime, softCap, hardCap);
     }
 }
+
+
+// this contract is deployed on SepoliaETH TestNet 
+// The contract address is 0x80a2e497f39426eac80cb493509c31f7c1b397cc

@@ -9,6 +9,12 @@
 | `PresaleFactory`  | `createPresale(address token, uint256 startTime, uint256 endTime, uint256 softCap, uint256 hardCap) external` | Creates new instances of the `Presale` contract and emits an event for each creation. |
 | `ERC20Token`      | `mint(address to, uint256 amount) public onlyOwner` <br> `burn(uint256 amount) public` <br> `decimals() public view virtual override returns (uint8)` | Implements an ERC20 token with minting and burning functionalities, accessible only by the owner. |
 
+---
+
+![Contracts Diagram](https://github.com/itxtoledo/tokenization-platform/blob/main/contracts/contracts/Contracts%20Diagrams/Smart%20Contracts%20Diagram.png?raw=true)
+
+---
+
 ## Detailed Descriptions
 
 ### 1. LiquidityLocker

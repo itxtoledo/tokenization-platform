@@ -10,7 +10,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 //the contract is ownable 
 contract ERC20Token is ERC20, Ownable {
-    constructor(string memory name, string memory symbol, uint256 initialSupply) ERC20(name, symbol) {
+
+    // Pass msg.sender to the Ownable constructor
+    constructor(string memory name, string memory symbol, uint256 initialSupply) 
+    ERC20(name, symbol) 
+    Ownable(msg.sender) 
+    {
         //I will create function to return 18 decimals 
         _mint(msg.sender, initialSupply * 10 ** decimals());
     }

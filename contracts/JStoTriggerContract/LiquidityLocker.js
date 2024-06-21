@@ -3,11 +3,12 @@ import { signer } from '../config';
 import { ethers } from 'ethers';
 
 /***
- * 
+ * NOTES :
  * 1. there are three solidity function so there should be three js functions to interact with the smart contract
  * 2. All functions will be async function to wait for smart contracts deployment
  * 3. parameters of all js functions should reflect solidity functions accordingly
  * 4. instead of calling the smart contract ABI I will listed the required functions to interact with in the liquidityLockerABI const variable 
+ * 5. ethers.Contract takes three params (address, ABI, and signer)
  * 
  */
 

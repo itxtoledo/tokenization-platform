@@ -1,32 +1,34 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.26;
 
-// Importing Presale contract
+import "@openzeppelin/contracts/proxy/Clones.sol";
 import "./Presale.sol";
+import "./MintableERC20.sol";
 
 contract PresaleFactory {
-    
-    // Event emitted when a new Presale contract is created
-    // I used indexed for efficient filtering and searching
-    event PresaleCreated(address indexed presale, address indexed token, uint256 startTime, uint256 endTime, uint256 softCap, uint256 hardCap);
+    Presale public immutable presale;
+    MintableERC20 public immutable token;
 
-    // Function to create a new Presale contract
+    event PresaleCreated(address indexed presale);
+
+    constructor(address factory_, address token_) {
+        presale = Presale(factory_);
+        token = MintableERC20(token_);
+    }
+
     function createPresale(
-        address token,
-        uint256 startTime,
-        uint256 endTime,
-        uint256 softCap,
-        uint256 hardCap
+        string calldata name,
+        string calldata symbol,
+        uint256 supply,
+        uint256 price
     ) external {
-        // Deploy a new instance of the Presale contract
-        Presale presale = new Presale(token, startTime, endTime, softCap, hardCap);
+        address newToken = Clones.clone(token);
+        MintableERC20(clone).initialize(_msgSender(), name, symbol, supply);
 
-        // Emit an event to log the creation of the Presale contract
-        emit PresaleCreated(address(presale), token, startTime, endTime, softCap, hardCap);
+        address newPresale = Clones.clone(presale);
+        Presale(newPresale).initialize(_msgSender(), newToken, price);
+
+        emit PresaleCreated(newPresale);
     }
 }
-
-
-// this contract is deployed on SepoliaETH TestNet 
-// The contract address is 0x80a2e497f39426eac80cb493509c31f7c1b397cc

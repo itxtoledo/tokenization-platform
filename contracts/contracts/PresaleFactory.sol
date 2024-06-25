@@ -12,8 +12,8 @@ contract PresaleFactory {
 
     event PresaleCreated(address indexed presale);
 
-    constructor(address factory_, address token_) {
-        presale = Presale(factory_);
+    constructor(address presale_, address token_) {
+        presale = Presale(presale_);
         token = MintableERC20(token_);
     }
 
@@ -23,11 +23,11 @@ contract PresaleFactory {
         uint256 supply,
         uint256 price
     ) external {
-        address newToken = Clones.clone(token);
-        MintableERC20(clone).initialize(_msgSender(), name, symbol, supply);
+        address newToken = Clones.clone(address(token));
+        MintableERC20(newToken).initialize(msg.sender, name, symbol, supply);
 
-        address newPresale = Clones.clone(presale);
-        Presale(newPresale).initialize(_msgSender(), newToken, price);
+        address newPresale = Clones.clone(address(presale));
+        Presale(newPresale).initialize(msg.sender, newToken, price);
 
         emit PresaleCreated(newPresale);
     }

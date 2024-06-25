@@ -17,7 +17,6 @@ contract MintableERC20 is ERC20Upgradeable, OwnableUpgradeable {
     ) external initializer {
         __ERC20_init(name_, symbol_);
         __Ownable_init(owner_);
-        transferOwnership(owner_);
         _mint(owner_, initialSupply_);
     }
 

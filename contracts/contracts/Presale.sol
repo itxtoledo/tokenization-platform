@@ -30,7 +30,7 @@ contract Presale is OwnableUpgradeable {
 
         if (total != msg.value) revert InvalidEtherSent(msg.value, total);
 
-        token.mint(msg.sender, amount);
+        token.mint(msg.sender, amount * 10 ** token.decimals());
     }
 
     function withdrawETH() external onlyOwner {

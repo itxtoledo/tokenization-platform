@@ -24,9 +24,9 @@ contract PresaleFactory {
         uint256 price
     ) external {
         address newToken = Clones.clone(address(token));
-        MintableERC20(newToken).initialize(msg.sender, name, symbol, supply);
-
         address newPresale = Clones.clone(address(presale));
+
+        MintableERC20(newToken).initialize(newPresale, name, symbol, supply);
         Presale(newPresale).initialize(msg.sender, newToken, price);
 
         emit PresaleCreated(newPresale);

@@ -1,9 +1,7 @@
-import {
-  time,
-  loadFixture,
-} from "@nomicfoundation/hardhat-toolbox-viem/network-helpers";
+import { loadFixture } from "@nomicfoundation/hardhat-toolbox-viem/network-helpers";
 import { expect } from "chai";
 import hre from "hardhat";
+import { parseEther } from "viem";
 
 describe("PresaleFactory", function () {
   async function deployFactory() {
@@ -12,7 +10,10 @@ describe("PresaleFactory", function () {
 
     const [owner, otherAccount] = await hre.viem.getWalletClients();
 
-    const presaleFactory = await hre.viem.deployContract("PresaleFactory", [presale.address, token.address]);
+    const presaleFactory = await hre.viem.deployContract("PresaleFactory", [
+      presale.address,
+      token.address,
+    ]);
 
     const publicClient = await hre.viem.getPublicClient();
 
@@ -24,98 +25,107 @@ describe("PresaleFactory", function () {
     };
   }
 
-  // describe("Deployment", function () {
-  //   it("Should set the right unlockTime", async function () {
-  //     const { lock, unlockTime } = await loadFixture(deployFactory);
+  describe("Sales", function () {
+    describe("Could buy tokens at presale", function () {
+      it("Shoud buy tokens", async function () {
+        const { presaleFactory, publicClient, otherAccount } =
+          await loadFixture(deployFactory);
 
-  //     expect(await lock.read.unlockTime()).to.equal(unlockTime);
-  //   });
+        const hash = await presaleFactory.write.createPresale([
+          "Example",
+          "EXM",
+          1000n,
+          parseEther("0.01"),
+        ]);
 
-  //   it("Should set the right owner", async function () {
-  //     const { lock, owner } = await loadFixture(deployFactory);
+        await publicClient.waitForTransactionReceipt({ hash });
 
-  //     expect(await lock.read.owner()).to.equal(
-  //       getAddress(owner.account.address)
-  //     );
-  //   });
+        const presaleEvents = await presaleFactory.getEvents.PresaleCreated();
+        expect(presaleEvents).to.have.lengthOf(1);
 
-  //   it("Should receive and store the funds to lock", async function () {
-  //     const { lock, lockedAmount, publicClient } = await loadFixture(
-  //       deployFactory
-  //     );
+        const presaleAddress = presaleEvents[0].args.presale;
 
-  //     expect(
-  //       await publicClient.getBalance({
-  //         address: lock.address,
-  //       })
-  //     ).to.equal(lockedAmount);
-  //   });
+        const presale = await hre.viem.getContractAt(
+          "Presale",
+          presaleAddress as `0x${string}`,
+          {
+            client: { wallet: otherAccount },
+          }
+        );
 
-  //   it("Should fail if the unlockTime is not in the future", async function () {
-  //     // We don't use the fixture here because we want a different deployment
-  //     const latestTime = BigInt(await time.latest());
-  //     await expect(
-  //       hre.viem.deployContract("Lock", [latestTime], {
-  //         value: 1n,
-  //       })
-  //     ).to.be.rejectedWith("Unlock time should be in the future");
-  //   });
-  // });
+        const AMOUNT_TO_BUY = 1n;
 
-  describe("Withdrawals", function () {
-    // describe("Validations", function () {
-    //   it("Should revert with the right error if called too soon", async function () {
-    //     const { lock } = await loadFixture(deployFactory);
+        const contributionHash = await presale.write.contribute(
+          [AMOUNT_TO_BUY],
+          {
+            value: parseEther("0.01"),
+          }
+        );
 
-    //     await expect(lock.write.withdraw()).to.be.rejectedWith(
-    //       "You can't withdraw yet"
-    //     );
-    //   });
+        await publicClient.waitForTransactionReceipt({
+          hash: contributionHash,
+        });
 
-    //   it("Should revert with the right error if called from another account", async function () {
-    //     const { lock, unlockTime, otherAccount } = await loadFixture(
-    //       deployFactory
-    //     );
+        const token = await hre.viem.getContractAt(
+          "MintableERC20",
+          await presale.read.token()
+        );
 
-    //     // We can increase the time in Hardhat Network
-    //     await time.increaseTo(unlockTime);
+        const tokenEvents = await token.getEvents.Transfer();
 
-    //     // We retrieve the contract with a different account to send a transaction
-    //     const lockAsOtherAccount = await hre.viem.getContractAt(
-    //       "Lock",
-    //       lock.address,
-    //       { client: { wallet: otherAccount } }
-    //     );
-    //     await expect(lockAsOtherAccount.write.withdraw()).to.be.rejectedWith(
-    //       "You aren't the owner"
-    //     );
-    //   });
+        expect(tokenEvents).to.have.lengthOf(1);
+        expect(tokenEvents[0].args.value).to.equal(AMOUNT_TO_BUY * 10n ** 18n);
+      });
 
-    //   it("Shouldn't fail if the unlockTime has arrived and the owner calls it", async function () {
-    //     const { lock, unlockTime } = await loadFixture(
-    //       deployFactory
-    //     );
+      // it("Should revert with the right error if called from another account", async function () {
+      //   const { lock, unlockTime, otherAccount } = await loadFixture(
+      //     deployFactory
+      //   );
 
-    //     // Transactions are sent using the first signer by default
-    //     await time.increaseTo(unlockTime);
+      //   // We can increase the time in Hardhat Network
+      //   await time.increaseTo(unlockTime);
 
-    //     await expect(lock.write.withdraw()).to.be.fulfilled;
-    //   });
-    // });
+      //   // We retrieve the contract with a different account to send a transaction
+      //   const lockAsOtherAccount = await hre.viem.getContractAt(
+      //     "Lock",
+      //     lock.address,
+      //     { client: { wallet: otherAccount } }
+      //   );
+      //   await expect(lockAsOtherAccount.write.withdraw()).to.be.rejectedWith(
+      //     "You aren't the owner"
+      //   );
+      // });
+
+      // it("Shouldn't fail if the unlockTime has arrived and the owner calls it", async function () {
+      //   const { lock, unlockTime } = await loadFixture(
+      //     deployFactory
+      //   );
+
+      //   // Transactions are sent using the first signer by default
+      //   await time.increaseTo(unlockTime);
+
+      //   await expect(lock.write.withdraw()).to.be.fulfilled;
+      // });
+    });
 
     describe("Events", function () {
       it("Should emit an event on new Presale creation", async function () {
-        const { presaleFactory, publicClient } =
-          await loadFixture(deployFactory);
+        const { presaleFactory, publicClient } = await loadFixture(
+          deployFactory
+        );
 
-
-        const hash = await presaleFactory.write.createPresale(["Example", "EXM", 1000n, 1n]);
+        const hash = await presaleFactory.write.createPresale([
+          "Example",
+          "EXM",
+          1000n,
+          1n,
+        ]);
         await publicClient.waitForTransactionReceipt({ hash });
 
-        // get the withdrawal events in the latest block
-        const withdrawalEvents = await presaleFactory.getEvents.PresaleCreated();
-        expect(withdrawalEvents).to.have.lengthOf(1);
-        expect(withdrawalEvents[0].args.presale).to.be.an("string");
+        // get the PresaleCreated events in the latest block
+        const presaleEvents = await presaleFactory.getEvents.PresaleCreated();
+        expect(presaleEvents).to.have.lengthOf(1);
+        expect(presaleEvents[0].args.presale).to.be.an("string");
       });
     });
   });

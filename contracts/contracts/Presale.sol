@@ -2,12 +2,12 @@
 pragma solidity ^0.8.26;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./MintableERC20.sol";
 
 error InvalidEtherSent(uint256 amountSent, uint256 requiredAmount);
 
 contract Presale is OwnableUpgradeable {
-    IERC20 public token;
+    MintableERC20 public token;
 
     uint256 price;
 
@@ -21,19 +21,16 @@ contract Presale is OwnableUpgradeable {
         uint256 price_
     ) external initializer {
         __Ownable_init(owner_);
-        token = IERC20(token_);
+        token = MintableERC20(token_);
         price = price_;
     }
 
     function contribute(uint256 amount) external payable {
         uint256 total = amount * price;
 
-        require(
-            total == msg.value,
-            InvalidEtherSent(msg.value, total)
-        );
+        if (total != msg.value) revert InvalidEtherSent(msg.value, total);
 
-        token
+        token.mint(msg.sender, amount);
     }
 
     function withdrawETH() external onlyOwner {

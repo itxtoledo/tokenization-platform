@@ -19,15 +19,34 @@ describe("PresaleFactory", function () {
 
     return {
       presaleFactory,
+      presale,
+      token,
       owner,
       otherAccount,
       publicClient,
     };
   }
 
+  //Ensuring that presale and token addresses are correctly initialized in the constructor
+  describe("Initialization", function () {
+    it("should initialize with correct presale and token addresses", async function () {
+      const { presaleFactory, presale, token } = await loadFixture(deployFactory);
+
+      const factoryPresaleAddress = await presaleFactory.read.presale();
+      const factoryTokenAddress = await presaleFactory.read.token();
+
+      // Convert both addresses to lowercase for comparison (to handle case sensitivity)
+      const expectedPresaleAddress = presale.address.toLowerCase();
+      const expectedTokenAddress = token.address.toLowerCase();
+
+      expect(factoryPresaleAddress.toLowerCase()).to.equal(expectedPresaleAddress);
+      expect(factoryTokenAddress.toLowerCase()).to.equal(expectedTokenAddress);
+    });
+  });
+
   describe("Sales", function () {
     describe("Could buy tokens at presale", function () {
-      it("Shoud buy tokens", async function () {
+      it("Should buy tokens", async function () {
         const { presaleFactory, publicClient, otherAccount } =
           await loadFixture(deployFactory);
 
@@ -76,36 +95,6 @@ describe("PresaleFactory", function () {
         expect(tokenEvents).to.have.lengthOf(1);
         expect(tokenEvents[0].args.value).to.equal(AMOUNT_TO_BUY * 10n ** 18n);
       });
-
-      // it("Should revert with the right error if called from another account", async function () {
-      //   const { lock, unlockTime, otherAccount } = await loadFixture(
-      //     deployFactory
-      //   );
-
-      //   // We can increase the time in Hardhat Network
-      //   await time.increaseTo(unlockTime);
-
-      //   // We retrieve the contract with a different account to send a transaction
-      //   const lockAsOtherAccount = await hre.viem.getContractAt(
-      //     "Lock",
-      //     lock.address,
-      //     { client: { wallet: otherAccount } }
-      //   );
-      //   await expect(lockAsOtherAccount.write.withdraw()).to.be.rejectedWith(
-      //     "You aren't the owner"
-      //   );
-      // });
-
-      // it("Shouldn't fail if the unlockTime has arrived and the owner calls it", async function () {
-      //   const { lock, unlockTime } = await loadFixture(
-      //     deployFactory
-      //   );
-
-      //   // Transactions are sent using the first signer by default
-      //   await time.increaseTo(unlockTime);
-
-      //   await expect(lock.write.withdraw()).to.be.fulfilled;
-      // });
     });
 
     describe("Events", function () {

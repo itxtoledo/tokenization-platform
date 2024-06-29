@@ -3,7 +3,7 @@ import { expect } from "chai";
 import hre from "hardhat";
 import { parseEther } from "viem";
 
-describe("PresaleFactory", function () {
+describe("PresaleFactory and MintableERC20", function () {
   async function deployFactory() {
     const presale = await hre.viem.deployContract("Presale");
     const token = await hre.viem.deployContract("MintableERC20");
@@ -19,6 +19,7 @@ describe("PresaleFactory", function () {
 
     return {
       presaleFactory,
+      token,
       owner,
       otherAccount,
       publicClient,
@@ -130,3 +131,4 @@ describe("PresaleFactory", function () {
     });
   });
 });
+

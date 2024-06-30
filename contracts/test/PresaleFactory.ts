@@ -27,7 +27,6 @@ describe("PresaleFactory", function () {
     };
   }
 
-  //Ensuring that presale and token addresses are correctly initialized in the constructor
   describe("Initialization", function () {
     it("should initialize with correct presale and token addresses", async function () {
       const { presaleFactory, presale, token } = await loadFixture(deployFactory);
@@ -41,6 +40,23 @@ describe("PresaleFactory", function () {
 
       expect(factoryPresaleAddress.toLowerCase()).to.equal(expectedPresaleAddress);
       expect(factoryTokenAddress.toLowerCase()).to.equal(expectedTokenAddress);
+    });
+  });
+
+  describe("Pagination", function () {
+    it("Should return the correct number of presales", async function () {
+      const { presaleFactory, publicClient } = await loadFixture(deployFactory);
+
+      const hash = await presaleFactory.write.createPresale([
+        "Example",
+        "EXM",
+        1000n,
+        1n,
+      ]);
+      await publicClient.waitForTransactionReceipt({ hash });
+
+      const presaleCount = await presaleFactory.read.presaleCount();
+      expect(presaleCount).to.equal(1n);
     });
   });
 

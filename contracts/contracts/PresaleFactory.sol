@@ -10,6 +10,9 @@ contract PresaleFactory {
     Presale public immutable presale;
     MintableERC20 public immutable token;
 
+    uint256 public presaleCount;
+    mapping(uint256 => address) presales;
+
     event PresaleCreated(address indexed presale);
 
     constructor(address presale_, address token_) {
@@ -28,6 +31,9 @@ contract PresaleFactory {
 
         MintableERC20(newToken).initialize(newPresale, name, symbol, supply);
         Presale(newPresale).initialize(msg.sender, newToken, price);
+
+        presales[presaleCount] = newPresale;
+        presaleCount += 1;
 
         emit PresaleCreated(newPresale);
     }

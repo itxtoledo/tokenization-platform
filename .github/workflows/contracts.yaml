@@ -15,8 +15,11 @@ jobs:
           run:
             working-directory: contracts
         steps:
+            - name: Change to contracts directory
+              run: cd contracts
+
             - uses: actions/checkout@v2
-            - name: Setup NodeJS 20.12.2
+            - name: Setup NodeJS 20.14.0
               uses: actions/setup-node@v2
               with:
                 node-version: 20.14.0

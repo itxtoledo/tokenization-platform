@@ -11,6 +11,9 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+        defaults:
+        run:
+          working-directory: ./contracts
         steps:
             - uses: actions/checkout@v2
             - name: Setup NodeJS 20.12.2

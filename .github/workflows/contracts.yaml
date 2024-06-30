@@ -11,9 +11,6 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        defaults:
-          run:
-            working-directory: contracts
         steps:
             - name: Change to contracts directory
               run: cd contracts

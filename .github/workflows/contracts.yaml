@@ -1,9 +1,13 @@
-name: Hardhat Build
+name: Contracts CI
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'contracts/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'contracts/**'
 jobs:
     build:
         runs-on: ubuntu-latest

@@ -1,0 +1,33 @@
+name: Contracts CI
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'contracts/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'contracts/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup NodeJS 20.14.0
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.14.0
+          cache-dependency-path: "contracts"
+
+      - name: Show NodeJS version 
+        run: cd contracts && npm --version
+
+      - name: Install Hardhat
+        run: cd contracts && npm install --save-dev hardhat@2.22.5
+
+      - name: Install Hardhat Dependencies
+        run: cd contracts && npm ci
+
+      - name: Run Hardhat Test
+        run: cd contracts && npx hardhat test

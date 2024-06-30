@@ -9,26 +9,28 @@ on:
     paths:
       - 'contracts/**'
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Change to contracts directory
-              run: cd contracts
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
-            - uses: actions/checkout@v2
-            - name: Setup NodeJS 20.14.0
-              uses: actions/setup-node@v2
-              with:
-                node-version: 20.14.0
-                cache: npm
-            - name: Show NodeJS version 
-              run: npm --version
-            
-            - name: Install Hardhat
-              run: npm install --save-dev hardhat@2.22.5
-            
-            - name: Install Hardhat Dependencies
-              run: npm ci
-            
-            - name: Run Hardhat Test
-              run: npx hardhat test
+      - name: Change to contracts directory
+        run: cd contracts
+
+      - name: Setup NodeJS 20.14.0
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.14.0
+          cache: npm
+
+      - name: Show NodeJS version 
+        run: cd contracts && npm --version
+
+      - name: Install Hardhat
+        run: cd contracts && npm install --save-dev hardhat@2.22.5
+
+      - name: Install Hardhat Dependencies
+        run: cd contracts && npm ci
+
+      - name: Run Hardhat Test
+        run: cd contracts && npx hardhat test

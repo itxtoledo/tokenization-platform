@@ -14,13 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Change to contracts directory
-        run: cd contracts
-
       - name: Setup NodeJS 20.14.0
         uses: actions/setup-node@v2
         with:
           node-version: 20.14.0
+          cache-dependency-path: "contracts"
 
       - name: Show NodeJS version 
         run: cd contracts && npm --version

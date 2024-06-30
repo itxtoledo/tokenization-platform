@@ -11,6 +11,10 @@ contract Presale is OwnableUpgradeable {
 
     uint256 price;
 
+    event NewContribution(address indexed contributor, uint256 amount);
+    event EtherWithdrawn(address indexed to, uint256 amount);
+    event TokenWithdrawn(address indexed to, uint256 amount);
+
     constructor() {
         _disableInitializers();
     }
@@ -31,13 +35,19 @@ contract Presale is OwnableUpgradeable {
         if (total != msg.value) revert InvalidEtherSent(msg.value, total);
 
         token.mint(msg.sender, amount * 10 ** token.decimals());
+
+        emit NewContribution(msg.sender, amount);
     }
 
     function withdrawETH() external onlyOwner {
         payable(owner()).transfer(address(this).balance);
+
+        emit EtherWithdrawn(owner(), address(this).balance);
     }
 
     function withdrawToken(address token_) external onlyOwner {
-        IERC20(token_).transfer(owner(), token.balanceOf(address(this)));
+        MintableERC20(token_).transfer(owner(), token.balanceOf(address(this)));
+
+        emit TokenWithdrawn(owner(), token.balanceOf(address(this)));
     }
 }

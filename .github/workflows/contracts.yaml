@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 20.14.0
-          cache: npm
 
       - name: Show NodeJS version 
         run: cd contracts && npm --version

@@ -56,10 +56,12 @@ describe("PresaleFactory", function () {
       );
 
       const publicClientBalance = await token.read.balanceOf([owner.account.address]);
+      const tokenContractBalance = await token.read.balanceOf([token.address]);
       //debugging
       console.log('This is to see the owner address \n' + owner.account.address + '\nis it the same as 0xA0Cf798816D4b9b9866b5330EEa46a18382f251e?', publicClientBalance.toString());
       
       await expect(publicClientBalance).to.equal(0n);
+      await expect(tokenContractBalance).to.equal(0n);
     });
   });
 

@@ -104,8 +104,8 @@ describe("PresaleFactory", function () {
   //   });
   // });
 
-  describe("Initialization", function () {
-    it("Should have empty name", async function () {
+  describe("PresaleFactory Initialization", function () {
+    it("should create a presale with an empty token name", async function () {
       const { token, presaleFactory, owner, publicClient } = await loadFixture(deployMintableERC20);
       const hash = await presaleFactory.write.createPresale([
         "Example",
@@ -136,8 +136,8 @@ describe("PresaleFactory", function () {
     });
   });
 
-  describe("Initialization", function () {
-    it("Should have an 18 decimals", async function () {
+  describe("PresaleFactory Initialization", function () {
+    it("should create a presale with a token having 18 decimals", async function () {
       const { token, presaleFactory, owner, publicClient } = await loadFixture(deployMintableERC20);
       const hash = await presaleFactory.write.createPresale([
         "Example",
@@ -168,8 +168,8 @@ describe("PresaleFactory", function () {
     });
   });
 
-  describe("Initialization", function () {
-    it("Should have empty symbol", async function () {
+  describe("PresaleFactory Initialization", function () {
+    it("should create a presale with a token having an empty symbol", async function () {
       const { token, presaleFactory, owner, publicClient } = await loadFixture(deployMintableERC20);
       const hash = await presaleFactory.write.createPresale([
         "Example",

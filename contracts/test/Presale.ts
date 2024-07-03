@@ -28,7 +28,7 @@ describe("PresaleFactory", function () {
   }
 
   describe("Presale Initialization", function () {
-    it("should have 0n for the initial supply at presale intial creation", async function () {
+    it("should have 0 for the initial supply at presale intial creation", async function () {
       const { owner, presaleFactory, publicClient, token, presale } = await loadFixture(deployPresale);
 
       const initialSupply = 1000n;  // Define the initial supply
@@ -78,7 +78,7 @@ describe("PresaleFactory", function () {
       ]);
 
       await publicClient.waitForTransactionReceipt({ hash });
-      
+      const address = '0x0000000000000000000000000000000000000000';
       const presaleEvents = await presaleFactory.getEvents.PresaleCreated();
       await expect(presaleEvents).to.have.lengthOf(1);
 
@@ -98,7 +98,7 @@ describe("PresaleFactory", function () {
         console.log('debugging ' + ownerAddress);
       
         // if the owner is not initialized then 0x0000000000000000000000000000000000000000 should be passed 
-        await expect(ownerAddress.toString()).to.equal('0x0000000000000000000000000000000000000000');
+        await expect(ownerAddress.toString()).to.equal(address);
     });
-  });
+}); 
 });

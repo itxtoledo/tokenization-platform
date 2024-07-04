@@ -4,6 +4,7 @@
     "hardhat": "2.22.5"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-viem": "^2.0.2",
     "@openzeppelin/contracts": "^5.0.2",
     "@openzeppelin/contracts-upgradeable": "^5.0.2"
   },

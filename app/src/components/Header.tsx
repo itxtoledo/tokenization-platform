@@ -1,54 +1,169 @@
+/**
+ * v0 by Vercel.
+ * @see https://v0.dev/t/RnwWadF46WG
+ * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
+ */
 import { Link } from "react-router-dom";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
-export default function Header() {
+export default function Component() {
   return (
-    <header className="bg-background border-b px-4 lg:px-6 flex items-center h-14">
-      <Link
-        href="#"
-        className="flex items-center justify-center"
-        prefetch={false}
-      >
-        <MountainIcon className="h-6 w-6" />
-        <span className="sr-only">Presale Platform</span>
-      </Link>
-      <nav className="ml-auto flex gap-4 sm:gap-6">
-        <Link
-          href="#"
-          className="text-sm font-medium hover:underline underline-offset-4"
-          prefetch={false}
-        >
-          Home
+    <header className="sticky top-0 z-50 w-full bg-background border-b">
+      <div className="container flex items-center justify-between h-16 px-4 md:px-6">
+        <Link to={"/Home"} className="flex items-center gap-2" prefetch={false}>
+          <MountainIcon className="h-6 w-6" />
+          <span className="text-lg font-bold">Acme Inc</span>
         </Link>
-        <Link
-          href="#"
-          className="text-sm font-medium hover:underline underline-offset-4"
-          prefetch={false}
-        >
-          Create Presale
-        </Link>
-        <Link
-          href="#"
-          className="text-sm font-medium hover:underline underline-offset-4"
-          prefetch={false}
-        >
-          Participate
-        </Link>
-        <Link
-          href="#"
-          className="text-sm font-medium hover:underline underline-offset-4"
-          prefetch={false}
-        >
-          Admin
-        </Link>
-        <Link
-          href="#"
-          className="text-sm font-medium hover:underline underline-offset-4"
-          prefetch={false}
-        >
-          Support
-        </Link>
-      </nav>
+        <nav className="hidden md:flex items-center gap-6">
+          <Link
+            to={"/About"}
+            className="text-sm font-medium hover:underline"
+            prefetch={false}
+          >
+            About
+          </Link>
+          <Link
+            to={"/AdminDashboard"}
+            className="text-sm font-medium hover:underline"
+            prefetch={false}
+          >
+            Admin Dashboard
+          </Link>
+          <Link
+            to={"/FAQ"}
+            className="text-sm font-medium hover:underline"
+            prefetch={false}
+          >
+            FAQ
+          </Link>
+          <Link
+            to={"/Home"}
+            className="text-sm font-medium hover:underline"
+            prefetch={false}
+          >
+            Home
+          </Link>
+          <Link
+            to={"/PresaleCreation"}
+            className="text-sm font-medium hover:underline"
+            prefetch={false}
+          >
+            Presale Creation
+          </Link>
+          <Link
+            to={"/PresaleDetails"}
+            className="text-sm font-medium hover:underline"
+            prefetch={false}
+          >
+            Presale Details
+          </Link>
+          <Link
+            to={"/TokenManagement"}
+            className="text-sm font-medium hover:underline"
+            prefetch={false}
+          >
+            Token Management
+          </Link>
+          <Link
+            to={"/UserContribution"}
+            className="text-sm font-medium hover:underline"
+            prefetch={false}
+          >
+            User Contribution
+          </Link>
+        </nav>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="md:hidden">
+              <MenuIcon className="h-6 w-6" />
+              <span className="sr-only">Toggle navigation menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="md:hidden">
+            <div className="grid gap-4 p-4">
+              <Link
+                href="#"
+                className="text-sm font-medium hover:underline"
+                prefetch={false}
+              >
+                About
+              </Link>
+              <Link
+                href="#"
+                className="text-sm font-medium hover:underline"
+                prefetch={false}
+              >
+                Admin Dashboard
+              </Link>
+              <Link
+                href="#"
+                className="text-sm font-medium hover:underline"
+                prefetch={false}
+              >
+                FAQ
+              </Link>
+              <Link
+                href="#"
+                className="text-sm font-medium hover:underline"
+                prefetch={false}
+              >
+                Home
+              </Link>
+              <Link
+                href="#"
+                className="text-sm font-medium hover:underline"
+                prefetch={false}
+              >
+                Presale Creation
+              </Link>
+              <Link
+                href="#"
+                className="text-sm font-medium hover:underline"
+                prefetch={false}
+              >
+                Presale Details
+              </Link>
+              <Link
+                href="#"
+                className="text-sm font-medium hover:underline"
+                prefetch={false}
+              >
+                Token Management
+              </Link>
+              <Link
+                href="#"
+                className="text-sm font-medium hover:underline"
+                prefetch={false}
+              >
+                User Contribution
+              </Link>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
     </header>
+  );
+}
+
+function MenuIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="4" x2="20" y1="12" y2="12" />
+      <line x1="4" x2="20" y1="6" y2="6" />
+      <line x1="4" x2="20" y1="18" y2="18" />
+    </svg>
   );
 }
 

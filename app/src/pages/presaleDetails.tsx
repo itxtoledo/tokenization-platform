@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export default function Component() {
+export default function PresaleDetails() {
   return (
     <div className="flex flex-col min-h-[100dvh] bg-background text-foreground">
       <header className="px-4 lg:px-6 h-14 flex items-center border-b">
@@ -118,7 +118,11 @@ export default function Component() {
                 <Button
                   type="submit"
                   className="w-full"
-                  onClick={() => alert('function should be here contected to our smart contarcts.')}
+                  onClick={() =>
+                    alert(
+                      "function should be here contected to our smart contarcts."
+                    )
+                  }
                 >
                   Contribute
                 </Button>

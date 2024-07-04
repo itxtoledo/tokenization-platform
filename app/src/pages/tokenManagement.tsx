@@ -35,7 +35,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-export default function Component() {
+export default function TokenManagement() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">

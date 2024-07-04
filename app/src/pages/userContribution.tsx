@@ -12,7 +12,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-export default function Component() {
+export default function UserContribution() {
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <header className="px-4 lg:px-6 h-14 flex items-center">

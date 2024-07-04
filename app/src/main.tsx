@@ -9,16 +9,46 @@ import './index.css'
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import About from './pages/about.tsx';
-import Home from './pages/home.tsx';
+import AdminDashboard from "./pages/adminDashboard.tsx";
+import FAQ from "./pages/FAQ.tsx";
+import Home from "./pages/home.tsx";
+import PresaleCreation from "./pages/PresaleCreation.tsx";
+import PresaleDetails from "./pages/PresaleDetails.tsx";
+import TokenManagement from "./pages/tokenManagement.tsx";
+import UserContribution from "./pages/userContribution.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/AdminDashboard",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "/About",
+    element: <About />,
+  },
+  {
+    path: "/FAQ",
+    element: <FAQ />,
+  },
+  {
+    path: "/Home",
     element: <Home />,
   },
   {
-    path: "/",
-    element: <About />,
+    path: "/PresaleCreation",
+    element: <PresaleCreation />,
+  },
+  {
+    path: "/PresaleDetails",
+    element: <PresaleDetails />,
+  },
+  {
+    path: "/TokenManagement",
+    element: <TokenManagement />,
+  },
+  {
+    path: "/UserContribution",
+    element: <UserContribution />,
   },
 ]);
 

@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-export default function Component() {
+export default function FAQ() {
   return (
     <div className="w-full bg-muted">
       <header className="container mx-auto py-8 px-4 md:px-6">

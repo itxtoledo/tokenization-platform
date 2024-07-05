@@ -133,7 +133,10 @@ export default function TokenManagement() {
                     <Label htmlFor="amount">Amount to Mint</Label>
                     <Input id="amount" type="number" placeholder="100" />
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button
+                    type="submit"
+                    className="w-full bg-black text-zinc-400"
+                  >
                     Mint Tokens
                   </Button>
                 </form>

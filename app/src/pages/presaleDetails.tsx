@@ -94,7 +94,7 @@ export default function PresaleDetails() {
                     </div>
                     <Button
                       type="submit"
-                      className="w-full"
+                      className="w-full bg-black text-zinc-400"
                       onClick={() =>
                         alert(
                           "function should be here contected to our smart contarcts."

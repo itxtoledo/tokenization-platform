@@ -61,7 +61,9 @@ export default function Home() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button>Participate</Button>
+                    <Button className="w-full bg-black text-zinc-400">
+                      Participate
+                    </Button>
                   </CardFooter>
                 </Card>
                 <Card>
@@ -90,7 +92,9 @@ export default function Home() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button>Participate</Button>
+                    <Button className="w-full bg-black text-zinc-400">
+                      Participate
+                    </Button>
                   </CardFooter>
                 </Card>
                 <Card>
@@ -119,7 +123,9 @@ export default function Home() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button>Participate</Button>
+                    <Button className="w-full bg-black text-zinc-400">
+                      Participate
+                    </Button>
                   </CardFooter>
                 </Card>
               </div>

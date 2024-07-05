@@ -146,7 +146,7 @@ export default function FAQ() {
                     className="min-h-[120px]"
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full bg-black text-zinc-400">
                   Submit Request
                 </Button>
               </form>

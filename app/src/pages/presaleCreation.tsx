@@ -75,7 +75,7 @@ export default function PresaleCreation() {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full bg-black text-zinc-400"
                   onClick={(e) => {
                     e.preventDefault();
                     alert("createPresale();");

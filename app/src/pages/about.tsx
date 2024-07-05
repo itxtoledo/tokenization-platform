@@ -82,7 +82,7 @@ export default function About() {
             </p>
             <div className="mt-4">
               <Link
-                href="#"
+                to={'/Home'}
                 className="inline-flex items-center gap-2 text-primary hover:underline"
                 prefetch={false}
               >

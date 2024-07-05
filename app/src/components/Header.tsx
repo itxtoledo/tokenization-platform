@@ -7,68 +7,51 @@ import { Link } from "react-router-dom";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-export default function Component() {
+export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-background border-b">
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
-        <Link to={"/Home"} className="flex items-center gap-2" prefetch={false}>
+        <Link to={"/Home"} className="flex items-center gap-2">
           <MountainIcon className="h-6 w-6" />
           <span className="text-lg font-bold">Acme Inc</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
-          <Link
-            to={"/About"}
-            className="text-sm font-medium hover:underline"
-            prefetch={false}
-          >
+          <Link to={"/About"} className="text-sm font-medium hover:underline">
             About
           </Link>
           <Link
             to={"/AdminDashboard"}
             className="text-sm font-medium hover:underline"
-            prefetch={false}
           >
             Admin Dashboard
           </Link>
-          <Link
-            to={"/FAQ"}
-            className="text-sm font-medium hover:underline"
-            prefetch={false}
-          >
+          <Link to={"/FAQ"} className="text-sm font-medium hover:underline">
             FAQ
           </Link>
-          <Link
-            to={"/Home"}
-            className="text-sm font-medium hover:underline"
-            prefetch={false}
-          >
+          <Link to={"/Home"} className="text-sm font-medium hover:underline">
             Home
           </Link>
           <Link
             to={"/PresaleCreation"}
             className="text-sm font-medium hover:underline"
-            prefetch={false}
           >
             Presale Creation
           </Link>
           <Link
             to={"/PresaleDetails"}
             className="text-sm font-medium hover:underline"
-            prefetch={false}
           >
             Presale Details
           </Link>
           <Link
             to={"/TokenManagement"}
             className="text-sm font-medium hover:underline"
-            prefetch={false}
           >
             Token Management
           </Link>
           <Link
             to={"/UserContribution"}
             className="text-sm font-medium hover:underline"
-            prefetch={false}
           >
             User Contribution
           </Link>
@@ -80,61 +63,50 @@ export default function Component() {
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="md:hidden">
+          <SheetContent side="left" className="md:hidden bg-white">
             <div className="grid gap-4 p-4">
               <Link
-                href="#"
+                to={"/About"}
                 className="text-sm font-medium hover:underline"
-                prefetch={false}
               >
                 About
               </Link>
               <Link
-                href="#"
+                to={"/AdminDashboard"}
                 className="text-sm font-medium hover:underline"
-                prefetch={false}
               >
                 Admin Dashboard
               </Link>
-              <Link
-                href="#"
-                className="text-sm font-medium hover:underline"
-                prefetch={false}
-              >
+              <Link to={"/FAQ"} className="text-sm font-medium hover:underline">
                 FAQ
               </Link>
               <Link
-                href="#"
+                to={"/Home"}
                 className="text-sm font-medium hover:underline"
-                prefetch={false}
               >
                 Home
               </Link>
               <Link
-                href="#"
+                to={"/PresaleCreation"}
                 className="text-sm font-medium hover:underline"
-                prefetch={false}
               >
                 Presale Creation
               </Link>
               <Link
-                href="#"
+                to={"/PresaleDetails"}
                 className="text-sm font-medium hover:underline"
-                prefetch={false}
               >
                 Presale Details
               </Link>
               <Link
-                href="#"
+                to={"/TokenManagement"}
                 className="text-sm font-medium hover:underline"
-                prefetch={false}
               >
                 Token Management
               </Link>
               <Link
-                href="#"
+                to={"/UserContribution"}
                 className="text-sm font-medium hover:underline"
-                prefetch={false}
               >
                 User Contribution
               </Link>

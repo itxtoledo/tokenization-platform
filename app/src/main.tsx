@@ -21,13 +21,13 @@ import {
   RainbowKitProvider,
   DisclaimerComponent,
 } from "@rainbow-me/rainbowkit";
+import Disclainer from "./pages/Disclaimer.tsx";
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
     By connecting your wallet, you agree to the{" "}
-    <Link href="https://termsofservice.xyz">Terms of Service</Link> and
-    acknowledge you have read and understand the protocol{" "}
-    <Link href="https://disclaimer.xyz">Disclaimer</Link>
+    <Link href="/Disclaimer">Terms of Service</Link> and acknowledge you have
+    read and understand the protocol <Link href="/Disclaimer">Disclaimer</Link>
   </Text>
 );
 
@@ -63,6 +63,10 @@ const router = createBrowserRouter([
   {
     path: "/UserContribution",
     element: <UserContribution />,
+  },
+  {
+    path: "/Disclaimer",
+    element: <Disclainer />,
   },
 ]);
 

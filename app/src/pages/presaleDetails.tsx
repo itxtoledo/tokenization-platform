@@ -1,8 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/Zgl8IDg4DpD
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import Header from "@/components/Header";
 import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";

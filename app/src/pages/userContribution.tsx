@@ -1,8 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/AfrseW2hwAf
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import {

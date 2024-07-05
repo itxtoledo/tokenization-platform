@@ -1,9 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/TiWbFQHPb7q
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-
 import {
   Collapsible,
   CollapsibleTrigger,

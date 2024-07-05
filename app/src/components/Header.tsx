@@ -12,7 +12,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b">
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
-        <Link to={"/"} className="flex items-center gap-2">
+        <Link to={"/"} className="items-center gap-2 hidden md:flex">
           <MountainIcon className="h-6 w-6" />
           <span className="text-lg font-bold">Acme Inc</span>
         </Link>
@@ -56,8 +56,8 @@ export default function Header() {
           >
             User Contribution
           </Link>
-          <ConnectButton />
         </nav>
+        <ConnectButton />
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="md:hidden">
@@ -67,6 +67,10 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent side="left" className="md:hidden bg-white">
             <div className="grid gap-4 p-4">
+              <Link to={"/"} className="flex items-center gap-2 ">
+                <MountainIcon className="h-6 w-6" />
+                <span className="text-lg font-bold">Acme Inc</span>
+              </Link>
               <Link
                 to={"/About"}
                 className="text-sm font-medium hover:underline"
@@ -109,7 +113,6 @@ export default function Header() {
               >
                 User Contribution
               </Link>
-              <ConnectButton />
             </div>
           </SheetContent>
         </Sheet>

@@ -7,73 +7,73 @@ export default function Footer() {
         <div className="container max-w-7xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 text-sm">
           <div className="grid gap-1">
             <h3 className="font-semibold">Company</h3>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               About Us
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Our Team
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Careers
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               News
             </Link>
           </div>
           <div className="grid gap-1">
             <h3 className="font-semibold">Products</h3>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Men
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Women
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Kids
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Accessories
             </Link>
           </div>
           <div className="grid gap-1">
             <h3 className="font-semibold">Resources</h3>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Blog
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Community
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Support
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               FAQs
             </Link>
           </div>
           <div className="grid gap-1">
             <h3 className="font-semibold">Legal</h3>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Privacy Policy
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Terms of Service
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Cookie Policy
             </Link>
           </div>
           <div className="grid gap-1">
             <h3 className="font-semibold">Contact</h3>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Support
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Sales
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Press
             </Link>
-            <Link href="#" prefetch={false}>
+            <Link href="#">
               Partnerships
             </Link>
           </div>

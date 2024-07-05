@@ -1,22 +1,9 @@
-import { http, createConfig } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
-import { coinbaseWallet, injected, walletConnect } from 'wagmi/connectors'
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { arbitrum, base, mainnet, optimism, polygon } from "wagmi/chains";
 
-export const config = createConfig({
-  chains: [mainnet, sepolia],
-  connectors: [
-    injected(),
-    coinbaseWallet({ appName: 'Create Wagmi' }),
-    walletConnect({ projectId: import.meta.env.VITE_WC_PROJECT_ID }),
-  ],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-  },
-})
+export const config = getDefaultConfig({
+  appName: "RainbowKit demo",
+  projectId: "process.env.VITE_WC_PROJECT_ID",
+  chains: [mainnet, polygon, optimism, arbitrum, base],
+});
 
-declare module 'wagmi' {
-  interface Register {
-    config: typeof config
-  }
-}

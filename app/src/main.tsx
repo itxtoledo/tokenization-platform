@@ -8,14 +8,15 @@ import * as ReactDOM from "react-dom/client";
 import './index.css'
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import About from './pages/about.tsx';
-import AdminDashboard from "./pages/adminDashboard.tsx";
+import About from "./pages/About.tsx";
+import AdminDashboard from "./pages/AdminDashboard.tsx";
 import FAQ from "./pages/FAQ.tsx";
-import Home from "./pages/home.tsx";
+import Home from "./pages/Home.tsx";
 import PresaleCreation from "./pages/PresaleCreation.tsx";
 import PresaleDetails from "./pages/PresaleDetails.tsx";
-import TokenManagement from "./pages/tokenManagement.tsx";
-import UserContribution from "./pages/userContribution.tsx";
+import TokenManagement from "./pages/TokenManagement.tsx";
+import UserContribution from "./pages/UserContribution.tsx";
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
 const router = createBrowserRouter([
   {
@@ -60,7 +61,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <RainbowKitProvider>
+          <RouterProvider router={router} />
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   </React.StrictMode>

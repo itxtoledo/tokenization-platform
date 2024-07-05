@@ -6,10 +6,11 @@
 import { Link } from "react-router-dom";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full bg-background border-b">
+    <header className="sticky top-0 z-50 w-full bg-white border-b">
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
         <Link to={"/"} className="flex items-center gap-2">
           <MountainIcon className="h-6 w-6" />
@@ -55,6 +56,7 @@ export default function Header() {
           >
             User Contribution
           </Link>
+          <ConnectButton />
         </nav>
         <Sheet>
           <SheetTrigger asChild>
@@ -80,10 +82,7 @@ export default function Header() {
               <Link to={"/FAQ"} className="text-sm font-medium hover:underline">
                 FAQ
               </Link>
-              <Link
-                to={"/"}
-                className="text-sm font-medium hover:underline"
-              >
+              <Link to={"/"} className="text-sm font-medium hover:underline">
                 Home
               </Link>
               <Link
@@ -110,6 +109,7 @@ export default function Header() {
               >
                 User Contribution
               </Link>
+              <ConnectButton />
             </div>
           </SheetContent>
         </Sheet>

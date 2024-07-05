@@ -11,7 +11,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-background border-b">
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
-        <Link to={"/Home"} className="flex items-center gap-2">
+        <Link to={"/"} className="flex items-center gap-2">
           <MountainIcon className="h-6 w-6" />
           <span className="text-lg font-bold">Acme Inc</span>
         </Link>
@@ -28,7 +28,7 @@ export default function Header() {
           <Link to={"/FAQ"} className="text-sm font-medium hover:underline">
             FAQ
           </Link>
-          <Link to={"/Home"} className="text-sm font-medium hover:underline">
+          <Link to={"/"} className="text-sm font-medium hover:underline">
             Home
           </Link>
           <Link
@@ -81,7 +81,7 @@ export default function Header() {
                 FAQ
               </Link>
               <Link
-                to={"/Home"}
+                to={"/"}
                 className="text-sm font-medium hover:underline"
               >
                 Home

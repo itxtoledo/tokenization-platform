@@ -55,7 +55,10 @@ export default function AdminDashboard() {
                         <span className="sr-only sm:not-sr-only">Filter</span>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent
+                      align="end"
+                      className="bg-white hover:cursor-pointer"
+                    >
                       <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuCheckboxItem checked>
@@ -80,7 +83,10 @@ export default function AdminDashboard() {
                         <span className="sr-only sm:not-sr-only">Sort</span>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent
+                      align="end"
+                      className="bg-white hover:cursor-pointer"
+                    >
                       <DropdownMenuLabel>Sort by</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuCheckboxItem checked>
@@ -102,7 +108,7 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <Table>
-                  <TableHeader>
+                  <TableHeader className="bg-white hover:cursor-pointer">
                     <TableRow>
                       <TableHead>Token</TableHead>
                       <TableHead>Price</TableHead>
@@ -113,7 +119,7 @@ export default function AdminDashboard() {
                       </TableHead>
                     </TableRow>
                   </TableHeader>
-                  <TableBody>
+                  <TableBody className="bg-white hover:cursor-pointer">
                     <TableRow>
                       <TableCell>
                         <div className="font-medium">Acme Token</div>
@@ -124,7 +130,7 @@ export default function AdminDashboard() {
                       <TableCell>
                         <Badge variant="secondary">Active</Badge>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="bg-white hover:cursor-pointer">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button
@@ -136,7 +142,10 @@ export default function AdminDashboard() {
                               <span className="sr-only">Toggle menu</span>
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
+                          <DropdownMenuContent
+                            align="end"
+                            className="bg-white hover:cursor-pointer"
+                          >
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem>Pause</DropdownMenuItem>
                             <DropdownMenuItem>Resume</DropdownMenuItem>
@@ -167,7 +176,10 @@ export default function AdminDashboard() {
                               <span className="sr-only">Toggle menu</span>
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
+                          <DropdownMenuContent
+                            align="end"
+                            className="bg-white hover:cursor-pointer"
+                          >
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem>Resume</DropdownMenuItem>
                             <DropdownMenuItem>Cancel</DropdownMenuItem>
@@ -175,7 +187,7 @@ export default function AdminDashboard() {
                         </DropdownMenu>
                       </TableCell>
                     </TableRow>
-                    <TableRow>
+                    <TableRow className="bg-white hover:cursor-pointer">
                       <TableCell>
                         <div className="font-medium">Metaverse Token</div>
                         <div className="text-sm text-muted-foreground">
@@ -199,7 +211,10 @@ export default function AdminDashboard() {
                               <span className="sr-only">Toggle menu</span>
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
+                          <DropdownMenuContent
+                            align="end"
+                            className="bg-white hover:cursor-pointer"
+                          >
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem>Pause</DropdownMenuItem>
                             <DropdownMenuItem>Cancel</DropdownMenuItem>
@@ -207,8 +222,8 @@ export default function AdminDashboard() {
                         </DropdownMenu>
                       </TableCell>
                     </TableRow>
-                    <TableRow>
-                      <TableCell>
+                    <TableRow className="bg-white hover:cursor-pointer">
+                      <TableCell className="bg-white hover:cursor-pointer">
                         <div className="font-medium">DeFi Coin</div>
                         <div className="text-sm text-muted-foreground">DFC</div>
                       </TableCell>
@@ -229,7 +244,10 @@ export default function AdminDashboard() {
                               <span className="sr-only">Toggle menu</span>
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
+                          <DropdownMenuContent
+                            align="end"
+                            className="bg-white hover:cursor-pointer"
+                          >
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem>Pause</DropdownMenuItem>
                             <DropdownMenuItem>Cancel</DropdownMenuItem>
@@ -237,7 +255,7 @@ export default function AdminDashboard() {
                         </DropdownMenu>
                       </TableCell>
                     </TableRow>
-                    <TableRow>
+                    <TableRow className="bg-white hover:cursor-pointer">
                       <TableCell>
                         <div className="font-medium">GameFi Token</div>
                         <div className="text-sm text-muted-foreground">GFT</div>
@@ -259,7 +277,10 @@ export default function AdminDashboard() {
                               <span className="sr-only">Toggle menu</span>
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
+                          <DropdownMenuContent
+                            align="end"
+                            className="bg-white hover:cursor-pointer"
+                          >
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem>Withdraw Tokens</DropdownMenuItem>
                           </DropdownMenuContent>
@@ -282,8 +303,10 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4">
-                  <Button className="bg-black text-white">Withdraw ETH</Button>
-                  <Button className="bg-black text-white">
+                  <Button variant="outline" className="bg-black text-white">
+                    Withdraw ETH
+                  </Button>
+                  <Button variant="outline" className="bg-black text-white">
                     Withdraw Tokens
                   </Button>
                 </div>

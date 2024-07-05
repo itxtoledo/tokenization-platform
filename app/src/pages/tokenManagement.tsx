@@ -76,10 +76,19 @@ export default function TokenManagement() {
                               <span className="sr-only">Token actions</span>
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>View Details</DropdownMenuItem>
-                            <DropdownMenuItem>Mint Tokens</DropdownMenuItem>
-                            <DropdownMenuItem>Burn Tokens</DropdownMenuItem>
+                          <DropdownMenuContent
+                            align="end"
+                            className="bg-white hover:cursor-pointer"
+                          >
+                            <DropdownMenuItem className="bg-white hover:cursor-pointer">
+                              View Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="bg-white hover:cursor-pointer">
+                              Mint Tokens
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="bg-white hover:cursor-pointer">
+                              Burn Tokens
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -103,10 +112,19 @@ export default function TokenManagement() {
                               <span className="sr-only">Token actions</span>
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>View Details</DropdownMenuItem>
-                            <DropdownMenuItem>Mint Tokens</DropdownMenuItem>
-                            <DropdownMenuItem>Burn Tokens</DropdownMenuItem>
+                          <DropdownMenuContent
+                            align="end"
+                            className="bg-white hover:cursor-pointer"
+                          >
+                            <DropdownMenuItem className="bg-white hover:cursor-pointer">
+                              View Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="bg-white hover:cursor-pointer">
+                              Mint Tokens
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="bg-white hover:cursor-pointer">
+                              Burn Tokens
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -135,7 +153,8 @@ export default function TokenManagement() {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-black text-zinc-400"
+                    variant="outline"
+                    className="w-full bg-black text-white"
                   >
                     Mint Tokens
                   </Button>

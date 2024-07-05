@@ -67,7 +67,11 @@ export default function About() {
                   className="w-full"
                 />
               </div>
-              <Button type="submit" className="w-full bg-black text-zinc-400">
+              <Button
+                type="submit"
+                variant="outline"
+                className="w-full bg-black text-white"
+              >
                 Mint Tokens
               </Button>
             </form>
@@ -82,7 +86,7 @@ export default function About() {
             </p>
             <div className="mt-4">
               <Link
-                to={"/Home"}
+                to={"/"}
                 className="inline-flex items-center gap-2 text-primary hover:underline"
               >
                 <ArrowLeftIcon className="h-4 w-4" />

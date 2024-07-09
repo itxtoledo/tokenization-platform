@@ -1,6 +1,16 @@
 {
+  "scripts": {
+    "build": "hardhat compile",
+    "test": "hardhat test",
+    "lint": "hardhat lint",
+    "wagmi:generate": "npx wagmi generate"
+  },
+  "exports": {
+    ".": "./wagmi/generated.ts"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
+    "@wagmi/cli": "^2.1.15",
     "hardhat": "2.22.5"
   },
   "dependencies": {

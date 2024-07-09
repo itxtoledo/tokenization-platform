@@ -9,14 +9,14 @@ import "@rainbow-me/rainbowkit/styles.css";
 import './index.css'
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import About from "./pages/About.tsx";
-import AdminDashboard from "./pages/AdminDashboard.tsx";
+import About from "./pages/about.tsx";
+import AdminDashboard from "./pages/adminDashboard.tsx";
 import FAQ from "./pages/FAQ.tsx";
-import Home from "./pages/Home.tsx";
-import PresaleCreation from "./pages/PresaleCreation.tsx";
-import PresaleDetails from "./pages/PresaleDetails.tsx";
-import TokenManagement from "./pages/TokenManagement.tsx";
-import UserContribution from "./pages/UserContribution.tsx";
+import Home from "./pages/home.tsx";
+import PresaleCreation from "./pages/presaleCreation.tsx";
+import PresaleDetails from "./pages/presaleDetails.tsx";
+import TokenManagement from "./pages/tokenManagement.tsx";
+import UserContribution from "./pages/userContribution.tsx";
 import {
   RainbowKitProvider,
   DisclaimerComponent,

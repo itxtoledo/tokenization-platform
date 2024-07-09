@@ -1,4 +1,7 @@
 {
+  "name": "@tokenization-platform/contracts",
+  "private": true,
+  "version": "1.0.0",
   "scripts": {
     "build": "hardhat compile",
     "test": "hardhat test",

@@ -6,9 +6,6 @@
       "dev": "turbo run dev",
       "lint": "turbo run lint"
     },
-    "workspaces": [
-      "apps/*"
-    ],
     "devDependencies": {
       "turbo": "latest"
     },

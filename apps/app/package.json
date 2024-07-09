@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tokenization-platform/contracts": "*",
+    "@tokenization-platform/contracts": "workspace:*",
     "@tanstack/react-query": "5.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,5 +1,3 @@
-//https://v0.dev/r/x9siPOCLLjh
-
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 function App() {

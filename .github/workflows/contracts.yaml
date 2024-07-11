@@ -30,16 +30,10 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build
         run: npm run build
 
-      - name: Run Turborepo
-        run: npx turbo run build --filter=...
-
       - name: Test
         run: npm run test
-
-      - name: Run Hardhat Tests
-        run: npx hardhat test

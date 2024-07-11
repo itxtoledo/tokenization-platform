@@ -5,16 +5,15 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
-    "test": {
-      "outputs": ["coverage/**"],
-      "dependsOn": ["build"]
-    },
     "check-types": {
       "dependsOn": ["^check-types"]
     },
     "dev": {
-      "cache": false,
-      "persistent": true
+      "persistent": true,
+      "cache": false
+    },
+    "test": {
+      "dependsOn": ["build"]
     }
   }
 }

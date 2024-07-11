@@ -1,33 +1,45 @@
 name: Contracts CI
+
 on:
   push:
     branches: [ main ]
     paths:
-      - 'contracts/**'
+      - 'apps/contracts/**'
   pull_request:
     branches: [ main ]
     paths:
-      - 'contracts/**'
+      - 'apps/contracts/**'
+
 jobs:
   build:
+    name: Build and Test Contracts
+    timeout-minutes: 2
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Setup NodeJS 20.14.0
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 20.14.0
-          cache-dependency-path: "contracts"
+          cache: 'npm'
 
-      - name: Show NodeJS version 
-        run: cd contracts && npm --version
+      - name: Install contracts dependencies
+        working-directory: apps/contracts
+        run: npm install --legacy-peer-deps
 
-      - name: Install Hardhat
-        run: cd contracts && npm install --save-dev hardhat@2.22.5
+      - name: Install TypeScript for solidity contracts
+        working-directory: apps/contracts
+        run: npm install --save-dev ts-node typescript
 
-      - name: Install Hardhat Dependencies
-        run: cd contracts && npm ci
+      - name: Run Hardhat Compile
+        working-directory: apps/contracts
+        run: npx hardhat compile
 
       - name: Run Hardhat Test
-        run: cd contracts && npx hardhat test
+        working-directory: apps/contracts
+        run: npx hardhat test

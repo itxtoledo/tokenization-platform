@@ -27,17 +27,28 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Build
+      - name: List root directory contents
+        run: ls -al
+
+      - name: Install contracts dependencies
+        working-directory: contracts
+        run: npm install --legacy-peer-deps
+
+      - name: List contracts directory contents
+        working-directory: contracts
+        run: ls -al
+
+      - name: Build contracts
+        working-directory: contracts
         run: npm run build
 
-      - name: Install Hardhat
-        run: cd contracts && npm install --save-dev hardhat@2.22.5
-        
       - name: Run Hardhat Compile
-        run: cd contracts && npx hardhat compile
+        working-directory: contracts
+        run: npx hardhat compile
 
       - name: Run Hardhat Test
-      run: cd contracts && npx hardhat test
+        working-directory: contracts
+        run: npx hardhat test

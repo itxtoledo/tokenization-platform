@@ -55,7 +55,12 @@ jobs:
       - name: check-types
         run: turbo build check-types
 
-      - name: check-types build
-        run: turbo check-types build
+      - name: installing vite dependencies 
+        working-directory: app
+        run: npm install
+
+      - name: Run Vite
+        working-directory: app
+        run: npm run dev
 
       

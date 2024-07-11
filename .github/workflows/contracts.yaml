@@ -42,3 +42,20 @@ jobs:
       - name: Run Hardhat Test
         working-directory: contracts
         run: npx hardhat test
+
+      - name: Install root dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Install Turborepo globally
+        run: npm install turbo --global
+
+      - name: Run Turbo in repository
+        run: npm install turbo --save-dev
+
+      - name: check-types
+        run: turbo build check-types
+
+      - name: check-types build
+        run: turbo check-types build
+
+      

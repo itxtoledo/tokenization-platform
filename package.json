@@ -1,9 +1,10 @@
 {
-  "name": "my-turborepo",
+  "name": "tokenization-platform",
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",
-    "start": "turbo run dev"
+    "start": "turbo run dev",
+      "lint": "turbo run lint"
   },
   "devDependencies": {
     "turbo": "^2.0.6"

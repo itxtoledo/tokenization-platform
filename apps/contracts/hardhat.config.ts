@@ -9,7 +9,6 @@ const config: HardhatUserConfig = {
       viaIR: false, // change to true after hardhat update
     }
   },
-  
 };
 
 export default config;

@@ -1,0 +1,16 @@
+{
+  "name": "my-turborepo",
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "start": "turbo run dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.6"
+  },
+  "packageManager": "npm@9.6.6",
+  "workspaces": [
+    "app",
+    "contracts"
+  ]
+}

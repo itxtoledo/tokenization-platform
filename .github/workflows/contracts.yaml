@@ -1,33 +1,45 @@
-name: Contracts CI
+name: CI
+
 on:
   push:
-    branches: [ main ]
-    paths:
-      - 'contracts/**'
+    branches: ["main"]
   pull_request:
-    branches: [ main ]
-    paths:
-      - 'contracts/**'
+    types: [opened, synchronize]
+
 jobs:
   build:
+    name: Build and Test
+    timeout-minutes: 15
     runs-on: ubuntu-latest
+    # To use Remote Caching, uncomment the next lines and follow the steps below.
+    # env:
+    #  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+    #  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+    #  TURBO_REMOTE_ONLY: true
+
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup NodeJS 20.14.0
-        uses: actions/setup-node@v2
+      - name: Check out code
+        uses: actions/checkout@v4
         with:
-          node-version: 20.14.0
-          cache-dependency-path: "contracts"
+          fetch-depth: 2
 
-      - name: Show NodeJS version 
-        run: cd contracts && npm --version
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-      - name: Install Hardhat
-        run: cd contracts && npm install --save-dev hardhat@2.22.5
+      - name: Install dependencies
+        run: npm install
 
-      - name: Install Hardhat Dependencies
-        run: cd contracts && npm ci
+      - name: Build
+        run: npm run build
 
-      - name: Run Hardhat Test
-        run: cd contracts && npx hardhat test
+      - name: Run Turborepo
+        run: npx turbo run build --filter=...
+
+      - name: Test
+        run: npm run test
+
+      - name: Run Hardhat Tests
+        run: npx hardhat test

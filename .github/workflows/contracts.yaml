@@ -39,8 +39,5 @@ jobs:
       - name: Install Hardhat
         run: npm install --save-dev hardhat
 
-      - name: Compile
-        run: npx hardhat compile
-        
       - name: Test
         run: npx hardhat test

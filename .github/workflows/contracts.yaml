@@ -33,11 +33,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Change directory to Hardhat project
-        run: cd contracts
-
       - name: Install Hardhat
-        run: npm install --save-dev hardhat
+        run: cd contracts && npm install --save-dev hardhat@2.22.5
 
-      - name: Test
-        run: npx hardhat test
+      - name: Install Hardhat Dependencies
+        run: cd contracts && npm ci
+
+      - name: Run Hardhat Test
+        run: cd contracts && npx hardhat test

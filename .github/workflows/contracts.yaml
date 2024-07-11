@@ -35,10 +35,7 @@ jobs:
 
       - name: Install Hardhat
         run: cd contracts && npm install --save-dev hardhat@2.22.5
-
-      - name: Install Hardhat Dependencies
-        run: cd contracts && npm ci
-
+        
       - name: Run Hardhat Compile
         run: cd contracts && npx hardhat compile
 

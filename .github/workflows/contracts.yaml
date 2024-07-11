@@ -1,15 +1,19 @@
-name: CI
+name: Contracts CI
 
 on:
   push:
-    branches: ["main"]
+    branches: [ main ]
+    paths:
+      - 'apps/contracts/**'
   pull_request:
-    types: [opened, synchronize]
+    branches: [ main ]
+    paths:
+      - 'apps/contracts/**'
 
 jobs:
   build:
-    name: Build and Test
-    timeout-minutes: 15
+    name: Build and Test Contracts
+    timeout-minutes: 2
     runs-on: ubuntu-latest
 
     steps:
@@ -18,44 +22,24 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: List directory contents
-        run: ls -al
-
-      - name: Setup Node.js environment
+      - name: Setup NodeJS 20.14.0
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.14.0
           cache: 'npm'
 
       - name: Install contracts dependencies
-        working-directory: contracts
+        working-directory: apps/contracts
         run: npm install --legacy-peer-deps
 
       - name: Install TypeScript for solidity contracts
-        working-directory: contracts
+        working-directory: apps/contracts
         run: npm install --save-dev ts-node typescript
 
       - name: Run Hardhat Compile
-        working-directory: contracts
+        working-directory: apps/contracts
         run: npx hardhat compile
 
       - name: Run Hardhat Test
-        working-directory: contracts
+        working-directory: apps/contracts
         run: npx hardhat test
-
-      - name: Install root dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Install Turborepo globally
-        run: npm install turbo --global
-
-      - name: Run Turbo in repository
-        run: npm install turbo --save-dev
-
-      - name: installing vite dependencies 
-        working-directory: app
-        run: npm install
-
-      # - name: Run Vite
-      #   working-directory: app
-      #   run: npm run dev

@@ -33,7 +33,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build
-        run: npm run build
+        run: npx hardhat compile
 
       - name: Test
-        run: npm run test
+        run: npx hardhat test

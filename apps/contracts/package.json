@@ -1,0 +1,37 @@
+{
+  "name": "@tokenization-platform/contracts",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "hardhat compile",
+    "test": "hardhat test",
+    "lint": "hardhat lint",
+    "wagmi:generate": "npx wagmi generate"
+  },
+  "exports": {
+    ".": "./wagmi/generated.ts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^0.15.5",
+    "@nomicfoundation/hardhat-ignition-viem": "^0.15.5",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.11",
+    "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.8",
+    "@nomicfoundation/hardhat-viem": "^2.0.3",
+    "@nomicfoundation/ignition-core": "^0.15.5",
+    "@types/chai": "^4.3.16",
+    "@types/chai-as-promised": "^7.1.8",
+    "@types/mocha": "^10.0.7",
+    "@wagmi/cli": "^2.1.15",
+    "chai": "^4.4.1",
+    "hardhat": "^2.22.5",
+    "hardhat-gas-reporter": "^1.0.10",
+    "solidity-coverage": "^0.8.12"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-viem": "^2.0.2",
+    "@openzeppelin/contracts": "^5.0.2",
+    "@openzeppelin/contracts-upgradeable": "^5.0.2"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

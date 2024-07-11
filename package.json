@@ -1,0 +1,16 @@
+{
+  "name": "tokenization-platform",
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "start": "turbo run dev",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  },
+  "packageManager": "npm@9.6.6",
+  "workspaces": [
+    "apps/*"
+  ]
+}

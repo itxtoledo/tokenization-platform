@@ -39,5 +39,8 @@ jobs:
       - name: Install Hardhat Dependencies
         run: cd contracts && npm ci
 
+      - name: Run Hardhat Compile
+        run: cd contracts && npx hardhat compile
+
       - name: Run Hardhat Test
-        run: cd contracts && npx hardhat test
+      run: cd contracts && npx hardhat test

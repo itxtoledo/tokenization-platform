@@ -31,10 +31,6 @@ jobs:
         working-directory: contracts
         run: npm install --legacy-peer-deps
 
-      - name: Build contracts
-        working-directory: contracts
-        run: npm run build
-
       - name: Run Hardhat Compile
         working-directory: contracts
         run: npx hardhat compile

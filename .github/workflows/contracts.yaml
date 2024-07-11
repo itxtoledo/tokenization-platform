@@ -30,11 +30,7 @@ jobs:
 
       - name: Install contracts dependencies
         working-directory: apps/contracts
-        run: npm install --legacy-peer-deps
-
-      - name: Install TypeScript for solidity contracts
-        working-directory: apps/contracts
-        run: npm install --save-dev ts-node typescript
+        run: npm install
 
       - name: Run Hardhat Compile
         working-directory: apps/contracts

@@ -81,7 +81,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <RainbowKitProvider
           showRecentTransactions={true}
           appInfo={{
-            appName: "RainbowKit Demo",
+            appName: "Tokenization Platform",
             disclaimer: Disclaimer,
           }}
           coolMode

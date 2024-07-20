@@ -3,8 +3,13 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
+import { useWritePresaleFactory } from "@tokenization-platform/contracts";
 
 export default function PresaleCreation() {
+  const presale = useWritePresaleFactory();
+
+  presale.writeContract({ functionName: "createPresale", args: [] });
+
   return (
     <>
       <Header />

@@ -1,16 +1,16 @@
 {
   "name": "@tokenization-platform/contracts",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "scripts": {
-    "build": "hardhat compile",
+    "build": "hardhat compile && wagmi generate",
+    "clean": "rm -rf dist && rm -rf wagmi",
     "test": "hardhat test",
     "lint": "hardhat lint",
     "wagmi:generate": "npx wagmi generate"
   },
-  "exports": {
-    ".": "./wagmi/generated.ts"
-  },
+  "main": "./wagmi/index.ts",
+  "types": "./wagmi/index.ts",
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^0.15.5",
     "@nomicfoundation/hardhat-ignition-viem": "^0.15.5",
@@ -31,7 +31,8 @@
   "dependencies": {
     "@nomicfoundation/hardhat-viem": "^2.0.2",
     "@openzeppelin/contracts": "^5.0.2",
-    "@openzeppelin/contracts-upgradeable": "^5.0.2"
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
+    "tsup": "^8.2.1"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

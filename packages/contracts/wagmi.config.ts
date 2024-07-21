@@ -2,7 +2,7 @@ import { defineConfig } from '@wagmi/cli'
 import { react , hardhat} from '@wagmi/cli/plugins'
 
 export default defineConfig({
-  out: 'wagmi/index.ts',
+  out: 'wagmi/generated.ts',
   plugins: [
     hardhat({
       project: '.',

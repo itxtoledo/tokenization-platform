@@ -20,7 +20,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@rainbow-me/rainbowkit": "^2.1.3",
     "@tanstack/react-query": "^5.0.5",
-    "@tokenization-platform/contracts": ".",
+    "@tokenization-platform/contracts": "workspace:*",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.400.0",

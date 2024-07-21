@@ -1,5 +1,9 @@
 {
   "name": "tokenization-platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo dev",
@@ -10,8 +14,5 @@
   "devDependencies": {
     "turbo": "latest"
   },
-  "packageManager": "npm@9.6.6",
-  "workspaces": [
-    "apps/*"
-  ]
+  "packageManager": "pnpm@8.15.6"
 }

@@ -3,8 +3,8 @@
 Welcome to the **Tokenization Platform**! 🚀 This is an open-source project designed to provide a comprehensive solution for tokenizing assets on the blockchain. Our platform enables you to create, manage, and trade tokenized assets securely and efficiently. 
 
 ## Running
-1. `npm install`
-2. `npm dev`
+1. `pnpm install`
+2. `pnpm dev`
 
 ## Features 🌟
 

@@ -4,11 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 import { useWritePresaleFactory } from "@tokenization-platform/contracts";
+import { useCallback, useEffect } from "react";
+import { useConfig } from "wagmi";
 
 export default function PresaleCreation() {
   const presale = useWritePresaleFactory();
 
-  presale.writeContract({ functionName: "createPresale", args: [] });
+  // const createPreSale = useCallback(() => {
+  //   presale.writeContract({
+  //     functionName: "createPresale",
+  //     args: ["0x", "", 0n, 0n],
+  //     address: "0x",
+  //   });
+  // }, [presale]);
 
   return (
     <>

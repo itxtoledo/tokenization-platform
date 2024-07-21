@@ -1,4 +1,3 @@
-import { Home } from "lucide-react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import About from "./pages/about";
 import AdminDashboard from "./pages/adminDashboard";
@@ -8,6 +7,7 @@ import PresaleCreation from "./pages/presaleCreation";
 import PresaleDetails from "./pages/presaleDetails";
 import TokenManagement from "./pages/tokenManagement";
 import UserContribution from "./pages/userContribution";
+import Home from "./pages/home";
 
 const Routes = () => {
   const router = createBrowserRouter([

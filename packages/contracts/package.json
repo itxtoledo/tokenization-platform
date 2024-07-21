@@ -2,15 +2,22 @@
   "name": "@tokenization-platform/contracts",
   "private": true,
   "version": "0.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "hardhat compile && wagmi generate",
-    "clean": "rm -rf wagmi",
+    "build": "hardhat compile && hardhat export-abi && tsup",
+    "clean": "hardhat clean && hardhat clear-abi && rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "test": "hardhat test",
-    "lint": "hardhat lint",
-    "wagmi:generate": "npx wagmi generate"
+    "lint": "hardhat lint"
   },
   "exports": {
-    ".": "./wagmi/generated.ts"
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^0.15.5",
@@ -23,15 +30,17 @@
     "@types/chai": "^4.3.16",
     "@types/chai-as-promised": "^7.1.8",
     "@types/mocha": "^10.0.7",
-    "@wagmi/cli": "^2.1.15",
     "chai": "^4.4.1",
     "hardhat": "^2.22.5",
+    "hardhat-abi-exporter": "^2.10.1",
     "hardhat-gas-reporter": "^1.0.10",
+    "rimraf": "^6.0.1",
     "solidity-coverage": "^0.8.12"
   },
   "dependencies": {
     "@nomicfoundation/hardhat-viem": "^2.0.2",
     "@openzeppelin/contracts": "^5.0.2",
-    "@openzeppelin/contracts-upgradeable": "^5.0.2"
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
+    "tsup": "^8.2.1"
   }
 }

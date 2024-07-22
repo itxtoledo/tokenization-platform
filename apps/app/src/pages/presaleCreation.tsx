@@ -3,20 +3,23 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
-import { useWritePresaleFactory } from "@tokenization-platform/contracts";
-import { useCallback, useEffect } from "react";
-import { useConfig } from "wagmi";
+import PRESALE_ABI from "@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
+import { useWriteContract } from "wagmi";
+import { useCallback } from "react";
 
 export default function PresaleCreation() {
-  const presale = useWritePresaleFactory();
+  const presale = useWriteContract();
 
-  // const createPreSale = useCallback(() => {
-  //   presale.writeContract({
-  //     functionName: "createPresale",
-  //     args: ["0x", "", 0n, 0n],
-  //     address: "0x",
-  //   });
-  // }, [presale]);
+  const createPreSale = useCallback(() => {
+    presale.writeContract({
+      abi: PRESALE_ABI,
+      functionName: "createPresale",
+      address: "0x",
+      args: ["0x", "", 0n, 0n],
+    });
+  }, [presale]);
+
+  const onSubmit = (e) => {};
 
   return (
     <>

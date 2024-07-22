@@ -30,12 +30,12 @@ jobs:
 
       - name: Install contracts dependencies
         working-directory: packages/contracts
-        run: npm install
+        run: pnpm install
 
       - name: Run Hardhat Compile
         working-directory: packages/contracts
-        run: npx hardhat compile
+        run: pnpm exec hardhat compile
 
       - name: Run Hardhat Test
         working-directory: packages/contracts
-        run: npx hardhat test
+        run: pnpm exec hardhat test

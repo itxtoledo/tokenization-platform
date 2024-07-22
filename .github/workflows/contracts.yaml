@@ -22,11 +22,17 @@ jobs:
         with:
           fetch-depth: 2
 
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 8.15.6
+          run_install: false
+
       - name: Setup NodeJS 20.14.0
         uses: actions/setup-node@v4
         with:
           node-version: 20.14.0
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install contracts dependencies
         working-directory: packages/contracts

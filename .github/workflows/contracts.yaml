@@ -2,13 +2,13 @@ name: Contracts CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'apps/contracts/**'
+      - "packages/contracts/**"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'apps/contracts/**'
+      - "packages/contracts/**"
 
 jobs:
   build:
@@ -26,16 +26,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.14.0
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install contracts dependencies
-        working-directory: apps/contracts
+        working-directory: packages/contracts
         run: npm install
 
       - name: Run Hardhat Compile
-        working-directory: apps/contracts
+        working-directory: packages/contracts
         run: npx hardhat compile
 
       - name: Run Hardhat Test
-        working-directory: apps/contracts
+        working-directory: packages/contracts
         run: npx hardhat test

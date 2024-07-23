@@ -4,7 +4,42 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 
+import * as React from "react";
+
+// importing necessary wagmi for contracts integrations
+import {
+  useWriteContract,
+  useWaitForTransactionReceipt,
+  type BaseError,
+} from "wagmi";
+
+// importing contract ABI
+import { abi } from "../contracts-ABI/PresaleFactory-ABI";
+
 export default function PresaleCreation() {
+  const { data: hash, isPending, error, writeContract } = useWriteContract();
+
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const name = formData.get("name") as string;
+    const symbol = formData.get("symbol") as string;
+    const supply = formData.get("supply") as string;
+    const price = formData.get("price") as string;
+
+    writeContract({
+      address: "0x016e627e24b8bCD5753afA90FE95E72338f72e12",
+      abi,
+      functionName: "createPresale",
+      args: [name, symbol, BigInt(supply), BigInt(price)],
+    });
+  }
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+
   return (
     <>
       <Header />
@@ -21,11 +56,12 @@ export default function PresaleCreation() {
                   token.
                 </p>
               </div>
-              <form className="space-y-4">
+              <form onSubmit={submit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="tokenName">Token Name</Label>
                   <Input
                     id="tokenName"
+                    name="name"
                     placeholder="Enter your token name"
                     required
                   />
@@ -37,6 +73,7 @@ export default function PresaleCreation() {
                   <Label htmlFor="tokenSymbol">Token Symbol</Label>
                   <Input
                     id="tokenSymbol"
+                    name="symbol"
                     placeholder="Enter your token symbol"
                     required
                   />
@@ -48,6 +85,7 @@ export default function PresaleCreation() {
                   <Label htmlFor="initialSupply">Initial Supply</Label>
                   <Input
                     id="initialSupply"
+                    name="supply"
                     type="number"
                     placeholder="Enter the initial supply"
                     required
@@ -60,6 +98,7 @@ export default function PresaleCreation() {
                   <Label htmlFor="tokenPrice">Token Price</Label>
                   <Input
                     id="tokenPrice"
+                    name="price"
                     type="number"
                     placeholder="Enter the token price"
                     required
@@ -69,16 +108,21 @@ export default function PresaleCreation() {
                   </p>
                 </div>
                 <Button
+                  disabled={isPending}
                   type="submit"
                   variant="outline"
                   className="w-full bg-black text-white"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert("createPresale();");
-                  }}
                 >
-                  Create Presale
+                  {isPending ? "Confirming..." : "Create Presale"}
                 </Button>
+                {hash && <div>Transaction Hash: {hash}</div>}
+                {isConfirming && <div>Waiting for confirmation...</div>}
+                {isConfirmed && <div>Transaction confirmed.</div>}
+                {error && (
+                  <div>
+                    Error: {(error as BaseError).shortMessage || error.message}
+                  </div>
+                )}
               </form>
             </div>
           </div>

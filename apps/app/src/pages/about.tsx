@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+import * as React from "react";
+
 // imprting wagmi for contract integration 
 import { useWriteContract, useWaitForTransactionReceipt, type BaseError, } from "wagmi";
 

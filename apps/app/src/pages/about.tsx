@@ -4,7 +4,35 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+// imprting wagmi for contract integration 
+import { useWriteContract, useWaitForTransactionReceipt, type BaseError, } from "wagmi";
+
+//importing contract ABI 
+import { abi } from "../contracts-ABI/MintableERC20-ABI";
+
+
 export default function About() {
+  const { data: hash, isPending, error, writeContract } = useWriteContract();
+
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const addressTo = formData.get("addressTo") as '0x{string}';
+    const amount = formData.get("amount") as string;
+
+    writeContract({
+      address: "0xebF93A98B359bf783D9528888De2b3f259044276",
+      abi,
+      functionName: "mint",
+      args: [addressTo, BigInt(amount)],
+    });
+  }
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+  
   return (
     <>
       <Header />
@@ -33,7 +61,8 @@ export default function About() {
           </div>
           <div className="bg-background rounded-lg shadow-md p-6">
             <h2 className="text-2xl font-bold mb-4">Mint Tokens</h2>
-            <form className="space-y-4">
+            {/* The form should be placed here */}
+            <form onSubmit={submit} className="space-y-4">
               <div>
                 <label
                   htmlFor="recipient"
@@ -44,6 +73,7 @@ export default function About() {
                 <Input
                   id="recipient"
                   type="text"
+                  name="addressTo"
                   placeholder="0x..."
                   className="w-full"
                 />
@@ -63,12 +93,21 @@ export default function About() {
                 />
               </div>
               <Button
+                disabled={isPending}
                 type="submit"
                 variant="outline"
                 className="w-full bg-black text-white"
               >
-                Mint Tokens
+                {isPending ? "Confirming..." : "Mint Tokens"}
               </Button>
+              {hash && <div>Transaction Hash: {hash}</div>}
+              {isConfirming && <div>Waiting for confirmation...</div>}
+              {isConfirmed && <div>Transaction confirmed.</div>}
+              {error && (
+                <div>
+                  Error: {(error as BaseError).shortMessage || error.message}
+                </div>
+              )}
             </form>
           </div>
           <div className="bg-background rounded-lg shadow-md p-6">

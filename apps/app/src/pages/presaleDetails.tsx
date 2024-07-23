@@ -5,7 +5,39 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 
+import * as React from "react";
+
+//importing necessary wagmi contract integration
+import {
+  useWriteContract,
+  useWaitForTransactionReceipt,
+  type BaseError,
+} from "wagmi";
+
+//mporting contract ABI
+import { abi } from "../contracts-ABI/Presale-ABI";
+
 export default function PresaleDetails() {
+  const { data: hash, error, isPending, writeContract } = useWriteContract();
+
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const amount = formData.get("amount") as string;
+
+    writeContract({
+      address: "0xE3920963fedC0b83cdd8CBdAB0fce942ee95eD59",
+      abi,
+      functionName: "contribute",
+      args: [BigInt(amount)],
+    });
+  }
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+
   return (
     <>
       <Header />
@@ -66,39 +98,35 @@ export default function PresaleDetails() {
                     Enter the amount of ACME tokens you want to purchase.
                   </p>
                 </div>
-                <form className="space-y-4">
+                <form onSubmit={submit} className="space-y-4">
                   <div className="grid gap-2">
                     <Label htmlFor="amount">Amount (ACME)</Label>
                     <Input
                       id="amount"
+                      name="amount"
                       type="number"
-                      min="0"
+                      min="1"
                       step="1"
                       placeholder="Enter amount"
                     />
                   </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="eth">ETH Required</Label>
-                    <Input
-                      id="eth"
-                      type="text"
-                      value="0.5 ETH"
-                      readOnly
-                      className="bg-muted"
-                    />
-                  </div>
                   <Button
                     type="submit"
+                    disabled={isPending}
                     variant="outline"
                     className="w-full bg-black text-white"
-                    onClick={() =>
-                      alert(
-                        "function should be here contected to our smart contarcts."
-                      )
-                    }
                   >
-                    Contribute
+                    {isPending ? "Confirming..." : "Contribute"}
                   </Button>
+                  {hash && <div>Transaction Hash: {hash}</div>}
+                  {isConfirming && <div>Waiting for confirmation...</div>}
+                  {isConfirmed && <div>Transaction confirmed.</div>}
+                  {error && (
+                    <div>
+                      Error:{" "}
+                      {(error as BaseError).shortMessage || error.message}
+                    </div>
+                  )}
                 </form>
               </div>
             </div>

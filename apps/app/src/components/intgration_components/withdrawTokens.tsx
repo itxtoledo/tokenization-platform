@@ -54,7 +54,7 @@ export function WithdrawToken() {
           variant="outline"
           className="bg-black text-white"
         >
-          {isPending ? "Confirming..." : "Withdraw ETH"}
+          {isPending ? "Confirming..." : "Withdraw Tokens"}
         </Button>
         {hash && <div>Transaction Hash: {hash}</div>}
         {isConfirming && <div>Waiting for confirmation...</div>}

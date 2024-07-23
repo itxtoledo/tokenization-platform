@@ -37,7 +37,7 @@ export function WithdrawToken() {
     <form onSubmit={submit}>
       <div>
         <label htmlFor="recipient" className="block text-muted-foreground mb-1">
-          Recipient Address
+          Token Address
         </label>
         <Input
           id="recipient"

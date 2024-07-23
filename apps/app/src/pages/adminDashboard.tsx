@@ -26,6 +26,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { WithdrawETH } from "@/components/intgration_components/withdrawETH";
+import { WithdrawToken } from "@/components/intgration_components/withdrawTokens";
 
 export default function AdminDashboard() {
   return (
@@ -297,12 +299,8 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4">
-                  <Button variant="outline" className="bg-black text-white">
-                    Withdraw ETH
-                  </Button>
-                  <Button variant="outline" className="bg-black text-white">
-                    Withdraw Tokens
-                  </Button>
+                  <WithdrawETH />
+                  <WithdrawToken />
                 </div>
               </CardContent>
             </Card>

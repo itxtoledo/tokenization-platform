@@ -2,13 +2,13 @@ name: Contracts CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'apps/contracts/**'
+      - "packages/contracts/**"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'apps/contracts/**'
+      - "packages/contracts/**"
 
 jobs:
   build:
@@ -22,20 +22,26 @@ jobs:
         with:
           fetch-depth: 2
 
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 8.15.6
+          run_install: false
+
       - name: Setup NodeJS 20.14.0
         uses: actions/setup-node@v4
         with:
           node-version: 20.14.0
-          cache: 'npm'
+          cache: "pnpm"
 
       - name: Install contracts dependencies
-        working-directory: apps/contracts
-        run: npm install
+        working-directory: packages/contracts
+        run: pnpm install
 
       - name: Run Hardhat Compile
-        working-directory: apps/contracts
-        run: npx hardhat compile
+        working-directory: packages/contracts
+        run: pnpm exec hardhat compile
 
       - name: Run Hardhat Test
-        working-directory: apps/contracts
-        run: npx hardhat test
+        working-directory: packages/contracts
+        run: pnpm exec hardhat test

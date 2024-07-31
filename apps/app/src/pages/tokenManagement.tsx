@@ -195,6 +195,7 @@ export default function TokenManagement() {
                     <Input
                       id="amount"
                       type="number"
+                      name="amount"
                       placeholder="100"
                       className="w-full"
                     />

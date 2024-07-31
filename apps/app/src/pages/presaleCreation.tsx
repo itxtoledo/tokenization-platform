@@ -120,7 +120,7 @@ export default function PresaleCreation() {
                 {isConfirmed && <div>Transaction confirmed.</div>}
                 {error && (
                   <div>
-                    Error: {(error as BaseError).shortMessage || error.message}
+                    Alert: {(error as BaseError).shortMessage || error.message}
                   </div>
                 )}
               </form>

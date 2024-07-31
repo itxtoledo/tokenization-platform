@@ -29,7 +29,7 @@ export default function PresaleDetails() {
     const amount = formData.get("amount") as string;
 
     writeContract({
-      address: address.startsWith("0x") ? address : `0x${address || ""}`,
+      address: address?.startsWith("0x") ? address : `0x${address ?? ""}`,
       abi,
       functionName: "contribute",
       args: [BigInt(amount)],
@@ -108,8 +108,8 @@ export default function PresaleDetails() {
                       id="amount"
                       name="amount"
                       type="number"
-                      min="1"
-                      step="1"
+                      min="0.0001"
+                      step="0.00000001"
                       placeholder="Enter amount"
                     />
                   </div>

@@ -53,7 +53,7 @@ const router = createBrowserRouter([
     element: <PresaleCreation />,
   },
   {
-    path: "/PresaleDetails",
+    path: "/PresaleDetails/:address",
     element: <PresaleDetails />,
   },
   {

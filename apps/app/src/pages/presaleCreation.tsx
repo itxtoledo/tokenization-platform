@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 // importing necessary wagmi for contracts integrations
 import {
@@ -17,6 +19,7 @@ import {
 import { abi } from "../contracts-ABI/PresaleFactory-ABI";
 
 export default function PresaleCreation() {
+  const navigate = useNavigate();
   const { data: hash, isPending, error, writeContract } = useWriteContract();
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
@@ -35,10 +38,22 @@ export default function PresaleCreation() {
     });
   }
 
-  const { isLoading: isConfirming, isSuccess: isConfirmed } =
-    useWaitForTransactionReceipt({
-      hash,
-    });
+  const {
+    isLoading: isConfirming,
+    isSuccess: isConfirmed,
+    data: receipt,
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
+
+  useEffect(() => {
+    if (isConfirmed && receipt) {
+      // Extract the new presale address from the logs
+      const newPresaleAddress = receipt.logs[0].address;
+      // Redirect to the PresaleDetails page with the new address
+      navigate(`/PresaleDetails/${newPresaleAddress}`);
+    }
+  }, [isConfirmed, receipt, navigate]);
 
   return (
     <>

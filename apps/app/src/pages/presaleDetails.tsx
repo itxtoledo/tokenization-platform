@@ -8,19 +8,18 @@ import Footer from "@/components/Footer";
 import * as React from "react";
 import { useParams } from "react-router-dom";
 
-//importing necessary wagmi contract integration
+// importing necessary wagmi contract integration
 import {
   useWriteContract,
   useWaitForTransactionReceipt,
   type BaseError,
 } from "wagmi";
 
-//mporting contract ABI
+// importing contract ABI
 import { abi } from "../contracts-ABI/Presale-ABI";
 
 export default function PresaleDetails() {
-
-  // this from react-router-dom
+  // extract address from react-router-dom
   const { address } = useParams();
   const { data: hash, error, isPending, writeContract } = useWriteContract();
 
@@ -30,7 +29,7 @@ export default function PresaleDetails() {
     const amount = formData.get("amount") as string;
 
     writeContract({
-      address: `0x${address || ""}`,
+      address: address.startsWith("0x") ? address : `0x${address || ""}`,
       abi,
       functionName: "contribute",
       args: [BigInt(amount)],

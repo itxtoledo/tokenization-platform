@@ -61,8 +61,72 @@ export default function TokenManagement() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen w-full flex-col bg-muted/40">
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+      <div className="flex min-h-screen  flex-col bg-muted/40">
+        <main className="grid w-full gap-4 sm:grid-cols-1 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Mint New Tokens</CardTitle>
+              <CardDescription>
+                Mint new tokens for the selected ERC20 contract. This action can
+                only be performed by the contract owner.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-background rounded-lg shadow-md p-6">
+                <h2 className="text-2xl font-bold mb-4">Mint Tokens</h2>
+                {/* The form should be placed here */}
+                <form onSubmit={submit} className="space-y-4">
+                  <div>
+                    <label
+                      htmlFor="recipient"
+                      className="block text-muted-foreground mb-1"
+                    >
+                      Recipient Address
+                    </label>
+                    <Input
+                      id="recipient"
+                      type="text"
+                      name="addressTo"
+                      placeholder="0x..."
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="amount"
+                      className="block text-muted-foreground mb-1"
+                    >
+                      Amount to Mint
+                    </label>
+                    <Input
+                      id="amount"
+                      type="number"
+                      name="amount"
+                      placeholder="100"
+                      className="w-full"
+                    />
+                  </div>
+                  <Button
+                    disabled={isPending}
+                    type="submit"
+                    variant="outline"
+                    className="w-full bg-black text-white"
+                  >
+                    {isPending ? "Confirming..." : "Mint Tokens"}
+                  </Button>
+                  {hash && <div>Transaction Hash: {hash}</div>}
+                  {isConfirming && <div>Waiting for confirmation...</div>}
+                  {isConfirmed && <div>Transaction confirmed.</div>}
+                  {error && (
+                    <div>
+                      Error:{" "}
+                      {(error as BaseError).shortMessage || error.message}
+                    </div>
+                  )}
+                </form>
+              </div>
+            </CardContent>
+          </Card>
           <Card className="w-full">
             <CardHeader>
               <CardTitle>Mintable ERC20 Tokens</CardTitle>
@@ -155,70 +219,6 @@ export default function TokenManagement() {
                   </TableRow>
                 </TableBody>
               </Table>
-            </CardContent>
-          </Card>
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle>Mint New Tokens</CardTitle>
-              <CardDescription>
-                Mint new tokens for the selected ERC20 contract. This action can
-                only be performed by the contract owner.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-background rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold mb-4">Mint Tokens</h2>
-                {/* The form should be placed here */}
-                <form onSubmit={submit} className="space-y-4">
-                  <div>
-                    <label
-                      htmlFor="recipient"
-                      className="block text-muted-foreground mb-1"
-                    >
-                      Recipient Address
-                    </label>
-                    <Input
-                      id="recipient"
-                      type="text"
-                      name="addressTo"
-                      placeholder="0x..."
-                      className="w-full"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="amount"
-                      className="block text-muted-foreground mb-1"
-                    >
-                      Amount to Mint
-                    </label>
-                    <Input
-                      id="amount"
-                      type="number"
-                      name="amount"
-                      placeholder="100"
-                      className="w-full"
-                    />
-                  </div>
-                  <Button
-                    disabled={isPending}
-                    type="submit"
-                    variant="outline"
-                    className="w-full bg-black text-white"
-                  >
-                    {isPending ? "Confirming..." : "Mint Tokens"}
-                  </Button>
-                  {hash && <div>Transaction Hash: {hash}</div>}
-                  {isConfirming && <div>Waiting for confirmation...</div>}
-                  {isConfirmed && <div>Transaction confirmed.</div>}
-                  {error && (
-                    <div>
-                      Error:{" "}
-                      {(error as BaseError).shortMessage || error.message}
-                    </div>
-                  )}
-                </form>
-              </div>
             </CardContent>
           </Card>
         </main>

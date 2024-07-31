@@ -123,7 +123,7 @@ export default function PresaleDetails() {
                   {isConfirmed && <div>Transaction confirmed.</div>}
                   {error && (
                     <div>
-                      Error:{" "}
+                      Alert:{" "}
                       {(error as BaseError).shortMessage || error.message}
                     </div>
                   )}

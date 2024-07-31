@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 
 import * as React from "react";
+import { useParams } from "react-router-dom";
 
 //importing necessary wagmi contract integration
 import {
@@ -18,6 +19,9 @@ import {
 import { abi } from "../contracts-ABI/Presale-ABI";
 
 export default function PresaleDetails() {
+
+  // this from react-router-dom
+  const { address } = useParams();
   const { data: hash, error, isPending, writeContract } = useWriteContract();
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
@@ -26,7 +30,7 @@ export default function PresaleDetails() {
     const amount = formData.get("amount") as string;
 
     writeContract({
-      address: "0xE3920963fedC0b83cdd8CBdAB0fce942ee95eD59",
+      address: `0x${address || ""}`,
       abi,
       functionName: "contribute",
       args: [BigInt(amount)],

@@ -3,7 +3,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
-
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -16,7 +15,7 @@ import {
 } from "wagmi";
 
 // importing contract ABI
-import { abi } from "../contracts-ABI/PresaleFactory-ABI";
+import abi from "@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
 
 export default function PresaleCreation() {
   const navigate = useNavigate();

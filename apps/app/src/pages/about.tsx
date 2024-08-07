@@ -1,10 +1,10 @@
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function About() {
+  
   return (
     <>
       <Header />
@@ -30,46 +30,6 @@ export default function About() {
                 <p className="font-medium">750,000</p>
               </div>
             </div>
-          </div>
-          <div className="bg-background rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-bold mb-4">Mint Tokens</h2>
-            <form className="space-y-4">
-              <div>
-                <label
-                  htmlFor="recipient"
-                  className="block text-muted-foreground mb-1"
-                >
-                  Recipient Address
-                </label>
-                <Input
-                  id="recipient"
-                  type="text"
-                  placeholder="0x..."
-                  className="w-full"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="amount"
-                  className="block text-muted-foreground mb-1"
-                >
-                  Amount to Mint
-                </label>
-                <Input
-                  id="amount"
-                  type="number"
-                  placeholder="100"
-                  className="w-full"
-                />
-              </div>
-              <Button
-                type="submit"
-                variant="outline"
-                className="w-full bg-black text-white"
-              >
-                Mint Tokens
-              </Button>
-            </form>
           </div>
           <div className="bg-background rounded-lg shadow-md p-6">
             <h2 className="text-2xl font-bold mb-4">About Token Minting</h2>

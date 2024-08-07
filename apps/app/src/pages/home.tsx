@@ -166,9 +166,8 @@ export default function Home() {
                   </CardContent>
                   <CardFooter>
                     <Link
-                      href="#"
+                      to="#"
                       className="text-primary hover:underline"
-                      prefetch={false}
                     >
                       View Details
                     </Link>
@@ -201,9 +200,8 @@ export default function Home() {
                   </CardContent>
                   <CardFooter>
                     <Link
-                      href="#"
+                      to="#"
                       className="text-primary hover:underline"
-                      prefetch={false}
                     >
                       View Details
                     </Link>
@@ -236,9 +234,8 @@ export default function Home() {
                   </CardContent>
                   <CardFooter>
                     <Link
-                      href="#"
+                      to="#"
                       className="text-primary hover:underline"
-                      prefetch={false}
                     >
                       View Details
                     </Link>

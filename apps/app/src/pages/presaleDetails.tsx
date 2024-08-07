@@ -14,9 +14,10 @@ import {
   useWaitForTransactionReceipt,
   type BaseError,
 } from "wagmi";
+import { type Address } from "viem";
 
 // importing contract ABI
-import { abi } from "../contracts-ABI/Presale-ABI";
+import abi from "@tokenization-platform/contracts/abi_ts/contracts/Presale.sol/Presale";
 
 export default function PresaleDetails() {
   // extract address from react-router-dom
@@ -29,7 +30,9 @@ export default function PresaleDetails() {
     const amount = formData.get("amount") as string;
 
     writeContract({
-      address: address?.startsWith("0x") ? address : `0x${address ?? ""}`,
+      address: address?.startsWith("0x")
+        ? (address as Address)
+        : `0x${address ?? ""}`,
       abi,
       functionName: "contribute",
       args: [BigInt(amount)],

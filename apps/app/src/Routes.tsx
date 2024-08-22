@@ -8,6 +8,7 @@ import PresaleDetails from "./pages/presaleDetails";
 import TokenManagement from "./pages/tokenManagement";
 import UserContribution from "./pages/userContribution";
 import Home from "./pages/home";
+import ContactForm from "./pages/form";
 
 const Routes = () => {
   const router = createBrowserRouter([
@@ -46,6 +47,10 @@ const Routes = () => {
     {
       path: "/Disclaimer",
       element: <Disclainer />,
+    },
+    {
+      path: "/Form",
+      element: <ContactForm />,
     },
   ]);
 

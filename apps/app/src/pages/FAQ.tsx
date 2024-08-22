@@ -3,12 +3,13 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
 } from "@/components/ui/collapsible";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+// import { Label } from "@/components/ui/label";
+// import { Input } from "@/components/ui/input";
+// import { Textarea } from "@/components/ui/textarea";
+// import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ContentForm from "./form";
 
 export default function FAQ() {
   return (
@@ -119,35 +120,7 @@ export default function FAQ() {
                 out the form below and our support team will get back to you
                 within 1 business day.
               </p>
-              <form className="mt-6 space-y-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" placeholder="Enter your name" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea
-                    id="message"
-                    placeholder="Describe your question or issue"
-                    className="min-h-[120px]"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  variant="outline"
-                  className="w-full bg-black text-white"
-                >
-                  Submit Request
-                </Button>
-              </form>
+              <ContentForm />
             </div>
           </div>
         </main>

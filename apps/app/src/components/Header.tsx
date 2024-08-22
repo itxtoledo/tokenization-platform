@@ -24,9 +24,6 @@ export default function Header() {
           <Link to={"/FAQ"} className="text-sm font-medium hover:underline">
             FAQ
           </Link>
-          <Link to={"/"} className="text-sm font-medium hover:underline">
-            Home
-          </Link>
           <Link
             to={"/PresaleCreation"}
             className="text-sm font-medium hover:underline"

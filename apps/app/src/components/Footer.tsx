@@ -28,7 +28,7 @@ export default function Footer() {
           </div>
           <div className="grid gap-1">
             <h3 className="font-semibold">Contact</h3>
-            <Link to="/">Support</Link>
+            <Link to="/Form">Support</Link>
             <Link to="/">Sales</Link>
             <Link to="/">Press</Link>
             <Link to="/">Partnerships</Link>

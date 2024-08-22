@@ -16,6 +16,7 @@ import {
 
 // importing contract ABI
 import abi from "@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
+import { parseEther, parseEventLogs } from "viem";
 
 export default function PresaleCreation() {
   const navigate = useNavigate();
@@ -29,11 +30,13 @@ export default function PresaleCreation() {
     const supply = formData.get("supply") as string;
     const price = formData.get("price") as string;
 
+    const priceinETH = parseEther(price);
+
     writeContract({
-      address: "0x016e627e24b8bCD5753afA90FE95E72338f72e12",
+      address: import.meta.env.VITE_PRESALE_FACTORY,
       abi,
       functionName: "createPresale",
-      args: [name, symbol, BigInt(supply), BigInt(price)],
+      args: [name, symbol, BigInt(supply), priceinETH],
     });
   }
 
@@ -47,10 +50,16 @@ export default function PresaleCreation() {
 
   useEffect(() => {
     if (isConfirmed && receipt) {
+      const parsedLogs = parseEventLogs({
+        abi,
+        logs: receipt.logs,
+        eventName: "PresaleCreated",
+      });
+
       // Extract the new presale address from the logs
-      const newPresaleAddress = receipt.logs[0].address;
+      const newPresaleAddress = parsedLogs[0].args.presale;
       // Redirect to the PresaleDetails page with the new address
-      navigate(`/PresaleDetails/${newPresaleAddress}`);
+      navigate(`/presale-details/${newPresaleAddress}`);
     }
   }, [isConfirmed, receipt, navigate]);
 
@@ -114,11 +123,12 @@ export default function PresaleCreation() {
                     id="tokenPrice"
                     name="price"
                     type="number"
-                    placeholder="Enter the token price"
+                    placeholder="Enter the token price in ETH"
+                    step={0.00000001}
                     required
                   />
                   <p className="text-sm text-muted-foreground">
-                    The price per token in the presale.
+                    The price per token in the presale in ETH.
                   </p>
                 </div>
                 <Button

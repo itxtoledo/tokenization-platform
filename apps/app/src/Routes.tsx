@@ -32,7 +32,7 @@ const Routes = () => {
       element: <PresaleCreation />,
     },
     {
-      path: "/PresaleDetails/:address",
+      path: "/presale-details/:address",
       element: <PresaleDetails />,
     },
     {

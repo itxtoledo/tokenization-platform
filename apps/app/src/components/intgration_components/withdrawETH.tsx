@@ -10,7 +10,7 @@ import {
 } from "wagmi";
 
 // importing contract ABI
-import { abi } from "@/contracts-ABI/Presale-ABI";
+import abi from "@tokenization-platform/contracts/abi_ts/contracts/Presale.sol/Presale";
 
 export function WithdrawETH() {
   const { data: hash, isPending, error, writeContract } = useWriteContract();

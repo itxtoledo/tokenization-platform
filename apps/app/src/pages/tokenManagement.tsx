@@ -35,7 +35,7 @@ import {
 } from "wagmi";
 
 //importing contract ABI
-import { abi } from "../contracts-ABI/MintableERC20-ABI";
+import abi from "@tokenization-platform/contracts/abi_ts/contracts/Presale.sol/Presale";
 
 export default function TokenManagement() {
   const { data: hash, isPending, error, writeContract } = useWriteContract();

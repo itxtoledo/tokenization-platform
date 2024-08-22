@@ -4,8 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
-
-import * as React from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // importing necessary wagmi contract integration
@@ -13,6 +12,7 @@ import {
   useWriteContract,
   useWaitForTransactionReceipt,
   type BaseError,
+  useReadContract,
 } from "wagmi";
 import { type Address } from "viem";
 
@@ -23,6 +23,20 @@ export default function PresaleDetails() {
   // extract address from react-router-dom
   const { address } = useParams();
   const { data: hash, error, isPending, writeContract } = useWriteContract();
+
+  const readTokenAddress = useReadContract({
+    abi,
+    address: address as Address,
+    functionName: "token",
+  });
+
+  useEffect(() => {
+    console.log(readTokenAddress.data);
+
+    if (readTokenAddress.isSuccess) {
+      console.log(readTokenAddress.data);
+    }
+  }, [readTokenAddress]);
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

@@ -2,10 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import About from "./pages/about";
 import AdminDashboard from "./pages/adminDashboard";
 import Disclainer from "./pages/Disclaimer";
-import FAQ from "./pages/FAQ";
 import PresaleCreation from "./pages/presaleCreation";
 import PresaleDetails from "./pages/presaleDetails";
-import TokenManagement from "./pages/tokenManagement";
 import UserContribution from "./pages/userContribution";
 import Home from "./pages/home";
 import ContactForm from "./pages/form";
@@ -21,10 +19,6 @@ const Routes = () => {
       element: <About />,
     },
     {
-      path: "/FAQ",
-      element: <FAQ />,
-    },
-    {
       path: "/",
       element: <Home />,
     },
@@ -35,10 +29,6 @@ const Routes = () => {
     {
       path: "/presale-details/:address",
       element: <PresaleDetails />,
-    },
-    {
-      path: "/TokenManagement",
-      element: <TokenManagement />,
     },
     {
       path: "/UserContribution",

@@ -14,14 +14,11 @@ import {
 } from "@/components/ui/card";
 
 export default function About() {
-  
   return (
     <>
       <Header />
       <div className="flex flex-col min-h-[100dvh]">
         <main className="flex-1 py-12 md:py-24 lg:py-32">
-          
-
           <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               <div className="bg-background rounded-lg shadow-md p-6">

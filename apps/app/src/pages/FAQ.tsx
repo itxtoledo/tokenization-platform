@@ -9,7 +9,7 @@ import {
 // import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ContentForm from "./form";
+
 
 export default function FAQ() {
   return (
@@ -113,15 +113,7 @@ export default function FAQ() {
                 </Collapsible>
               </div>
             </div>
-            <div className="rounded-md border bg-background p-6 shadow-sm">
-              <h2 className="text-xl font-bold">Contact Support</h2>
-              <p className="mt-2 text-muted-foreground">
-                Have a question or need help with your presale campaign? Fill
-                out the form below and our support team will get back to you
-                within 1 business day.
-              </p>
-              <ContentForm />
-            </div>
+            
           </div>
         </main>
       </div>

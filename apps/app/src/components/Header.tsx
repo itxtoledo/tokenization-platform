@@ -5,61 +5,86 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b">
-      <div className="container flex items-center justify-between h-16 px-4 md:px-6">
-        <Link to={"/"} className="items-center gap-2 hidden md:flex">
-          <MountainIcon className="h-6 w-6" />
-          <span className="text-lg font-bold">Acme Inc</span>
+    <header className="sticky top-0 z-50 w-full bg-white border-b shadow-md">
+      <div className="container mx-auto flex items-center justify-between h-16 px-4 md:px-8">
+        {/* Logo - Hidden on small screens */}
+        <Link
+          to="/"
+          className="hidden md:flex items-center gap-2"
+        >
+          <MountainIcon className="h-8 w-8 text-blue-600" />
+          <span className="text-xl font-bold text-gray-800">Acme Inc</span>
         </Link>
-        <nav className="hidden md:flex items-center gap-6">
-          <Link to={"/About"} className="text-sm font-medium hover:underline">
+
+        {/* Navigation for Medium and Larger Screens */}
+        <nav className="hidden md:flex items-center gap-8">
+          <Link
+            to="/About"
+            className="text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
+          >
             About
           </Link>
           <Link
-            to={"/PresaleCreation"}
-            className="text-sm font-medium hover:underline"
+            to="/PresaleCreation"
+            className="text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
           >
             Presale Creation
           </Link>
           <Link
-            to={"/PresaleDetails"}
-            className="text-sm font-medium hover:underline"
+            to="/PresaleDetails"
+            className="text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
           >
             Presale Details
           </Link>
         </nav>
-        <ConnectButton />
+
+        {/* Connect Button */}
+        <div className="flex items-center space-x-4">
+          <ConnectButton />
+        </div>
+
+        {/* Hamburger Menu for Mobile */}
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="md:hidden">
-              <MenuIcon className="h-6 w-6" />
-              <span className="sr-only">Toggle navigation menu</span>
+              <MenuIcon className="h-6 w-6 text-gray-800" />
+              <span className="sr-only">Open Menu</span>
             </Button>
           </SheetTrigger>
+
+          {/* Mobile Menu Content */}
           <SheetContent side="left" className="md:hidden bg-white">
-            <div className="grid gap-4 p-4">
-              <Link to={"/"} className="flex items-center gap-2 ">
-                <MountainIcon className="h-6 w-6" />
-                <span className="text-lg font-bold">Acme Inc</span>
+            <div className="p-4 space-y-4">
+              {/* Mobile Logo */}
+              <Link to="/" className="flex items-center gap-2">
+                <MountainIcon className="h-8 w-8 text-blue-600" />
+                <span className="text-lg font-bold text-gray-800">
+                  Acme Inc
+                </span>
               </Link>
+
+              {/* Mobile Navigation Links */}
               <Link
-                to={"/About"}
-                className="text-sm font-medium hover:underline"
+                to="/"
+                className="block text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
               >
-                About
-              </Link>
-              <Link to={"/"} className="text-sm font-medium hover:underline">
                 Home
               </Link>
               <Link
-                to={"/PresaleCreation"}
-                className="text-sm font-medium hover:underline"
+                to="/About"
+                className="block text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
+              >
+                About
+              </Link>
+              <Link
+                to="/PresaleCreation"
+                className="block text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
               >
                 Presale Creation
               </Link>
               <Link
-                to={"/PresaleDetails"}
-                className="text-sm font-medium hover:underline"
+                to="/PresaleDetails"
+                className="block text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
               >
                 Presale Details
               </Link>

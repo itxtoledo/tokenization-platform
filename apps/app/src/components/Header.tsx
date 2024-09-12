@@ -21,9 +21,6 @@ export default function Header() {
           >
             Admin Dashboard
           </Link>
-          <Link to={"/FAQ"} className="text-sm font-medium hover:underline">
-            FAQ
-          </Link>
           <Link
             to={"/PresaleCreation"}
             className="text-sm font-medium hover:underline"
@@ -35,12 +32,6 @@ export default function Header() {
             className="text-sm font-medium hover:underline"
           >
             Presale Details
-          </Link>
-          <Link
-            to={"/TokenManagement"}
-            className="text-sm font-medium hover:underline"
-          >
-            Token Management
           </Link>
           <Link
             to={"/UserContribution"}
@@ -75,9 +66,6 @@ export default function Header() {
               >
                 Admin Dashboard
               </Link>
-              <Link to={"/FAQ"} className="text-sm font-medium hover:underline">
-                FAQ
-              </Link>
               <Link to={"/"} className="text-sm font-medium hover:underline">
                 Home
               </Link>
@@ -92,12 +80,6 @@ export default function Header() {
                 className="text-sm font-medium hover:underline"
               >
                 Presale Details
-              </Link>
-              <Link
-                to={"/TokenManagement"}
-                className="text-sm font-medium hover:underline"
-              >
-                Token Management
               </Link>
               <Link
                 to={"/UserContribution"}

@@ -18,41 +18,47 @@ const ContactForm: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const templateParams = {
-      name,
-      email,
-      message,
-    };
-
-    // Check if any of the fields are empty
-    if (
-      message.valueOf() === "" ||
-      email.valueOf() === "" ||
-      name.valueOf() === ""
-    ) {
-      alert("Please fill in all fields");
-      return; // stop the function from executing further
-    } else {
-      emailjs
-        .send(
-          "service_fxip7fc", // this is service ID
-          "template_7l85d98", // this is template ID
-          templateParams,
-          "8VMmL_Iie93KDdXaB" // this is public key instead of user ID
-        )
-        .then(
-          (result) => {
-            console.log("Email successfully sent!", result.text);
-            setIsOpen(true); // Show the dialog only when the email is successfully sent
-          },
-          (error) => {
-            console.error("There was an error sending the email", error.text);
-          }
-        );
-    }
+  const templateParams = {
+    name,
+    email,
+    message,
   };
+
+  // Check if any of the fields are empty
+  if (
+    message.valueOf() === "" ||
+    email.valueOf() === "" ||
+    name.valueOf() === ""
+  ) {
+    alert("Please fill in all fields");
+    return; // stop the function from executing further
+  } else {
+    emailjs
+      .send(
+        "service_fxip7fc", // this is service ID
+        "template_7l85d98", // this is template ID
+        templateParams,
+        "8VMmL_Iie93KDdXaB" // this is public key instead of user ID
+      )
+      .then(
+        (result) => {
+          console.log("Email successfully sent!", result.text);
+          setIsOpen(true); // Show the dialog only when the email is successfully sent
+
+          // Redirect to home page after 5 seconds
+          setTimeout(() => {
+            window.location.href = "/"; // replace "/" with your home page URL if it's different
+          }, 5000);
+        },
+        (error) => {
+          console.error("There was an error sending the email", error.text);
+        }
+      );
+  }
+};
+
 
   return (
     <form className="mt-6 space-y-4" onSubmit={handleSubmit}>

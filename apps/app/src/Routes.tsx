@@ -4,7 +4,6 @@ import AdminDashboard from "./pages/adminDashboard";
 import Disclainer from "./pages/Disclaimer";
 import PresaleCreation from "./pages/presaleCreation";
 import PresaleDetails from "./pages/presaleDetails";
-import UserContribution from "./pages/userContribution";
 import Home from "./pages/home";
 import ContactForm from "./pages/form";
 
@@ -29,10 +28,6 @@ const Routes = () => {
     {
       path: "/presale-details/:address",
       element: <PresaleDetails />,
-    },
-    {
-      path: "/UserContribution",
-      element: <UserContribution />,
     },
     {
       path: "/Disclaimer",

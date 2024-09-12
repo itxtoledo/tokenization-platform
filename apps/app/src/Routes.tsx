@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import About from "./pages/about";
-import AdminDashboard from "./pages/adminDashboard";
 import Disclainer from "./pages/Disclaimer";
 import PresaleCreation from "./pages/presaleCreation";
 import PresaleDetails from "./pages/presaleDetails";
@@ -9,10 +8,6 @@ import ContactForm from "./pages/form";
 
 const Routes = () => {
   const router = createBrowserRouter([
-    {
-      path: "/AdminDashboard",
-      element: <AdminDashboard />,
-    },
     {
       path: "/About",
       element: <About />,

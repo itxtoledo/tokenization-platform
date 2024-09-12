@@ -16,12 +16,6 @@ export default function Header() {
             About
           </Link>
           <Link
-            to={"/AdminDashboard"}
-            className="text-sm font-medium hover:underline"
-          >
-            Admin Dashboard
-          </Link>
-          <Link
             to={"/PresaleCreation"}
             className="text-sm font-medium hover:underline"
           >
@@ -53,12 +47,6 @@ export default function Header() {
                 className="text-sm font-medium hover:underline"
               >
                 About
-              </Link>
-              <Link
-                to={"/AdminDashboard"}
-                className="text-sm font-medium hover:underline"
-              >
-                Admin Dashboard
               </Link>
               <Link to={"/"} className="text-sm font-medium hover:underline">
                 Home

@@ -33,12 +33,6 @@ export default function Header() {
           >
             Presale Details
           </Link>
-          <Link
-            to={"/UserContribution"}
-            className="text-sm font-medium hover:underline"
-          >
-            User Contribution
-          </Link>
         </nav>
         <ConnectButton />
         <Sheet>
@@ -80,12 +74,6 @@ export default function Header() {
                 className="text-sm font-medium hover:underline"
               >
                 Presale Details
-              </Link>
-              <Link
-                to={"/UserContribution"}
-                className="text-sm font-medium hover:underline"
-              >
-                User Contribution
               </Link>
             </div>
           </SheetContent>

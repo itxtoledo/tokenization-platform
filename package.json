@@ -14,5 +14,8 @@
   "devDependencies": {
     "turbo": "latest"
   },
-  "packageManager": "pnpm@8.15.6"
+  "packageManager": "pnpm@8.15.6",
+  "dependencies": {
+    "emailjs-com": "^3.2.0"
+  }
 }

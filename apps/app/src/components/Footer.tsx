@@ -3,36 +3,80 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <>
-      <footer className="bg-muted p-6 md:py-12 w-full">
-        <div className="container max-w-7xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 text-sm">
-          <div className="grid gap-1">
-            <h3 className="font-semibold">Company</h3>
-            <Link to="/">About Us</Link>
-            <Link to="/">Our Team</Link>
-            <Link to="/">Careers</Link>
-            <Link to="/">News</Link>
+      <footer className="bg-gray-100 p-6 md:p-12 w-full">
+        <div className="container max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 text-sm">
+          {/* Company Section */}
+          <div className="space-y-3">
+            <h3 className="font-semibold text-lg text-gray-800">Company</h3>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              About Us
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Our Team
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Careers
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              News
+            </Link>
           </div>
 
-          <div className="grid gap-1">
-            <h3 className="font-semibold">Resources</h3>
-            <Link to="/">Blog</Link>
-            <Link to="/">Community</Link>
-            <Link to="/">Support</Link>
-            <Link to="/">FAQs</Link>
+          {/* Resources Section */}
+          <div className="space-y-3">
+            <h3 className="font-semibold text-lg text-gray-800">Resources</h3>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Blog
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Community
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Support
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              FAQs
+            </Link>
           </div>
-          <div className="grid gap-1">
-            <h3 className="font-semibold">Legal</h3>
-            <Link to="/">Privacy Policy</Link>
-            <Link to="/">Terms of Service</Link>
-            <Link to="/">Cookie Policy</Link>
+
+          {/* Legal Section */}
+          <div className="space-y-3">
+            <h3 className="font-semibold text-lg text-gray-800">Legal</h3>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Privacy Policy
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Terms of Service
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Cookie Policy
+            </Link>
           </div>
-          <div className="grid gap-1">
-            <h3 className="font-semibold">Contact</h3>
-            <Link to="/">Support</Link>
-            <Link to="/">Sales</Link>
-            <Link to="/">Press</Link>
-            <Link to="/">Partnerships</Link>
+
+          {/* Contact Section */}
+          <div className="space-y-3">
+            <h3 className="font-semibold text-lg text-gray-800">Contact</h3>
+            <Link
+              to="/Form"
+              className="text-gray-600 hover:text-gray-800 block"
+            >
+              Support
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Sales
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Press
+            </Link>
+            <Link to="/" className="text-gray-600 hover:text-gray-800 block">
+              Partnerships
+            </Link>
           </div>
+        </div>
+
+        <div className="text-center mt-8 text-gray-500 text-xs">
+          &copy; {new Date().getFullYear()} Tokenization Platform. All rights
+          reserved.
         </div>
       </footer>
     </>

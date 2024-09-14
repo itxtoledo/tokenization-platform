@@ -26,6 +26,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { WithdrawETH } from "@/components/intgration_components/withdrawETH";
+import { WithdrawToken } from "@/components/intgration_components/withdrawTokens";
 
 export default function AdminDashboard() {
   return (
@@ -33,7 +35,7 @@ export default function AdminDashboard() {
       <Header />
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-          <div className="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid w-full gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle>Presale Overview</CardTitle>
@@ -297,12 +299,8 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4">
-                  <Button variant="outline" className="bg-black text-white">
-                    Withdraw ETH
-                  </Button>
-                  <Button variant="outline" className="bg-black text-white">
-                    Withdraw Tokens
-                  </Button>
+                  <WithdrawETH />
+                  <WithdrawToken />
                 </div>
               </CardContent>
             </Card>

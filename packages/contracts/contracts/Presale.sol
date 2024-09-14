@@ -9,7 +9,7 @@ error InvalidEtherSent(uint256 amountSent, uint256 requiredAmount);
 contract Presale is OwnableUpgradeable {
     MintableERC20 public token;
 
-    uint256 price;
+    uint256 public price;
 
     event NewContribution(address indexed contributor, uint256 amount);
     event EtherWithdrawn(address indexed to, uint256 amount);

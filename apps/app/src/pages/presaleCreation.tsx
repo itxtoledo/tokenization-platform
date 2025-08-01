@@ -1,11 +1,20 @@
-import Header from "@/components/Header";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Footer from "@/components/Footer";
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { presaleSchema, PresaleFormData } from "@/schemas/presaleSchemas";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 // importing necessary wagmi for contracts integrations
 import {
@@ -22,21 +31,39 @@ export default function PresaleCreation() {
   const navigate = useNavigate();
   const { data: hash, isPending, error, writeContract } = useWriteContract();
 
-  async function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const name = formData.get("name") as string;
-    const symbol = formData.get("symbol") as string;
-    const supply = formData.get("supply") as string;
-    const price = formData.get("price") as string;
+  const form = useForm<PresaleFormData>({
+    resolver: zodResolver(presaleSchema),
+    defaultValues: {
+      name: "",
+      symbol: "",
+      supply: "",
+      price: "",
+      hardCap: "",
+      softCap: "",
+      startTime: "",
+      endTime: "",
+    },
+  });
 
-    const priceinETH = parseEther(price);
+  async function onSubmit(values: PresaleFormData) {
+    const priceinETH = parseEther(values.price);
+    const hardCapInETH = parseEther(values.hardCap);
+    const softCapInETH = parseEther(values.softCap);
 
     writeContract({
       address: import.meta.env.VITE_PRESALE_FACTORY,
       abi,
       functionName: "createPresale",
-      args: [name, symbol, BigInt(supply), priceinETH],
+      args: [
+        values.name,
+        values.symbol,
+        BigInt(values.supply),
+        priceinETH,
+        hardCapInETH,
+        softCapInETH,
+        BigInt(values.startTime),
+        BigInt(values.endTime),
+      ],
     });
   }
 
@@ -65,7 +92,6 @@ export default function PresaleCreation() {
 
   return (
     <>
-      <Header />
       <div className="flex flex-col min-h-[100dvh]">
         <main className="flex-1 py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
@@ -79,80 +105,134 @@ export default function PresaleCreation() {
                   token.
                 </p>
               </div>
-              <form onSubmit={submit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="tokenName">Token Name</Label>
-                  <Input
-                    id="tokenName"
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
                     name="name"
-                    placeholder="Enter your token name"
-                    required
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Token Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your token name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <p className="text-sm text-muted-foreground">
-                    The name of your token that will be displayed.
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="tokenSymbol">Token Symbol</Label>
-                  <Input
-                    id="tokenSymbol"
+                  <FormField
+                    control={form.control}
                     name="symbol"
-                    placeholder="Enter your token symbol"
-                    required
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Token Symbol</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your token symbol" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <p className="text-sm text-muted-foreground">
-                    The unique ticker symbol for your token.
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="initialSupply">Initial Supply</Label>
-                  <Input
-                    id="initialSupply"
+                  <FormField
+                    control={form.control}
                     name="supply"
-                    type="number"
-                    placeholder="Enter the initial supply"
-                    required
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Initial Supply</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="Enter the initial supply" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <p className="text-sm text-muted-foreground">
-                    The total number of tokens that will be created.
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="tokenPrice">Token Price</Label>
-                  <Input
-                    id="tokenPrice"
+                  <FormField
+                    control={form.control}
                     name="price"
-                    type="number"
-                    placeholder="Enter the token price in ETH"
-                    step={0.00000001}
-                    required
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Token Price</FormLabel>
+                        <FormControl>
+                          <Input type="number" step={0.00000001} placeholder="Enter the token price in ETH" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <p className="text-sm text-muted-foreground">
-                    The price per token in the presale in ETH.
-                  </p>
-                </div>
-                <Button
-                  disabled={isPending}
-                  type="submit"
-                  variant="outline"
-                  className="w-full bg-black text-white"
-                >
-                  {isPending ? "Confirming..." : "Create Presale"}
-                </Button>
-                {hash && <div>Transaction Hash: {hash}</div>}
-                {isConfirming && <div>Waiting for confirmation...</div>}
-                {isConfirmed && <div>Transaction confirmed.</div>}
-                {error && (
-                  <div>
-                    Alert: {(error as BaseError).shortMessage || error.message}
-                  </div>
-                )}
-              </form>
+                  <FormField
+                    control={form.control}
+                    name="hardCap"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Hard Cap (ETH)</FormLabel>
+                        <FormControl>
+                          <Input type="number" step={0.00000001} placeholder="Enter the hard cap in ETH" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="softCap"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Soft Cap (ETH)</FormLabel>
+                        <FormControl>
+                          <Input type="number" step={0.00000001} placeholder="Enter the soft cap in ETH" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="startTime"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Start Time (Unix Timestamp)</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="Enter start time as Unix timestamp" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="endTime"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>End Time (Unix Timestamp)</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="Enter end time as Unix timestamp" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    disabled={isPending}
+                    type="submit"
+                    variant="outline"
+                    className="w-full bg-black text-white"
+                  >
+                    {isPending ? "Confirming..." : "Create Presale"}
+                  </Button>
+                  {hash && <div>Transaction Hash: {hash}</div>}
+                  {isConfirming && <div>Waiting for confirmation...</div>}
+                  {isConfirmed && <div>Transaction confirmed.</div>}
+                  {error && (
+                    <div>
+                      Alert: {(error as BaseError).shortMessage || error.message}
+                    </div>
+                  )}
+                </form>
+              </Form>
             </div>
           </div>
         </main>
       </div>
-      <Footer />
-    </>
+      </>
   );
 }

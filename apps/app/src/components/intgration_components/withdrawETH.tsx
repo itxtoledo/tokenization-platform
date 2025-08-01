@@ -11,6 +11,7 @@ import {
 
 // importing contract ABI
 import abi from "@tokenization-platform/contracts/abi_ts/contracts/Presale.sol/Presale";
+import { PRESALE_CONTRACT_ADDRESS } from "../../config/contracts";
 
 export function WithdrawETH() {
   const { data: hash, isPending, error, writeContract } = useWriteContract();
@@ -18,7 +19,7 @@ export function WithdrawETH() {
     e.preventDefault();
 
     writeContract({
-      address: "0xE3920963fedC0b83cdd8CBdAB0fce942ee95eD59",
+      address: PRESALE_CONTRACT_ADDRESS,
       abi,
       functionName: "withdrawETH",
     });

@@ -1,11 +1,9 @@
-import Header from "@/components/Header";
 import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Footer from "@/components/Footer";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+
+import { useParams } from "@tanstack/react-router";
 
 // importing necessary wagmi contract integration
 import {
@@ -62,19 +60,33 @@ export default function PresaleDetails() {
         ...tokenContract,
         functionName: "decimals",
       },
+      {
+        ...presaleContract,
+        functionName: "hardCap",
+      },
+      {
+        ...presaleContract,
+        functionName: "softCap",
+      },
+      {
+        ...presaleContract,
+        functionName: "startTime",
+      },
+      {
+        ...presaleContract,
+        functionName: "endTime",
+      },
+      {
+        ...presaleContract,
+        functionName: "totalContributed",
+      },
     ],
     query: {
       enabled: readTokenAddress.data !== undefined,
     },
   });
 
-  useEffect(() => {
-    console.log(readTokenAddress.data);
-
-    if (readTokenAddress.isSuccess) {
-      console.log("success!");
-    }
-  }, [readTokenAddress]);
+  
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -96,9 +108,16 @@ export default function PresaleDetails() {
       hash,
     });
 
+  const hardCap = multicallQuery.data?.[5].result ?? 0n;
+  const softCap = multicallQuery.data?.[6].result ?? 0n;
+  const startTime = multicallQuery.data?.[7].result ?? 0n;
+  const endTime = multicallQuery.data?.[8].result ?? 0n;
+  const totalContributed = multicallQuery.data?.[9].result ?? 0n;
+
+  const progressValue = hardCap > 0 ? Number((totalContributed * 100n) / hardCap) : 0;
+
   return (
     <>
-      <Header />
       {multicallQuery.isSuccess && (
         <div className="flex flex-col min-h-[100dvh] bg-background text-foreground">
           <main className="flex-1 py-12 md:py-24 lg:py-32">
@@ -146,15 +165,39 @@ export default function PresaleDetails() {
                         )}
                       </div>
                     </div>
+                    <div className="space-y-1">
+                      <div className="text-sm font-medium text-muted-foreground">
+                        Hard Cap
+                      </div>
+                      <div>{formatEther(hardCap)} ETH</div>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="text-sm font-medium text-muted-foreground">
+                        Soft Cap
+                      </div>
+                      <div>{formatEther(softCap)} ETH</div>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="text-sm font-medium text-muted-foreground">
+                        Start Time
+                      </div>
+                      <div>{new Date(Number(startTime) * 1000).toLocaleString()}</div>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="text-sm font-medium text-muted-foreground">
+                        End Time
+                      </div>
+                      <div>{new Date(Number(endTime) * 1000).toLocaleString()}</div>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <div className="text-sm font-medium text-muted-foreground">
                       Presale Progress
                     </div>
-                    <Progress value={45} />
+                    <Progress value={progressValue} />
                     <div className="flex justify-between text-sm">
-                      <div>45,000,000 ACME sold</div>
-                      <div>100,000,000 ACME total</div>
+                      <div>{formatEther(totalContributed)} ETH contributed</div>
+                      <div>{formatEther(hardCap)} ETH hard cap</div>
                     </div>
                   </div>
                 </div>
@@ -202,7 +245,6 @@ export default function PresaleDetails() {
         </div>
       )}
 
-      <Footer />
-    </>
+      </>
   );
 }

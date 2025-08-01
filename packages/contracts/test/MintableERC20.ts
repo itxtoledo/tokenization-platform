@@ -32,11 +32,17 @@ describe("PresaleFactory", function () {
       const { owner, presaleFactory, publicClient, token } = await loadFixture(deployMintableERC20);
 
       const initialSupply = 1000n;  // Define the initial supply
+      const currentTime = BigInt(Math.floor(Date.now() / 1000));
+      const futureTime = currentTime + 3600n; // 1 hour from now
       const hash = await presaleFactory.write.createPresale([
         "Example",
         "EXM",
         initialSupply,
         parseEther("0.01"),
+        parseEther("10"), // hardCap
+        parseEther("5"),  // softCap
+        currentTime,      // startTime
+        futureTime        // endTime
       ]);
 
       await publicClient.waitForTransactionReceipt({ hash });
@@ -69,11 +75,17 @@ describe("PresaleFactory", function () {
       const { owner, presaleFactory, publicClient, token } = await loadFixture(deployMintableERC20);
 
       const initialSupply = 1000n;  // Define the initial supply
+      const currentTime = BigInt(Math.floor(Date.now() / 1000));
+      const futureTime = currentTime + 3600n; // 1 hour from now
       const hash = await presaleFactory.write.createPresale([
         "Example",
         "EXM",
         initialSupply,
         parseEther("0.01"),
+        parseEther("10"), // hardCap
+        parseEther("5"),  // softCap
+        currentTime,      // startTime
+        futureTime        // endTime
       ]);
 
       await publicClient.waitForTransactionReceipt({ hash });
@@ -105,11 +117,17 @@ describe("PresaleFactory", function () {
   describe("MintableERC20 Initialization", function () {
     it("should create a presale with an empty token name", async function () {
       const { token, presaleFactory, owner, publicClient } = await loadFixture(deployMintableERC20);
+      const currentTime = BigInt(Math.floor(Date.now() / 1000));
+      const futureTime = currentTime + 3600n; // 1 hour from now
       const hash = await presaleFactory.write.createPresale([
         "Example",
         "EXM",
         1000n,
         parseEther("0.01"),
+        parseEther("10"), // hardCap
+        parseEther("5"),  // softCap
+        currentTime,      // startTime
+        futureTime        // endTime
       ]);
 
       await publicClient.waitForTransactionReceipt({ hash });
@@ -137,11 +155,17 @@ describe("PresaleFactory", function () {
   describe("MintableERC20 Initialization", function () {
     it("should create a presale with a token having 18 decimals", async function () {
       const { token, presaleFactory, owner, publicClient } = await loadFixture(deployMintableERC20);
+      const currentTime = BigInt(Math.floor(Date.now() / 1000));
+      const futureTime = currentTime + 3600n; // 1 hour from now
       const hash = await presaleFactory.write.createPresale([
         "Example",
         "EXM",
         1000n,
         parseEther("0.01"),
+        parseEther("10"), // hardCap
+        parseEther("5"),  // softCap
+        currentTime,      // startTime
+        futureTime        // endTime
       ]);
 
       await publicClient.waitForTransactionReceipt({ hash });
@@ -169,11 +193,17 @@ describe("PresaleFactory", function () {
   describe("MintableERC20 Initialization", function () {
     it("should create a presale with a token having an empty symbol", async function () {
       const { token, presaleFactory, owner, publicClient } = await loadFixture(deployMintableERC20);
+      const currentTime = BigInt(Math.floor(Date.now() / 1000));
+      const futureTime = currentTime + 3600n; // 1 hour from now
       const hash = await presaleFactory.write.createPresale([
         "Example",
         "EXM",
         1000n,
         parseEther("0.01"),
+        parseEther("10"), // hardCap
+        parseEther("5"),  // softCap
+        currentTime,      // startTime
+        futureTime        // endTime
       ]);
 
       await publicClient.waitForTransactionReceipt({ hash });

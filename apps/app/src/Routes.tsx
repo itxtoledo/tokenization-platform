@@ -1,40 +1,29 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import About from "./pages/about";
-import Disclainer from "./pages/Disclaimer";
+import { Route, RootRoute } from "@tanstack/react-router";
+
 import PresaleCreation from "./pages/presaleCreation";
 import PresaleDetails from "./pages/presaleDetails";
 import Home from "./pages/home";
-import ContactForm from "./pages/form";
+import { MyTokens } from "./pages/myTokens";
+import { TokenDetails } from "./pages/tokenDetails";
+import PresaleList from "./pages/presaleList";
+import BlankPage from "./pages/BlankPage";
 
-const Routes = () => {
-  const router = createBrowserRouter([
-    {
-      path: "/About",
-      element: <About />,
-    },
-    {
-      path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/PresaleCreation",
-      element: <PresaleCreation />,
-    },
-    {
-      path: "/presale-details/:address",
-      element: <PresaleDetails />,
-    },
-    {
-      path: "/Disclaimer",
-      element: <Disclainer />,
-    },
-    {
-      path: "/Form",
-      element: <ContactForm />,
-    },
-  ]);
+import Layout from "./components/Layout";
 
-  return <RouterProvider router={router} />;
-};
+const rootRoute = new RootRoute({
+  component: Layout,
+});
 
-export default Routes;
+export const routeTree = rootRoute.addChildren([
+  new Route({ path: "/", component: Home, getParentRoute: () => rootRoute }),
+  new Route({ path: "/presale-creation", component: PresaleCreation, getParentRoute: () => rootRoute }),
+  new Route({ path: "/presale-details/$address", component: PresaleDetails, getParentRoute: () => rootRoute }),
+  new Route({ path: "/my-tokens", component: MyTokens, getParentRoute: () => rootRoute }),
+  new Route({ path: "/token/$address", component: TokenDetails, getParentRoute: () => rootRoute }),
+  new Route({ path: "/presales", component: PresaleList, getParentRoute: () => rootRoute }),
+  new Route({ path: "/blank", component: BlankPage, getParentRoute: () => rootRoute }),
+]);
+
+export default function Routes() {
+  return null;
+}

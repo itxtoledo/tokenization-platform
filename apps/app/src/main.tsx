@@ -12,7 +12,9 @@ import {
   RainbowKitProvider,
   DisclaimerComponent,
 } from "@rainbow-me/rainbowkit";
-import Routes from "./Routes.tsx";
+import { RouterProvider } from "@tanstack/react-router";
+import { router } from "./router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
@@ -38,7 +40,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           }}
           // coolMode
         >
-          <Routes />
+          <RouterProvider router={router} />
+          <TanStackRouterDevtools router={router} />
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

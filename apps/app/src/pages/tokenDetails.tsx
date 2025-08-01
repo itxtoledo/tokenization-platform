@@ -1,0 +1,44 @@
+import { useParams } from '@tanstack/react-router';
+import { useReadContract } from 'wagmi';
+import MintableERC20 from '@tokenization-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+
+export function TokenDetails() {
+  const { address } = useParams({ from: '/token/$address' });
+
+  const { data: name, isLoading: isLoadingName, isError: isErrorName } = useReadContract({
+    address: address as `0x${string}`,
+    abi: MintableERC20,
+    functionName: 'name',
+  });
+
+  const { data: symbol, isLoading: isLoadingSymbol, isError: isErrorSymbol } = useReadContract({
+    address: address as `0x${string}`,
+    abi: MintableERC20,
+    functionName: 'symbol',
+  });
+
+  const { data: totalSupply, isLoading: isLoadingTotalSupply, isError: isErrorTotalSupply } = useReadContract({
+    address: address as `0x${string}`,
+    abi: MintableERC20,
+    functionName: 'totalSupply',
+  });
+
+  if (isLoadingName || isLoadingSymbol || isLoadingTotalSupply) return <div>Loading token details...</div>;
+  if (isErrorName || isErrorSymbol || isErrorTotalSupply) return <div>Error loading token details.</div>;
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6">Token Details</h1>
+      <Card>
+        <CardHeader>
+          <CardTitle>{name} ({symbol})</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p><strong>Address:</strong> {address}</p>
+          <p><strong>Total Supply:</strong> {totalSupply?.toString()}</p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

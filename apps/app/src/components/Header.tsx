@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+
+import { ConnectButtonComponent } from "../components/ConnectButtonComponent";
+import { MenuIcon, MountainIcon } from "lucide-react";
 
 export default function Header() {
   return (
@@ -13,34 +15,34 @@ export default function Header() {
           className="hidden md:flex items-center gap-2"
         >
           <MountainIcon className="h-8 w-8 text-blue-600" />
-          <span className="text-xl font-bold text-gray-800">Acme Inc</span>
+          <span className="text-xl font-bold text-gray-800">Tokenization Platform</span>
         </Link>
 
         {/* Navigation for Medium and Larger Screens */}
         <nav className="hidden md:flex items-center gap-8">
           <Link
-            to="/About"
+            to="/presales"
             className="text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
           >
-            About
+            All Presales
           </Link>
           <Link
-            to="/PresaleCreation"
+            to="/presale-creation"
             className="text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
           >
             Presale Creation
           </Link>
           <Link
-            to="/PresaleDetails"
+            to="/my-tokens"
             className="text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
           >
-            Presale Details
+            My Tokens
           </Link>
         </nav>
 
         {/* Connect Button */}
         <div className="flex items-center space-x-4">
-          <ConnectButton />
+          <ConnectButtonComponent />
         </div>
 
         {/* Hamburger Menu for Mobile */}
@@ -59,7 +61,7 @@ export default function Header() {
               <Link to="/" className="flex items-center gap-2">
                 <MountainIcon className="h-8 w-8 text-blue-600" />
                 <span className="text-lg font-bold text-gray-800">
-                  Acme Inc
+                  Tokenization Platform
                 </span>
               </Link>
 
@@ -71,22 +73,22 @@ export default function Header() {
                 Home
               </Link>
               <Link
-                to="/About"
+                to="/presales"
                 className="block text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
               >
-                About
+                All Presales
               </Link>
               <Link
-                to="/PresaleCreation"
+                to="/presale-creation"
                 className="block text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
               >
                 Presale Creation
               </Link>
               <Link
-                to="/PresaleDetails"
+                to="/my-tokens"
                 className="block text-sm font-medium text-gray-600 hover:text-orange-800 transition duration-150"
               >
-                Presale Details
+                My Tokens
               </Link>
             </div>
           </SheetContent>
@@ -96,42 +98,4 @@ export default function Header() {
   );
 }
 
-function MenuIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="4" x2="20" y1="12" y2="12" />
-      <line x1="4" x2="20" y1="6" y2="6" />
-      <line x1="4" x2="20" y1="18" y2="18" />
-    </svg>
-  );
-}
 
-function MountainIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}

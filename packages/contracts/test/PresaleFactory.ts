@@ -43,20 +43,65 @@ describe("PresaleFactory", function () {
     });
   });
 
-  describe("Pagination", function () {
-    it("Should return the correct number of presales", async function () {
+  describe("Presale Creation and Pagination", function () {
+    it("Should create a presale and return it in paginated results", async function () {
       const { presaleFactory, publicClient } = await loadFixture(deployFactory);
+
+      const currentTime = BigInt(Math.floor(Date.now() / 1000));
+      const futureTime = currentTime + 3600n; // 1 hour from now
 
       const hash = await presaleFactory.write.createPresale([
         "Example",
         "EXM",
         1000n,
-        1n,
+        parseEther("0.01"),
+        parseEther("10"), // hardCap
+        parseEther("5"),  // softCap
+        currentTime,      // startTime
+        futureTime        // endTime
       ]);
       await publicClient.waitForTransactionReceipt({ hash });
 
-      const presaleCount = await presaleFactory.read.presaleCount();
-      expect(presaleCount).to.equal(1n);
+      const presaleEvents = await presaleFactory.getEvents.PresaleCreated();
+      expect(presaleEvents).to.have.lengthOf(1);
+      const createdPresaleAddress = presaleEvents[0].args.presale;
+
+      const paginatedPresales = await presaleFactory.read.getPaginatedPresales([1]);
+      expect(paginatedPresales).to.have.lengthOf(1);
+      expect(paginatedPresales[0]).to.equal(createdPresaleAddress);
+    });
+
+    it("Should return empty array for out of bounds page", async function () {
+      const { presaleFactory } = await loadFixture(deployFactory);
+      const paginatedPresales = await presaleFactory.read.getPaginatedPresales([2]);
+      expect(paginatedPresales).to.have.lengthOf(0);
+    });
+
+    it("Should return multiple presales in paginated results", async function () {
+      const { presaleFactory, publicClient } = await loadFixture(deployFactory);
+
+      const currentTime = BigInt(Math.floor(Date.now() / 1000));
+      const futureTime = currentTime + 3600n; // 1 hour from now
+
+      for (let i = 0; i < 12; i++) {
+        const hash = await presaleFactory.write.createPresale([
+          `Example${i}`,
+          `EXM${i}`,
+          1000n,
+          parseEther("0.01"),
+          parseEther("10"), // hardCap
+          parseEther("5"),  // softCap
+          currentTime,      // startTime
+          futureTime        // endTime
+        ]);
+        await publicClient.waitForTransactionReceipt({ hash });
+      }
+
+      const page1 = await presaleFactory.read.getPaginatedPresales([1]);
+      expect(page1).to.have.lengthOf(10);
+
+      const page2 = await presaleFactory.read.getPaginatedPresales([2]);
+      expect(page2).to.have.lengthOf(2);
     });
   });
 
@@ -66,11 +111,18 @@ describe("PresaleFactory", function () {
         const { presaleFactory, publicClient, otherAccount } =
           await loadFixture(deployFactory);
 
+        const currentTime = BigInt(Math.floor(Date.now() / 1000));
+        const futureTime = currentTime + 3600n; // 1 hour from now
+
         const hash = await presaleFactory.write.createPresale([
           "Example",
           "EXM",
           1000n,
           parseEther("0.01"),
+          parseEther("10"), // hardCap
+          parseEther("5"),  // softCap
+          currentTime,      // startTime
+          futureTime        // endTime
         ]);
 
         await publicClient.waitForTransactionReceipt({ hash });
@@ -119,11 +171,18 @@ describe("PresaleFactory", function () {
           deployFactory
         );
 
+        const currentTime = BigInt(Math.floor(Date.now() / 1000));
+        const futureTime = currentTime + 3600n; // 1 hour from now
+
         const hash = await presaleFactory.write.createPresale([
           "Example",
           "EXM",
           1000n,
           1n,
+          parseEther("10"), // hardCap
+          parseEther("5"),  // softCap
+          currentTime,      // startTime
+          futureTime        // endTime
         ]);
         await publicClient.waitForTransactionReceipt({ hash });
 

@@ -16,6 +16,6 @@
   },
   "packageManager": "pnpm@8.15.6",
   "dependencies": {
-    "emailjs-com": "^3.2.0"
+    "@hookform/resolvers": "^5.2.1"
   }
 }

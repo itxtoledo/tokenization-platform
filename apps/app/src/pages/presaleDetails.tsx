@@ -3,6 +3,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 import { useParams } from "@tanstack/react-router";
 
@@ -87,8 +95,6 @@ export default function PresaleDetails() {
     },
   });
 
-  
-
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -115,182 +121,168 @@ export default function PresaleDetails() {
   const endTime = multicallQuery.data?.[8].result ?? 0n;
   const totalContributed = multicallQuery.data?.[9].result ?? 0n;
 
-  const progressValue = hardCap > 0 ? Number((totalContributed * 100n) / hardCap) : 0;
+  const progressValue =
+    hardCap > 0 ? Number((totalContributed * 100n) / hardCap) : 0;
 
   return (
     <>
       {(multicallQuery.isLoading || readTokenAddress.isLoading) && (
-        <div className="flex flex-col min-h-[100dvh] bg-background text-foreground">
-          <main className="flex-1 py-12 md:py-24 lg:py-32">
-            <div className="container px-4 md:px-6">
-              <div className="grid gap-12 lg:grid-cols-2 lg:gap-24">
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <Skeleton className="h-10 w-3/4" />
-                    <Skeleton className="h-5 w-full" />
+        <Card className="w-full max-w-4xl mx-auto my-8">
+          <CardHeader>
+            <Skeleton className="h-10 w-3/4" />
+            <Skeleton className="h-5 w-full" />
+          </CardHeader>
+          <CardContent className="grid gap-12 lg:grid-cols-2 lg:gap-24">
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <div key={index} className="space-y-1">
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-5 w-3/4" />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    {Array.from({ length: 8 }).map((_, index) => (
-                      <div key={index} className="space-y-1">
-                        <Skeleton className="h-4 w-1/2" />
-                        <Skeleton className="h-5 w-3/4" />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-1/3" />
-                    <Skeleton className="h-8 w-full" />
-                    <div className="flex justify-between text-sm">
-                      <Skeleton className="h-4 w-1/4" />
-                      <Skeleton className="h-4 w-1/4" />
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <Skeleton className="h-8 w-1/2" />
-                    <Skeleton className="h-5 w-full" />
-                  </div>
-                  <div className="space-y-4">
-                    <div className="grid gap-2">
-                      <Skeleton className="h-4 w-1/4" />
-                      <Skeleton className="h-10 w-full" />
-                    </div>
-                    <Skeleton className="h-10 w-full" />
-                  </div>
+                ))}
+              </div>
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-1/3" />
+                <Skeleton className="h-8 w-full" />
+                <div className="flex justify-between text-sm">
+                  <Skeleton className="h-4 w-1/4" />
+                  <Skeleton className="h-4 w-1/4" />
                 </div>
               </div>
             </div>
-          </main>
-        </div>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Skeleton className="h-8 w-1/2" />
+                <Skeleton className="h-5 w-full" />
+              </div>
+              <div className="space-y-4">
+                <div className="grid gap-2">
+                  <Skeleton className="h-4 w-1/4" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+                <Skeleton className="h-10 w-full" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       )}
       {multicallQuery.isSuccess && (
-        <div className="flex flex-col min-h-[100dvh] bg-background text-foreground">
-          <main className="flex-1 py-12 md:py-24 lg:py-32">
-            <div className="container px-4 md:px-6">
-              <div className="grid gap-12 lg:grid-cols-2 lg:gap-24">
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                      {multicallQuery.data[0].result} Presale
-                    </h1>
-                    <p className="text-muted-foreground">
-                      Get in early on the {multicallQuery.data[0].result}{" "}
-                      presale.
-                    </p>
+        <Card className="w-full max-w-4xl mx-auto my-8">
+          <CardHeader>
+            <CardTitle>{multicallQuery.data[0].result} Presale</CardTitle>
+            <CardDescription>
+              Get in early on the {multicallQuery.data[0].result} presale.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-12 lg:grid-cols-2 lg:gap-24">
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    Token Name
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        Token Name
-                      </div>
-                      <div>{multicallQuery.data[0].result}</div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        Token Symbol
-                      </div>
-                      <div>{multicallQuery.data[1].result}</div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        Price
-                      </div>
-                      <div>
-                        {formatEther(multicallQuery.data[3].result ?? 0n)} ETH
-                      </div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        Total Supply
-                      </div>
-                      <div>
-                        {formatUnits(
-                          multicallQuery.data[2].result ?? 0n,
-                          multicallQuery.data[4].result ?? 0
-                        )}
-                      </div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        Hard Cap
-                      </div>
-                      <div>{formatEther(hardCap)} ETH</div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        Soft Cap
-                      </div>
-                      <div>{formatEther(softCap)} ETH</div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        Start Time
-                      </div>
-                      <div>{new Date(Number(startTime) * 1000).toLocaleString()}</div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        End Time
-                      </div>
-                      <div>{new Date(Number(endTime) * 1000).toLocaleString()}</div>
-                    </div>
+                  <div>{multicallQuery.data[0].result}</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    Token Symbol
                   </div>
-                  <div className="space-y-2">
-                    <div className="text-sm font-medium text-muted-foreground">
-                      Presale Progress
-                    </div>
-                    <Progress value={progressValue} />
-                    <div className="flex justify-between text-sm">
-                      <div>{formatEther(totalContributed)} ETH contributed</div>
-                      <div>{formatEther(hardCap)} ETH hard cap</div>
-                    </div>
+                  <div>{multicallQuery.data[1].result}</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    Price
+                  </div>
+                  <div>
+                    {formatEther(multicallQuery.data[3].result ?? 0n)} ETH
                   </div>
                 </div>
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <h2 className="text-2xl font-bold">Contribute</h2>
-                    <p className="text-muted-foreground">
-                      Enter the amount of ACME tokens you want to purchase.
-                    </p>
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    Total Supply
                   </div>
-                  <form onSubmit={submit} className="space-y-4">
-                    <div className="grid gap-2">
-                      <Label htmlFor="amount">Amount (ACME)</Label>
-                      <Input
-                        id="amount"
-                        name="amount"
-                        type="number"
-                        min="0.0001"
-                        step="0.00000001"
-                        placeholder="Enter amount"
-                      />
-                    </div>
-                    <Button
-                      type="submit"
-                      disabled={isPending}
-                      variant="outline"
-                      className="w-full bg-black text-white"
-                    >
-                      {isPending ? "Confirming..." : "Contribute"}
-                    </Button>
-                    {hash && <div>Transaction Hash: {hash}</div>}
-                    {isConfirming && <div>Waiting for confirmation...</div>}
-                    {isConfirmed && <div>Transaction confirmed.</div>}
-                    {error && (
-                      <div>
-                        Alert:{" "}
-                        {(error as BaseError).shortMessage || error.message}
-                      </div>
+                  <div>
+                    {formatUnits(
+                      multicallQuery.data[2].result ?? 0n,
+                      multicallQuery.data[4].result ?? 0
                     )}
-                  </form>
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    Hard Cap
+                  </div>
+                  <div>{formatEther(hardCap)} ETH</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    Soft Cap
+                  </div>
+                  <div>{formatEther(softCap)} ETH</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    Start Time
+                  </div>
+                  <div>
+                    {new Date(Number(startTime) * 1000).toLocaleString()}
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    End Time
+                  </div>
+                  <div>{new Date(Number(endTime) * 1000).toLocaleString()}</div>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm font-medium text-muted-foreground">
+                  Presale Progress
+                </div>
+                <Progress value={progressValue} />
+                <div className="flex justify-between text-sm">
+                  <div>{formatEther(totalContributed)} ETH contributed</div>
+                  <div>{formatEther(hardCap)} ETH hard cap</div>
                 </div>
               </div>
             </div>
-          </main>
-        </div>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h2 className="text-2xl font-bold">Contribute</h2>
+                <p className="text-muted-foreground">
+                  Enter the amount of ACME tokens you want to purchase.
+                </p>
+              </div>
+              <form onSubmit={submit} className="space-y-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="amount">Amount (ACME)</Label>
+                  <Input
+                    id="amount"
+                    name="amount"
+                    type="number"
+                    min="0.0001"
+                    step="0.00000001"
+                    placeholder="Enter amount"
+                  />
+                </div>
+                <Button type="submit" disabled={isPending} className="w-full">
+                  {isPending ? "Confirming..." : "Contribute"}
+                </Button>
+                {hash && <div>Transaction Hash: {hash}</div>}
+                {isConfirming && <div>Waiting for confirmation...</div>}
+                {isConfirmed && <div>Transaction confirmed.</div>}
+                {error && (
+                  <div>
+                    Alert:{" "}
+                    {(error as BaseError).shortMessage || error.message}
+                  </div>
+                )}
+              </form>
+            </div>
+          </CardContent>
+        </Card>
       )}
-
-      </>
+    </>
   );
 }

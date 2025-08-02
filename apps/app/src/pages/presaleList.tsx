@@ -27,55 +27,51 @@ export default function PresaleList() {
   };
 
   return (
-    <>
-      <main className="flex-1 py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">
-            All Presales
-          </h1>
-          {isLoading && (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 3 }).map((_, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <Skeleton className="h-6 w-3/4 mb-2" />
-                  </CardHeader>
-                  <CardContent>
-                    <Skeleton className="h-4 w-full mb-2" />
-                    <Skeleton className="h-10 w-full mt-4" />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-          {isError && <p>Error loading presales.</p>}
-          {presaleAddresses && presaleAddresses.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {presaleAddresses.map((address) => (
-                <Card key={address}>
-                  <CardHeader>
-                    <CardTitle>Presale Contract</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="truncate">{address}</p>
-                    <Link to={`/presale-details/${address}`}>
-                      <Button className="mt-4 w-full">View Details</Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            !isLoading && <p>No presales found.</p>
-          )}
-          <div className="flex justify-between mt-8">
-            <Button onClick={handlePreviousPage} disabled={page === 0}>
-              Previous Page
-            </Button>
-            <Button onClick={handleNextPage}>Next Page</Button>
-          </div>
+    <div className="container mx-auto my-8">
+      <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">
+        All Presales
+      </h1>
+      {isLoading && (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <Card key={index}>
+              <CardHeader>
+                <Skeleton className="h-6 w-3/4 mb-2" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-10 w-full mt-4" />
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </main>
-      </>
+      )}
+      {isError && <p>Error loading presales.</p>}
+      {presaleAddresses && presaleAddresses.length > 0 ? (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {presaleAddresses.map((address) => (
+            <Card key={address}>
+              <CardHeader>
+                <CardTitle>Presale Contract</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="truncate">{address}</p>
+                <Link to={`/presale-details/${address}`}>
+                  <Button className="mt-4 w-full">View Details</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        !isLoading && <p>No presales found.</p>
+      )}
+      <div className="flex justify-between mt-8">
+        <Button onClick={handlePreviousPage} disabled={page === 0}>
+          Previous Page
+        </Button>
+        <Button onClick={handleNextPage}>Next Page</Button>
+      </div>
+    </div>
   );
 }

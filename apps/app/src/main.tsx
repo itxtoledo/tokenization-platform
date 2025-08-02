@@ -8,21 +8,10 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 import "./index.css";
 
-import {
-  RainbowKitProvider,
-  DisclaimerComponent,
-} from "@rainbow-me/rainbowkit";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { RouterProvider } from "@tanstack/react-router";
 import { router } from "./router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-
-const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
-  <Text>
-    By connecting your wallet, you agree to the{" "}
-    <Link href="/Disclaimer">Terms of Service</Link> and acknowledge you have
-    read and understand the protocol <Link href="/Disclaimer">Disclaimer</Link>
-  </Text>
-);
 
 globalThis.Buffer = Buffer;
 
@@ -32,14 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          // showRecentTransactions={true}
-          appInfo={{
-            appName: "Tokenization Platform",
-            disclaimer: Disclaimer,
-          }}
-          // coolMode
-        >
+        <RainbowKitProvider>
           <RouterProvider router={router} />
           <TanStackRouterDevtools router={router} />
         </RainbowKitProvider>

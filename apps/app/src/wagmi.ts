@@ -1,17 +1,30 @@
-import { http, createConfig } from "wagmi";
+import { http } from "wagmi";
 import { sepolia } from "wagmi/chains";
-import { coinbaseWallet, injected } from "wagmi/connectors";
+import { connectorsForWallets, getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { metaMaskWallet, injectedWallet } from "@rainbow-me/rainbowkit/wallets";
 
-export const config = createConfig({
-  chains: [sepolia],
-  connectors: [
-    injected(),
-    coinbaseWallet({ appName: "Tokenization Platform" }),
-    // walletConnect({ projectId: import.meta.env.VITE_WC_PROJECT_ID }),
+export const CHAINS = [sepolia];
+
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: "Recommended",
+      wallets: [metaMaskWallet, injectedWallet],
+    },
   ],
-  transports: {
-    [sepolia.id]: http(),
-  },
+  {
+    appName: "Tokenization Platform",
+    projectId: import.meta.env.VITE_WC_PROJECT_ID,
+  }
+);
+
+export const config = getDefaultConfig({
+  appName: "Tokenization Platform",
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  chains: CHAINS,
+  connectors: connectors,
+  transports: Object.fromEntries(CHAINS.map((chain) => [chain.id, http()])),
 });
 
 declare module "wagmi" {

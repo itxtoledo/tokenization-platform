@@ -4,6 +4,7 @@ import PresaleFactory from '@tokenization-platform/contracts/abi_ts/contracts/Pr
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Skeleton } from '../components/ui/skeleton';
 import { Link } from '@tanstack/react-router';
+import { Button } from '@/components/ui/button';
 
 export function MyTokens() {
   const { address: userAddress } = useAccount();
@@ -50,8 +51,8 @@ export function MyTokens() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-500 break-all">{tokenAddress}</p>
-                <Link to={'/token/$address'} params={{ address: tokenAddress }} className="text-blue-500 hover:underline mt-2 block">
-                  View Details
+                <Link to={'/token/$address'} params={{ address: tokenAddress }}>
+                  <Button className="mt-2 w-full">View Details</Button>
                 </Link>
               </CardContent>
             </Card>

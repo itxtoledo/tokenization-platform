@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useReadContract } from "wagmi";
 import presaleFactoryAbi from "@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
 import { useState } from "react";
@@ -32,7 +33,21 @@ export default function PresaleList() {
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">
             All Presales
           </h1>
-          {isLoading && <p>Loading presales...</p>}
+          {isLoading && (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <Card key={index}>
+                  <CardHeader>
+                    <Skeleton className="h-6 w-3/4 mb-2" />
+                  </CardHeader>
+                  <CardContent>
+                    <Skeleton className="h-4 w-full mb-2" />
+                    <Skeleton className="h-10 w-full mt-4" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
           {isError && <p>Error loading presales.</p>}
           {presaleAddresses && presaleAddresses.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

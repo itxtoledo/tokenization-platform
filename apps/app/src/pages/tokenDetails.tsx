@@ -2,6 +2,7 @@ import { useParams } from '@tanstack/react-router';
 import { useReadContract } from 'wagmi';
 import MintableERC20 from '@tokenization-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Skeleton } from '../components/ui/skeleton';
 
 export function TokenDetails() {
   const { address } = useParams({ from: '/token/$address' });
@@ -24,7 +25,20 @@ export function TokenDetails() {
     functionName: 'totalSupply',
   });
 
-  if (isLoadingName || isLoadingSymbol || isLoadingTotalSupply) return <div>Loading token details...</div>;
+  if (isLoadingName || isLoadingSymbol || isLoadingTotalSupply) return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6">Token Details</h1>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-6 w-3/4 mb-2" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-4 w-full mb-2" />
+          <Skeleton className="h-4 w-1/2" />
+        </CardContent>
+      </Card>
+    </div>
+  );
   if (isErrorName || isErrorSymbol || isErrorTotalSupply) return <div>Error loading token details.</div>;
 
   return (

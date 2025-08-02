@@ -5,8 +5,7 @@
   "scripts": {
     "build": "hardhat compile && hardhat export-abi",
     "clean": "hardhat clean && hardhat clear-abi && rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "test": "hardhat test",
-    "lint": "hardhat lint"
+    "test": "hardhat test"
   },
   "files": [
     "abi_ts/"

@@ -7,6 +7,8 @@ import {
   Controller,
   FormProvider,
   useFormContext,
+  FieldPath,
+  FieldValues
 } from "react-hook-form"
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
@@ -22,8 +24,8 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
 )
 
 const FormField = <
-  TFieldValues extends Record<string, any> = Record<string, any>,
-  TName extends keyof TFieldValues = keyof TFieldValues
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   ...props
 }: React.ComponentProps<typeof Controller<TFieldValues, TName>>) => {

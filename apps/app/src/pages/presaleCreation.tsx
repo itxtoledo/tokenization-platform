@@ -1,11 +1,10 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import * as React from "react";
+
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { presaleSchema, PresaleFormData } from "@/schemas/presaleSchemas";
 import {
   Form,
@@ -14,6 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 
 // importing necessary wagmi for contracts integrations
@@ -86,7 +86,7 @@ export default function PresaleCreation() {
       // Extract the new presale address from the logs
       const newPresaleAddress = parsedLogs[0].args.presale;
       // Redirect to the PresaleDetails page with the new address
-      navigate(`/presale-details/${newPresaleAddress}`);
+      navigate({ to: `/presale-details/${newPresaleAddress}` });
     }
   }, [isConfirmed, receipt, navigate]);
 
@@ -116,6 +116,9 @@ export default function PresaleCreation() {
                         <FormControl>
                           <Input placeholder="Enter your token name" {...field} />
                         </FormControl>
+                        <FormDescription>
+                          The name of the token for which you are creating a presale (e.g., "My Awesome Token").
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -129,6 +132,9 @@ export default function PresaleCreation() {
                         <FormControl>
                           <Input placeholder="Enter your token symbol" {...field} />
                         </FormControl>
+                        <FormDescription>
+                          The symbol of the token (e.g., "MAT"). This is a shorter, often 3-5 character, identifier.
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -142,6 +148,9 @@ export default function PresaleCreation() {
                         <FormControl>
                           <Input type="number" placeholder="Enter the initial supply" {...field} />
                         </FormControl>
+                        <FormDescription>
+                          The total number of tokens that will be minted and available for the presale.
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -155,6 +164,9 @@ export default function PresaleCreation() {
                         <FormControl>
                           <Input type="number" step={0.00000001} placeholder="Enter the token price in ETH" {...field} />
                         </FormControl>
+                        <FormDescription>
+                          The price of a single token in Ethereum (ETH). For example, 0.001 ETH per token.
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -168,6 +180,9 @@ export default function PresaleCreation() {
                         <FormControl>
                           <Input type="number" step={0.00000001} placeholder="Enter the hard cap in ETH" {...field} />
                         </FormControl>
+                        <FormDescription>
+                          The maximum amount of ETH to be raised in the presale. If this amount is reached, the presale ends.
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -181,6 +196,9 @@ export default function PresaleCreation() {
                         <FormControl>
                           <Input type="number" step={0.00000001} placeholder="Enter the soft cap in ETH" {...field} />
                         </FormControl>
+                        <FormDescription>
+                          The minimum amount of ETH that must be raised for the presale to be considered successful.
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -194,6 +212,9 @@ export default function PresaleCreation() {
                         <FormControl>
                           <Input type="number" placeholder="Enter start time as Unix timestamp" {...field} />
                         </FormControl>
+                        <FormDescription>
+                          The start date and time of the presale, represented as a Unix timestamp (e.g., 1678886400 for March 15, 2023 12:00:00 PM UTC).
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -207,6 +228,9 @@ export default function PresaleCreation() {
                         <FormControl>
                           <Input type="number" placeholder="Enter end time as Unix timestamp" {...field} />
                         </FormControl>
+                        <FormDescription>
+                          The end date and time of the presale, represented as a Unix timestamp.
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}

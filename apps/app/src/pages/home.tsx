@@ -11,6 +11,7 @@ import {
   CardFooter,
   CardDescription,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 
@@ -156,7 +157,29 @@ export default function Home() {
             <div className="container max-w-5xl mx-auto">
               <h2 className="text-2xl font-bold mb-6">Active Presales</h2>
               {isLoading ? (
-                <div>Loading presales...</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <Card key={index}>
+                      <CardHeader>
+                        <Skeleton className="h-6 w-3/4 mb-2" />
+                        <Skeleton className="h-4 w-1/2" />
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-2 gap-2">
+                          {Array.from({ length: 7 }).map((_, itemIndex) => (
+                            <div key={itemIndex}>
+                              <Skeleton className="h-4 w-1/3 mb-1" />
+                              <Skeleton className="h-5 w-2/3" />
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                      <CardFooter>
+                        <Skeleton className="h-10 w-full" />
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {presales.length === 0 ? (

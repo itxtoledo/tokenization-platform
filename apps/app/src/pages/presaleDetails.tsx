@@ -2,6 +2,7 @@ import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { useParams } from "@tanstack/react-router";
 
@@ -20,7 +21,7 @@ import tokenAbi from "@tokenization-platform/contracts/abi_ts/contracts/Mintable
 import { useReadContracts } from "wagmi";
 
 export default function PresaleDetails() {
-  const { address } = useParams();
+  const { address } = useParams({ from: "/presale-details/$address" });
   const { data: hash, error, isPending, writeContract } = useWriteContract();
 
   const presaleContract = {
@@ -94,9 +95,9 @@ export default function PresaleDetails() {
     const amount = formData.get("amount") as string;
 
     writeContract({
-      address: address?.startsWith("0x")
+      address: (address as string)?.startsWith("0x")
         ? (address as Address)
-        : `0x${address ?? ""}`,
+        : (`0x${address ?? ""}` as Address),
       abi: presaleAbi,
       functionName: "contribute",
       args: [BigInt(amount)],
@@ -118,6 +119,51 @@ export default function PresaleDetails() {
 
   return (
     <>
+      {(multicallQuery.isLoading || readTokenAddress.isLoading) && (
+        <div className="flex flex-col min-h-[100dvh] bg-background text-foreground">
+          <main className="flex-1 py-12 md:py-24 lg:py-32">
+            <div className="container px-4 md:px-6">
+              <div className="grid gap-12 lg:grid-cols-2 lg:gap-24">
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <Skeleton className="h-10 w-3/4" />
+                    <Skeleton className="h-5 w-full" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {Array.from({ length: 8 }).map((_, index) => (
+                      <div key={index} className="space-y-1">
+                        <Skeleton className="h-4 w-1/2" />
+                        <Skeleton className="h-5 w-3/4" />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-1/3" />
+                    <Skeleton className="h-8 w-full" />
+                    <div className="flex justify-between text-sm">
+                      <Skeleton className="h-4 w-1/4" />
+                      <Skeleton className="h-4 w-1/4" />
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <Skeleton className="h-8 w-1/2" />
+                    <Skeleton className="h-5 w-full" />
+                  </div>
+                  <div className="space-y-4">
+                    <div className="grid gap-2">
+                      <Skeleton className="h-4 w-1/4" />
+                      <Skeleton className="h-10 w-full" />
+                    </div>
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      )}
       {multicallQuery.isSuccess && (
         <div className="flex flex-col min-h-[100dvh] bg-background text-foreground">
           <main className="flex-1 py-12 md:py-24 lg:py-32">

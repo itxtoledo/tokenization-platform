@@ -19,6 +19,7 @@ const connectors = connectorsForWallets(
 );
 
 export const config = getDefaultConfig({
+  projectId: import.meta.env.VITE_WC_PROJECT_ID,
   appName: "Tokenization Platform",
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error

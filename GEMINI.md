@@ -17,7 +17,7 @@ The project is built using the following technologies:
 - **Frontend (`apps/app`)**:
   - **Framework**: React with Vite
   - **Language**: TypeScript
-  - **Styling**: Tailwind CSS with `shadcn/ui` components.
+  - **Styling**: CSS with `shadcn/ui` components.
   - **Blockchain Interaction**: `wagmi` and `viem` for interacting with the Ethereum blockchain, and `@rainbow-me/rainbowkit` for wallet connectivity.
   - **Routing**: `@tanstack/react-router` for client-side routing.
   - **State Management**: `@tanstack/react-query` for server state management.

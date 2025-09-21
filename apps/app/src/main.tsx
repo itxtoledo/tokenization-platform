@@ -5,9 +5,7 @@ import { config } from "./wagmi.ts";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import "@rainbow-me/rainbowkit/styles.css";
-
 import "./index.css";
-
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { RouterProvider } from "@tanstack/react-router";
 import { router } from "./router";

@@ -1,9 +1,9 @@
 import { http } from "wagmi";
-import { sepolia } from "wagmi/chains";
+import { bscTestnet } from "wagmi/chains";
 import { connectorsForWallets, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet, injectedWallet } from "@rainbow-me/rainbowkit/wallets";
 
-export const CHAINS = [sepolia];
+export const CHAINS = [bscTestnet];
 
 const connectors = connectorsForWallets(
   [

@@ -1,22 +1,29 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PresaleCard } from "@/components/PresaleCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useReadContract } from "wagmi";
-import presaleFactoryAbi from "@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+
+
+// importing our custom hook
+import { usePresaleFactory } from "@/hooks/usePresaleFactory";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+} from "@/components/ui/card";
 
 export default function PresaleList() {
   const [page, setPage] = useState(0); // Start with page 0
 
-  const presaleFactoryAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Replace with your deployed PresaleFactory address
+  const { 
+    useGetPaginatedPresales 
+  } = usePresaleFactory();
 
-  const { data: presaleAddresses, isLoading, isError } = useReadContract({
-    abi: presaleFactoryAbi,
-    address: presaleFactoryAddress,
-    functionName: "getPaginatedPresales",
-    args: [BigInt(page)],
-  });
+  const { 
+    data: presaleAddresses, 
+    isLoading, 
+    isError 
+  } = useGetPaginatedPresales(page);
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -49,18 +56,8 @@ export default function PresaleList() {
       {isError && <p>Error loading presales.</p>}
       {presaleAddresses && presaleAddresses.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {presaleAddresses.map((address) => (
-            <Card key={address}>
-              <CardHeader>
-                <CardTitle>Presale Contract</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="truncate">{address}</p>
-                <Link to={`/presale-details/${address}`}>
-                  <Button className="mt-4 w-full">View Details</Button>
-                </Link>
-              </CardContent>
-            </Card>
+          {presaleAddresses.map((address: any) => (
+            <PresaleCard key={address} presaleAddress={address} />
           ))}
         </div>
       ) : (

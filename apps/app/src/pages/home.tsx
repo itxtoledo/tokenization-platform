@@ -17,7 +17,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 
 
-
 import {
   useReadContract,
   useReadContracts,
@@ -28,8 +27,11 @@ import { formatEther, formatUnits } from "viem";
 import presaleFactoryAbi from "@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
 import presaleAbi from "@tokenization-platform/contracts/abi_ts/contracts/Presale.sol/Presale";
 import tokenAbi from "@tokenization-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20";
+import { FaucetButton } from "../components/FaucetButton";
+import { useNativeCurrency } from "@/hooks";
 
 export default function Home() {
+  const nativeCurrencySymbol = useNativeCurrency();
   const [page, setPage] = useState(1);
 
   const { data: presaleAddresses, isLoading: isLoadingPresaleAddresses } = useReadContract({
@@ -144,10 +146,13 @@ export default function Home() {
     <div className="container mx-auto my-8">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold">Welcome to Presale Platform</h1>
-        <p className="text-lg text-muted-foreground mt-2">
-          Discover and participate in the latest presales, invest in
-          promising projects, and manage your investments with ease.
-        </p>
+        <div className="flex items-center justify-center mt-4">
+          <p className="text-lg text-muted-foreground">
+            Discover and participate in the latest presales, invest in
+            promising projects, and manage your investments with ease.
+          </p>
+          <FaucetButton />
+        </div>
       </div>
       <h2 className="text-2xl font-bold mb-6">Active Presales</h2>
       {isLoading ? (
@@ -189,7 +194,7 @@ export default function Home() {
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <p className="text-sm text-muted-foreground">Price</p>
-                      <p>{presale!.price} ETH</p>
+                      <p>{presale!.price} {nativeCurrencySymbol}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Supply</p>
@@ -197,15 +202,15 @@ export default function Home() {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Raised</p>
-                      <p>{presale!.totalContributed} ETH</p>
+                      <p>{presale!.totalContributed} {nativeCurrencySymbol}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Hard Cap</p>
-                      <p>{presale!.hardCap} ETH</p>
+                      <p>{presale!.hardCap} {nativeCurrencySymbol}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Soft Cap</p>
-                      <p>{presale!.softCap} ETH</p>
+                      <p>{presale!.softCap} {nativeCurrencySymbol}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Starts</p>

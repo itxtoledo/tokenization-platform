@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { presaleSchema, PresaleFormData } from "@/schemas/presaleSchemas";
@@ -25,18 +25,28 @@ import {
 
 // importing necessary wagmi for contracts integrations
 import {
-  useWriteContract,
   useWaitForTransactionReceipt,
   type BaseError,
 } from "wagmi";
 
-// importing contract ABI
-import abi from "@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
+// importing our custom hook and ABI
+import { usePresaleFactory } from "@/hooks/usePresaleFactory";
+import { useNativeCurrency } from "@/hooks";
+import PresaleFactoryABI from "@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
 import { parseEther, parseEventLogs } from "viem";
+import { formatNumberWithThousands, removeThousandSeparators } from "@/lib/utils";
 
 export default function PresaleCreation() {
+  const nativeCurrencySymbol = useNativeCurrency();
   const navigate = useNavigate();
-  const { data: hash, isPending, error, writeContract } = useWriteContract();
+  const {
+    contractAddress,
+    createPresale,
+    createPresaleData,
+    isCreatePresalePending,
+    isCreatePresaleError,
+    createPresaleError,
+  } = usePresaleFactory();
 
   const form = useForm<PresaleFormData>({
     resolver: zodResolver(presaleSchema),
@@ -53,25 +63,33 @@ export default function PresaleCreation() {
   });
 
   async function onSubmit(values: PresaleFormData) {
+    // Remove any formatting from the supply value before converting to BigInt
+    const cleanSupply = values.supply.toString().replace(/\s/g, "");
     const priceinETH = parseEther(values.price);
     const hardCapInETH = parseEther(values.hardCap);
     const softCapInETH = parseEther(values.softCap);
+    
+    // Convert date strings to Unix timestamps
+    const startTimeUnix = Math.floor(new Date(values.startTime).getTime() / 1000);
+    const endTimeUnix = Math.floor(new Date(values.endTime).getTime() / 1000);
 
-    writeContract({
-      address: import.meta.env.VITE_PRESALE_FACTORY,
-      abi,
-      functionName: "createPresale",
-      args: [
-        values.name,
-        values.symbol,
-        BigInt(values.supply),
-        priceinETH,
-        hardCapInETH,
-        softCapInETH,
-        BigInt(values.startTime),
-        BigInt(values.endTime),
-      ],
-    });
+    if (contractAddress) {
+      createPresale({
+        address: contractAddress,
+        abi: PresaleFactoryABI,
+        functionName: "createPresale",
+        args: [
+          values.name,
+          values.symbol,
+          BigInt(cleanSupply),
+          priceinETH,
+          hardCapInETH,
+          softCapInETH,
+          BigInt(startTimeUnix),
+          BigInt(endTimeUnix),
+        ],
+      });
+    }
   }
 
   const {
@@ -79,21 +97,26 @@ export default function PresaleCreation() {
     isSuccess: isConfirmed,
     data: receipt,
   } = useWaitForTransactionReceipt({
-    hash,
+    hash: createPresaleData,
   });
 
   useEffect(() => {
     if (isConfirmed && receipt) {
-      const parsedLogs = parseEventLogs({
-        abi,
-        logs: receipt.logs,
-        eventName: "PresaleCreated",
-      });
+      // Import the ABI locally for parsing logs
+      import("@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory")
+        .then((module) => {
+          const abi = module.default;
+          const parsedLogs = parseEventLogs({
+            abi,
+            logs: receipt.logs,
+            eventName: "PresaleCreated",
+          });
 
-      // Extract the new presale address from the logs
-      const newPresaleAddress = parsedLogs[0].args.presale;
-      // Redirect to the PresaleDetails page with the new address
-      navigate({ to: `/presale-details/${newPresaleAddress}` });
+          // Extract the new presale address from the logs
+          const newPresaleAddress = parsedLogs[0].args.presale;
+          // Redirect to the PresaleDetails page with the new address
+          navigate({ to: `/presale-details/${newPresaleAddress}` });
+        });
     }
   }, [isConfirmed, receipt, navigate]);
 
@@ -119,7 +142,7 @@ export default function PresaleCreation() {
                   </FormControl>
                   <FormDescription>
                     The name of the token for which you are creating a presale
-                    (e.g., "My Awesome Token").
+                    (e.g., &quot;My Awesome Token&quot;).
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -135,7 +158,7 @@ export default function PresaleCreation() {
                     <Input placeholder="Enter your token symbol" {...field} />
                   </FormControl>
                   <FormDescription>
-                    The symbol of the token (e.g., "MAT"). This is a shorter,
+                    The symbol of the token (e.g., &quot;MAT&quot;). This is a shorter,
                     often 3-5 character, identifier.
                   </FormDescription>
                   <FormMessage />
@@ -145,23 +168,42 @@ export default function PresaleCreation() {
             <FormField
               control={form.control}
               name="supply"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Initial Supply</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Enter the initial supply"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    The total number of tokens that will be minted and
-                    available for the presale.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const [displayValue, setDisplayValue] = useState(
+                  formatNumberWithThousands(field.value)
+                );
+
+                return (
+                  <FormItem>
+                    <FormLabel>Initial Supply</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Enter the initial supply"
+                        value={displayValue}
+                        onChange={(e) => {
+                          const rawValue = removeThousandSeparators(e.target.value);
+                          // Only update if the raw value is a valid number
+                          if (rawValue === "" || (!isNaN(Number(rawValue)) && Number(rawValue) >= 0)) {
+                            field.onChange(rawValue);
+                            setDisplayValue(e.target.value);
+                          }
+                        }}
+                        onBlur={(e) => {
+                          // Format the value on blur
+                          const rawValue = removeThousandSeparators(e.target.value);
+                          setDisplayValue(formatNumberWithThousands(rawValue));
+                        }}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      The total number of tokens that will be minted and
+                      available for the presale.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
             <FormField
               control={form.control}
@@ -172,14 +214,14 @@ export default function PresaleCreation() {
                   <FormControl>
                     <Input
                       type="number"
-                      step={0.00000001}
-                      placeholder="Enter the token price in ETH"
+                      step="any"
+                      placeholder={`Enter the token price in ${nativeCurrencySymbol}`}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    The price of a single token in Ethereum (ETH). For example,
-                    0.001 ETH per token.
+                    The price of a single token in {nativeCurrencySymbol}. For example,
+                    0.001 {nativeCurrencySymbol} per token.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -190,17 +232,17 @@ export default function PresaleCreation() {
               name="hardCap"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Hard Cap (ETH)</FormLabel>
+                  <FormLabel>Hard Cap ({nativeCurrencySymbol})</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      step={0.00000001}
-                      placeholder="Enter the hard cap in ETH"
+                      step="any"
+                      placeholder={`Enter the hard cap in ${nativeCurrencySymbol}`}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    The maximum amount of ETH to be raised in the presale. If
+                    The maximum amount of {nativeCurrencySymbol} to be raised in the presale. If
                     this amount is reached, the presale ends.
                   </FormDescription>
                   <FormMessage />
@@ -212,17 +254,17 @@ export default function PresaleCreation() {
               name="softCap"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Soft Cap (ETH)</FormLabel>
+                  <FormLabel>Soft Cap ({nativeCurrencySymbol})</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      step={0.00000001}
-                      placeholder="Enter the soft cap in ETH"
+                      step="any"
+                      placeholder={`Enter the soft cap in ${nativeCurrencySymbol}`}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    The minimum amount of ETH that must be raised for the
+                    The minimum amount of {nativeCurrencySymbol} that must be raised for the
                     presale to be considered successful.
                   </FormDescription>
                   <FormMessage />
@@ -234,18 +276,15 @@ export default function PresaleCreation() {
               name="startTime"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Start Time (Unix Timestamp)</FormLabel>
+                  <FormLabel>Start Time</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
-                      placeholder="Enter start time as Unix timestamp"
+                      type="datetime-local"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    The start date and time of the presale, represented as a
-                    Unix timestamp (e.g., 1678886400 for March 15, 2023
-                    12:00:00 PM UTC).
+                    The start date and time of the presale.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -256,35 +295,33 @@ export default function PresaleCreation() {
               name="endTime"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>End Time (Unix Timestamp)</FormLabel>
+                  <FormLabel>End Time</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
-                      placeholder="Enter end time as Unix timestamp"
+                      type="datetime-local"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    The end date and time of the presale, represented as a Unix
-                    timestamp.
+                    The end date and time of the presale.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button disabled={isPending} type="submit" className="w-full">
-              {isPending ? "Confirming..." : "Create Presale"}
+            <Button disabled={isCreatePresalePending} type="submit" className="w-full">
+              {isCreatePresalePending ? "Confirming..." : "Create Presale"}
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter>
-        {hash && <div>Transaction Hash: {hash}</div>}
+        {createPresaleData && <div>Transaction Hash: {createPresaleData}</div>}
         {isConfirming && <div>Waiting for confirmation...</div>}
         {isConfirmed && <div>Transaction confirmed.</div>}
-        {error && (
+        {(isCreatePresaleError || createPresaleError) && (
           <div>
-            Alert: {(error as BaseError).shortMessage || error.message}
+            Alert: {(createPresaleError as BaseError)?.shortMessage || createPresaleError?.message}
           </div>
         )}
       </CardFooter>

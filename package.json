@@ -15,8 +15,5 @@
     "biome": "^0.3.3",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@8.15.6",
-  "dependencies": {
-    "@hookform/resolvers": "^5.2.1"
-  }
+  "packageManager": "pnpm@8.15.6"
 }

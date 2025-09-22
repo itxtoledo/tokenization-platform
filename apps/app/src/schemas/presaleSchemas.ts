@@ -15,12 +15,8 @@ export const presaleSchema = z.object({
   softCap: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
     message: "Soft Cap must be a positive number",
   }),
-  startTime: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Start Time must be a valid timestamp",
-  }),
-  endTime: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "End Time must be a valid timestamp",
-  }),
+  startTime: z.string().min(1, "Start Time is required"),
+  endTime: z.string().min(1, "End Time is required"),
 });
 
 export type PresaleFormData = z.infer<typeof presaleSchema>;

@@ -6,11 +6,12 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 
 contract MintableERC20 is ERC20Upgradeable, AccessControlUpgradeable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    address public presaleAddress;
 
     constructor() {
         _disableInitializers();
     }
-    
+
     function initialize(
         address defaultAdmin_,
         address minter_,
@@ -23,6 +24,7 @@ contract MintableERC20 is ERC20Upgradeable, AccessControlUpgradeable {
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin_);
         _grantRole(MINTER_ROLE, minter_);
         _mint(defaultAdmin_, initialSupply_);
+        presaleAddress = minter_;
     }
 
     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {

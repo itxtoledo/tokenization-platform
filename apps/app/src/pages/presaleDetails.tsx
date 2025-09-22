@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import { useState, useEffect } from "react";
 import { useParams } from "@tanstack/react-router";
 
 // importing necessary wagmi contract integration
@@ -20,16 +21,20 @@ import {
   type BaseError,
   useReadContract,
 } from "wagmi";
-import { formatEther, formatUnits, type Address } from "viem";
+import { formatEther, formatUnits, type Address, parseUnits } from "viem";
 
 // importing contract ABI
 import presaleAbi from "@tokenization-platform/contracts/abi_ts/contracts/Presale.sol/Presale";
 import tokenAbi from "@tokenization-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20";
 import { useReadContracts } from "wagmi";
+import { useNativeCurrency } from "@/hooks";
 
 export default function PresaleDetails() {
+  const nativeCurrencySymbol = useNativeCurrency();
   const { address } = useParams({ from: "/presale-details/$address" });
   const { data: hash, error, isPending, writeContract } = useWriteContract();
+  const [tokenAmount, setTokenAmount] = useState("");
+  const [ethTotal, setEthTotal] = useState("0");
 
   const presaleContract = {
     abi: presaleAbi,
@@ -94,10 +99,72 @@ export default function PresaleDetails() {
     },
   });
 
+  // Log all presale and token data to console when loaded
+  useEffect(() => {
+    if (multicallQuery.isSuccess && readTokenAddress.data) {
+      const tokenData = {
+        name: multicallQuery.data[0].result,
+        symbol: multicallQuery.data[1].result,
+        totalSupply: multicallQuery.data[2].result,
+        decimals: multicallQuery.data[4].result,
+      };
+
+      const presaleData = {
+        tokenAddress: readTokenAddress.data,
+        price: multicallQuery.data[3].result,
+        hardCap: multicallQuery.data[5].result,
+        softCap: multicallQuery.data[6].result,
+        startTime: multicallQuery.data[7].result,
+        endTime: multicallQuery.data[8].result,
+        totalContributed: multicallQuery.data[9].result,
+      };
+
+      console.log("=== TOKEN DATA ===");
+      console.log(tokenData);
+      console.log("=== PRESALE DATA ===");
+      console.log(presaleData);
+      console.log("=== FORMATTED DATA ===");
+      console.log({
+        token: {
+          name: tokenData.name,
+          symbol: tokenData.symbol,
+          totalSupply: formatUnits(tokenData.totalSupply ?? 0n, tokenData.decimals ?? 18),
+          decimals: tokenData.decimals,
+        },
+        presale: {
+          tokenAddress: presaleData.tokenAddress,
+          price: formatEther(presaleData.price ?? 0n),
+          hardCap: formatEther(presaleData.hardCap ?? 0n),
+          softCap: formatEther(presaleData.softCap ?? 0n),
+          startTime: new Date(Number(presaleData.startTime ?? 0n) * 1000).toLocaleString(),
+          endTime: new Date(Number(presaleData.endTime ?? 0n) * 1000).toLocaleString(),
+          totalContributed: formatEther(presaleData.totalContributed ?? 0n),
+        }
+      });
+    }
+  }, [multicallQuery.isSuccess, readTokenAddress.data, multicallQuery.data]);
+
+  // Calculate ETH total when token amount or price changes
+  useEffect(() => {
+    if (tokenAmount && multicallQuery.data?.[3].result) {
+      try {
+        const price = multicallQuery.data[3].result;
+        const decimals = multicallQuery.data[4].result || 18n;
+        const amount = parseUnits(tokenAmount || "0", Number(decimals));
+        const total = (amount * price) / parseUnits("1", Number(decimals));
+        setEthTotal(formatEther(total));
+      } catch (e) {
+        setEthTotal("0");
+      }
+    } else {
+      setEthTotal("0");
+    }
+  }, [tokenAmount, multicallQuery.data]);
+
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const amount = formData.get("amount") as string;
+    // Convert token amount to smallest unit (wei)
+    const amount = parseUnits(tokenAmount || "0", Number(tokenDecimals));
 
     writeContract({
       address: (address as string)?.startsWith("0x")
@@ -105,7 +172,8 @@ export default function PresaleDetails() {
         : (`0x${address ?? ""}` as Address),
       abi: presaleAbi,
       functionName: "contribute",
-      args: [BigInt(amount)],
+      args: [amount],
+      value: BigInt(parseUnits(ethTotal, 18).toString()), // Send ETH value
     });
   }
 
@@ -119,6 +187,9 @@ export default function PresaleDetails() {
   const startTime = multicallQuery.data?.[7].result ?? 0n;
   const endTime = multicallQuery.data?.[8].result ?? 0n;
   const totalContributed = multicallQuery.data?.[9].result ?? 0n;
+  const tokenPrice = multicallQuery.data?.[3].result ?? 0n;
+  const tokenSymbol = multicallQuery.data?.[1].result ?? "";
+  const tokenDecimals = multicallQuery.data?.[4].result ?? 18n;
 
   const progressValue =
     hardCap > 0 ? Number((totalContributed * 100n) / hardCap) : 0;
@@ -194,7 +265,7 @@ export default function PresaleDetails() {
                     Price
                   </div>
                   <div>
-                    {formatEther(multicallQuery.data[3].result ?? 0n)} ETH
+                    {formatEther(multicallQuery.data[3].result ?? 0n)} {nativeCurrencySymbol}
                   </div>
                 </div>
                 <div className="space-y-1">
@@ -212,13 +283,13 @@ export default function PresaleDetails() {
                   <div className="text-sm font-medium text-muted-foreground">
                     Hard Cap
                   </div>
-                  <div>{formatEther(hardCap)} ETH</div>
+                  <div>{formatEther(hardCap)} {nativeCurrencySymbol}</div>
                 </div>
                 <div className="space-y-1">
                   <div className="text-sm font-medium text-muted-foreground">
                     Soft Cap
                   </div>
-                  <div>{formatEther(softCap)} ETH</div>
+                  <div>{formatEther(softCap)} {nativeCurrencySymbol}</div>
                 </div>
                 <div className="space-y-1">
                   <div className="text-sm font-medium text-muted-foreground">
@@ -241,8 +312,8 @@ export default function PresaleDetails() {
                 </div>
                 <Progress value={progressValue} />
                 <div className="flex justify-between text-sm">
-                  <div>{formatEther(totalContributed)} ETH contributed</div>
-                  <div>{formatEther(hardCap)} ETH hard cap</div>
+                  <div>{formatEther(totalContributed)} {nativeCurrencySymbol} contributed</div>
+                  <div>{formatEther(hardCap)} {nativeCurrencySymbol} hard cap</div>
                 </div>
               </div>
             </div>
@@ -250,21 +321,49 @@ export default function PresaleDetails() {
               <div className="space-y-2">
                 <h2 className="text-2xl font-bold">Contribute</h2>
                 <p className="text-muted-foreground">
-                  Enter the amount of ACME tokens you want to purchase.
+                  Enter the amount of {tokenSymbol} tokens you want to purchase.
                 </p>
               </div>
               <form onSubmit={submit} className="space-y-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="amount">Amount (ACME)</Label>
-                  <Input
-                    id="amount"
-                    name="amount"
-                    type="number"
-                    min="0.0001"
-                    step="0.00000001"
-                    placeholder="Enter amount"
-                  />
+                {/* Token Amount Input - Uniswap Style */}
+                <div className="space-y-2">
+                  <Label htmlFor="amount">From</Label>
+                  <div className="relative rounded-xl bg-card border">
+                    <Input
+                      id="amount"
+                      name="amount"
+                      type="number"
+                      min="0"
+                      step="any"
+                      placeholder="0.0"
+                      value={tokenAmount}
+                      onChange={(e) => setTokenAmount(e.target.value)}
+                      className="h-14 pl-4 pr-20 text-xl border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+                    />
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-4 text-sm font-medium">
+                      {tokenSymbol}
+                    </div>
+                  </div>
                 </div>
+
+                {/* ETH Total Display - Uniswap Style */}
+                <div className="space-y-2">
+                  <Label>To</Label>
+                  <div className="relative rounded-xl bg-card border">
+                    <div className="h-14 pl-4 pr-20 text-xl flex items-center border-0 bg-transparent">
+                      {ethTotal}
+                    </div>
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-4 text-sm font-medium">
+                      {nativeCurrencySymbol}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Rate Display */}
+                <div className="text-sm text-muted-foreground px-1">
+                  1 {tokenSymbol} = {formatEther(tokenPrice)} {nativeCurrencySymbol}
+                </div>
+
                 <Button type="submit" disabled={isPending} className="w-full">
                   {isPending ? "Confirming..." : "Contribute"}
                 </Button>

@@ -1,38 +1,20 @@
-import { useAccount, useReadContract } from 'wagmi';
-import { PRESALE_FACTORY_CONTRACT_ADDRESS } from '../config/contracts';
-import PresaleFactory from '@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { useAccount } from 'wagmi';
 import { Skeleton } from '../components/ui/skeleton';
-import { Link } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
+import { usePresaleFactory } from '@/hooks/usePresaleFactory';
+import { TokenCard } from '@/components/TokenCard';
 
 export function MyTokens() {
   const { address: userAddress } = useAccount();
+  const { useGetUserCreatedTokens } = usePresaleFactory();
 
-  const { data: userCreatedTokens, isLoading, isError } = useReadContract({
-    address: PRESALE_FACTORY_CONTRACT_ADDRESS,
-    abi: PresaleFactory,
-    functionName: 'getUserCreatedTokens',
-    args: [userAddress!],
-    query: {
-      enabled: !!userAddress,
-    },
-  });
+  const { data: userCreatedTokens, isLoading, isError } = useGetUserCreatedTokens(userAddress!);
 
   if (isLoading) return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">My Created Tokens</h1>
+      <h1 className="text-3xl font-bold mb-6">My Created Presales</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Array.from({ length: 3 }).map((_, index) => (
-          <Card key={index}>
-            <CardHeader>
-              <Skeleton className="h-6 w-3/4 mb-2" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-1/2" />
-            </CardContent>
-          </Card>
+          <Skeleton key={index} className="h-40 w-full" />
         ))}
       </div>
     </div>
@@ -41,25 +23,15 @@ export function MyTokens() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">My Created Tokens</h1>
+      <h1 className="text-3xl font-bold mb-6">My Created Presales</h1>
       {userCreatedTokens && userCreatedTokens.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {userCreatedTokens.map((tokenAddress) => (
-            <Card key={tokenAddress}>
-              <CardHeader>
-                <CardTitle>Token Address</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-500 break-all">{tokenAddress}</p>
-                <Link to={'/token/$address'} params={{ address: tokenAddress }}>
-                  <Button className="mt-2 w-full">View Details</Button>
-                </Link>
-              </CardContent>
-            </Card>
+          {userCreatedTokens.map((tokenAddress: any) => (
+            <TokenCard key={tokenAddress} tokenAddress={tokenAddress} />
           ))}
         </div>
       ) : (
-        <p>You haven&apos;t created any tokens yet.</p>
+        <p>You haven&apos;t created any presales yet.</p>
       )}
     </div>
   );

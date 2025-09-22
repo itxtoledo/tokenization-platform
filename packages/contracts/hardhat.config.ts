@@ -1,9 +1,49 @@
-import { task, type HardhatUserConfig } from "hardhat/config";
+import { task, vars, type HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox-viem";
 import "hardhat-abi-exporter";
 import fs from "fs";
 import path from "path";
 import * as rimraf from "rimraf";
+import {
+  bsc,
+  bscTestnet,
+  mainnet,
+  sepolia,
+  polygon,
+  polygonAmoy,
+  celo,
+  celoAlfajores,
+} from "viem/chains";
+
+export const desiredChains = [
+  // 56
+  bsc,
+  // 1
+  mainnet,
+  // 137
+  polygon,
+  // 42220
+  celo,
+  // ========== Testnets ==========
+  // 11155111
+  sepolia,
+  // 97
+  bscTestnet,
+  // 44787
+  celoAlfajores,
+  // 80002
+  polygonAmoy,
+];
+
+const networks: HardhatUserConfig["networks"] = {};
+
+for (const chain of desiredChains) {
+  networks[chain.id.toString()] = {
+    url: chain.rpcUrls.default.http[0],
+    accounts: [vars.get("DEPLOYER_PRIVATE_KEY")],
+    chainId: chain.id,
+  };
+}
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -16,6 +56,7 @@ const config: HardhatUserConfig = {
   abiExporter: {
     path: "./abi",
   },
+  networks,
 };
 
 export default config;

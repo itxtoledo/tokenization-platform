@@ -5,7 +5,8 @@
   "scripts": {
     "build": "hardhat compile && hardhat export-abi",
     "clean": "hardhat clean && hardhat clear-abi && rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "deploy": "hardhat ignition deploy ignition/modules/PresaleFactory.ts --network"
   },
   "files": [
     "abi_ts/"
@@ -31,6 +32,7 @@
   "dependencies": {
     "@nomicfoundation/hardhat-viem": "^2.0.2",
     "@openzeppelin/contracts": "^5.0.2",
-    "@openzeppelin/contracts-upgradeable": "^5.0.2"
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
+    "viem": "^2.17.8"
   }
 }

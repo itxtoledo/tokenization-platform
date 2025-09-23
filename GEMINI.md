@@ -4,9 +4,9 @@ This document provides a summary of the project's structure, technologies, and k
 
 ## Project Overview
 
-This project is a monorepo for a "Tokenization Platform." It includes a decentralized application (dApp) and the underlying smart contracts.
+This project is a monorepo for a "Launchpad Platform." It includes a decentralized application (dApp) and the underlying smart contracts.
 
-The platform allows for the tokenization of assets, and the dApp provides a user interface for interacting with these assets on the blockchain.
+The platform allows for the Launchpad of assets, and the dApp provides a user interface for interacting with these assets on the blockchain.
 
 ## Technology Stack
 
@@ -30,14 +30,12 @@ The project is built using the following technologies:
 ## Key Commands
 
 - **Installation**: `pnpm install`
-- **Development**: `pnpm dev`
 - **Build**: `pnpm build`
 - **Testing**: `pnpm test`
 - **Linting**: `pnpm lint`
 
 ### Frontend Commands (`apps/app`)
 
-- **Start Development Server**: `pnpm dev`
 - **Build for Production**: `pnpm build`
 - **Type Checking**: `pnpm check-types`
 - **Linting**: `pnpm lint`

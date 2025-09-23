@@ -1,4 +1,4 @@
-# Tokenization Platform Contracts
+# Launchpad Platform Contracts
 
 Try running some of the following tasks:
 

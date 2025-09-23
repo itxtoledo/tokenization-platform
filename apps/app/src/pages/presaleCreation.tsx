@@ -24,17 +24,64 @@ import {
 } from "@/components/ui/form";
 
 // importing necessary wagmi for contracts integrations
-import {
-  useWaitForTransactionReceipt,
-  type BaseError,
-} from "wagmi";
+import { useWaitForTransactionReceipt, type BaseError } from "wagmi";
 
 // importing our custom hook and ABI
 import { usePresaleFactory } from "@/hooks/usePresaleFactory";
 import { useNativeCurrency } from "@/hooks";
-import PresaleFactoryABI from "@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
+import PresaleFactoryABI from "@launchpad-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory";
 import { parseEther, parseEventLogs } from "viem";
-import { formatNumberWithThousands, removeThousandSeparators } from "@/lib/utils";
+import {
+  formatNumberWithThousands,
+  removeThousandSeparators,
+} from "@/lib/utils";
+import { FaucetButton } from "@/components/FaucetButton";
+
+// Component to handle supply field with formatting
+function SupplyField({ field }: { field: { value: string; onChange: (val: string) => void } }) {
+  const [displayValue, setDisplayValue] = useState(
+    formatNumberWithThousands(field.value)
+  );
+
+  return (
+    <FormItem>
+      <FormLabel>Total Supply</FormLabel>
+      <FormControl>
+        <Input
+          type="text"
+          placeholder="Enter the initial supply"
+          value={displayValue}
+          onChange={(e) => {
+            const rawValue = removeThousandSeparators(
+              e.target.value
+            );
+            // Only update if the raw value is a valid number
+            if (
+              rawValue === "" ||
+              (!isNaN(Number(rawValue)) && Number(rawValue) >= 0)
+            ) {
+              field.onChange(rawValue);
+              setDisplayValue(e.target.value);
+            }
+          }}
+          onBlur={(e) => {
+            // Format the value on blur
+            const rawValue = removeThousandSeparators(
+              e.target.value
+            );
+            setDisplayValue(formatNumberWithThousands(rawValue));
+          }}
+        />
+      </FormControl>
+      <FormDescription>
+        The total number of tokens that will be minted and sent to
+        your wallet. This is not the maximum supply, the maximum
+        supply is defined by the hard cap and token price.
+      </FormDescription>
+      <FormMessage />
+    </FormItem>
+  );
+}
 
 export default function PresaleCreation() {
   const nativeCurrencySymbol = useNativeCurrency();
@@ -56,21 +103,29 @@ export default function PresaleCreation() {
       supply: "",
       price: "",
       hardCap: "",
-      softCap: "",
       startTime: "",
       endTime: "",
     },
   });
+
+  // Calculate maximum supply based on hardcap and token price
+  const hardCap = form.watch('hardCap');
+  const price = form.watch('price');
+  let maxSupply = 0;
+  if (hardCap && price && parseFloat(price) > 0) {
+    maxSupply = parseFloat(hardCap) / parseFloat(price);
+  }
 
   async function onSubmit(values: PresaleFormData) {
     // Remove any formatting from the supply value before converting to BigInt
     const cleanSupply = values.supply.toString().replace(/\s/g, "");
     const priceinETH = parseEther(values.price);
     const hardCapInETH = parseEther(values.hardCap);
-    const softCapInETH = parseEther(values.softCap);
-    
+
     // Convert date strings to Unix timestamps
-    const startTimeUnix = Math.floor(new Date(values.startTime).getTime() / 1000);
+    const startTimeUnix = Math.floor(
+      new Date(values.startTime).getTime() / 1000
+    );
     const endTimeUnix = Math.floor(new Date(values.endTime).getTime() / 1000);
 
     if (contractAddress) {
@@ -84,7 +139,6 @@ export default function PresaleCreation() {
           BigInt(cleanSupply),
           priceinETH,
           hardCapInETH,
-          softCapInETH,
           BigInt(startTimeUnix),
           BigInt(endTimeUnix),
         ],
@@ -103,30 +157,36 @@ export default function PresaleCreation() {
   useEffect(() => {
     if (isConfirmed && receipt) {
       // Import the ABI locally for parsing logs
-      import("@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory")
-        .then((module) => {
-          const abi = module.default;
-          const parsedLogs = parseEventLogs({
-            abi,
-            logs: receipt.logs,
-            eventName: "PresaleCreated",
-          });
-
-          // Extract the new presale address from the logs
-          const newPresaleAddress = parsedLogs[0].args.presale;
-          // Redirect to the PresaleDetails page with the new address
-          navigate({ to: `/presale-details/${newPresaleAddress}` });
+      import(
+        "@launchpad-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory"
+      ).then((module) => {
+        const abi = module.default;
+        const parsedLogs = parseEventLogs({
+          abi,
+          logs: receipt.logs,
+          eventName: "PresaleCreated",
         });
+
+        // Extract the new presale address from the logs
+        const newPresaleAddress = parsedLogs[0].args.presale;
+        // Redirect to the PresaleDetails page with the new address
+        navigate({ to: `/presale-details/${newPresaleAddress}` });
+      });
     }
   }, [isConfirmed, receipt, navigate]);
 
   return (
     <Card className="w-full max-w-2xl mx-auto my-8">
       <CardHeader>
-        <CardTitle>Create a New Presale</CardTitle>
-        <CardDescription>
-          Fill out the form below to create a new presale for your token.
-        </CardDescription>
+        <div className="flex justify-between items-center">
+          <div>
+            <CardTitle>Create a New Presale</CardTitle>
+            <CardDescription>
+              Fill out the form below to create a new presale for your token.
+            </CardDescription>
+          </div>
+          <FaucetButton />
+        </div>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -158,8 +218,8 @@ export default function PresaleCreation() {
                     <Input placeholder="Enter your token symbol" {...field} />
                   </FormControl>
                   <FormDescription>
-                    The symbol of the token (e.g., &quot;MAT&quot;). This is a shorter,
-                    often 3-5 character, identifier.
+                    The symbol of the token (e.g., &quot;MAT&quot;). This is a
+                    shorter, often 3-5 character, identifier.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -168,42 +228,7 @@ export default function PresaleCreation() {
             <FormField
               control={form.control}
               name="supply"
-              render={({ field }) => {
-                const [displayValue, setDisplayValue] = useState(
-                  formatNumberWithThousands(field.value)
-                );
-
-                return (
-                  <FormItem>
-                    <FormLabel>Initial Supply</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Enter the initial supply"
-                        value={displayValue}
-                        onChange={(e) => {
-                          const rawValue = removeThousandSeparators(e.target.value);
-                          // Only update if the raw value is a valid number
-                          if (rawValue === "" || (!isNaN(Number(rawValue)) && Number(rawValue) >= 0)) {
-                            field.onChange(rawValue);
-                            setDisplayValue(e.target.value);
-                          }
-                        }}
-                        onBlur={(e) => {
-                          // Format the value on blur
-                          const rawValue = removeThousandSeparators(e.target.value);
-                          setDisplayValue(formatNumberWithThousands(rawValue));
-                        }}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      The total number of tokens that will be minted and
-                      available for the presale.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => <SupplyField field={field} />}
             />
             <FormField
               control={form.control}
@@ -220,8 +245,8 @@ export default function PresaleCreation() {
                     />
                   </FormControl>
                   <FormDescription>
-                    The price of a single token in {nativeCurrencySymbol}. For example,
-                    0.001 {nativeCurrencySymbol} per token.
+                    The price of a single token in {nativeCurrencySymbol}. For
+                    example, 0.001 {nativeCurrencySymbol} per token.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -242,35 +267,14 @@ export default function PresaleCreation() {
                     />
                   </FormControl>
                   <FormDescription>
-                    The maximum amount of {nativeCurrencySymbol} to be raised in the presale. If
-                    this amount is reached, the presale ends.
+                    The maximum amount of {nativeCurrencySymbol} to be raised in
+                    the presale. If this amount is reached, the presale ends.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="softCap"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Soft Cap ({nativeCurrencySymbol})</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      step="any"
-                      placeholder={`Enter the soft cap in ${nativeCurrencySymbol}`}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    The minimum amount of {nativeCurrencySymbol} that must be raised for the
-                    presale to be considered successful.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            
             <FormField
               control={form.control}
               name="startTime"
@@ -278,10 +282,7 @@ export default function PresaleCreation() {
                 <FormItem>
                   <FormLabel>Start Time</FormLabel>
                   <FormControl>
-                    <Input
-                      type="datetime-local"
-                      {...field}
-                    />
+                    <Input type="datetime-local" {...field} />
                   </FormControl>
                   <FormDescription>
                     The start date and time of the presale.
@@ -297,10 +298,7 @@ export default function PresaleCreation() {
                 <FormItem>
                   <FormLabel>End Time</FormLabel>
                   <FormControl>
-                    <Input
-                      type="datetime-local"
-                      {...field}
-                    />
+                    <Input type="datetime-local" {...field} />
                   </FormControl>
                   <FormDescription>
                     The end date and time of the presale.
@@ -309,7 +307,22 @@ export default function PresaleCreation() {
                 </FormItem>
               )}
             />
-            <Button disabled={isCreatePresalePending} type="submit" className="w-full">
+            {maxSupply > 0 && (
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <h3 className="font-semibold text-blue-800">Presale Details</h3>
+                <p className="text-sm text-blue-700">
+                  Maximum Supply: {formatNumberWithThousands(maxSupply.toFixed(0))} tokens
+                </p>
+                <p className="text-sm text-blue-700">
+                  Based on Hard Cap of {hardCap} {nativeCurrencySymbol} and Token Price of {price} {nativeCurrencySymbol} per token
+                </p>
+              </div>
+            )}
+            <Button
+              disabled={isCreatePresalePending}
+              type="submit"
+              className="w-full"
+            >
               {isCreatePresalePending ? "Confirming..." : "Create Presale"}
             </Button>
           </form>
@@ -321,7 +334,9 @@ export default function PresaleCreation() {
         {isConfirmed && <div>Transaction confirmed.</div>}
         {(isCreatePresaleError || createPresaleError) && (
           <div>
-            Alert: {(createPresaleError as BaseError)?.shortMessage || createPresaleError?.message}
+            Alert:{" "}
+            {(createPresaleError as BaseError)?.shortMessage ||
+              createPresaleError?.message}
           </div>
         )}
       </CardFooter>

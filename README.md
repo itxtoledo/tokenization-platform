@@ -1,13 +1,13 @@
-# Tokenization Platform
+# Launchpad Platform
 
-Welcome to the **Tokenization Platform**! 🚀 This is an open-source project designed to provide a comprehensive solution for tokenizing assets on the blockchain. Our platform enables you to create, manage, and trade tokenized assets securely and efficiently. 
+Welcome to the **Launchpad Platform**! 🚀 This is an open-source project designed to provide a comprehensive solution for tokenizing assets on the blockchain. Our platform enables you to create, manage, and trade tokenized assets securely and efficiently. 
 
 ## How It Works 🛠️
 
 This project is structured as a monorepo, managed with `pnpm` and `turbo`. It consists of two main parts:
 
--   **`apps/app`**: This is the frontend application, built with React and Vite. It provides the user interface for interacting with the tokenization platform, including creating, managing, and trading tokenized assets. It uses `wagmi` for blockchain interaction.
--   **`packages/contracts`**: This package contains the Solidity smart contracts for the tokenization platform, developed using Hardhat. These contracts define the core logic for asset tokenization, secure transactions, and automated agreements.
+-   **`apps/app`**: This is the frontend application, built with React and Vite. It provides the user interface for interacting with the Launchpad platform, including creating, managing, and trading tokenized assets. It uses `wagmi` for blockchain interaction.
+-   **`packages/contracts`**: This package contains the Solidity smart contracts for the Launchpad platform, developed using Hardhat. These contracts define the core logic for asset Launchpad, secure transactions, and automated agreements.
 
 ## Running 🚀
 
@@ -32,11 +32,15 @@ To get the project up and running, follow these steps:
     ```bash
     npx hardhat test
     ```
-    Deploy the smart contracts to a local development network (e.g., Hardhat Network):
+    Export the ABI of the contracts:
     ```bash
-    npx hardhat run scripts/deploy.ts --network localhost # Assuming a deploy script exists, common in Hardhat projects
+    npx hardhat export-abi
     ```
-    *Note: You might need to start a local Hardhat network first in a separate terminal: `npx hardhat node`*
+    Deploy the smart contracts to a development network:
+    ```bash
+    npx hardhat ignition deploy ignition/modules/PresaleFactory.ts --network <your-network>
+    ```
+    *Note: You might need to start a local Hardhat network first in a separate terminal: `npx hardhat node` and then use `--network localhost` in the deploy command.*
 
 3.  **Frontend Application Setup**:
     Navigate back to the project root and then into the `apps/app` directory:
@@ -51,7 +55,7 @@ To get the project up and running, follow these steps:
 
 ## Features 🌟
 
-- **Asset Tokenization**: Tokenize a variety of assets such as real estate, art, and more.
+- **Asset Launchpad**: Tokenize a variety of assets such as real estate, art, and more.
 - **Secure Transactions**: Ensure safe and transparent transactions on the blockchain.
 - **User-Friendly Interface**: Easy-to-use interface for both novice and experienced users.
 - **Smart Contracts**: Automate and enforce agreements with smart contracts.

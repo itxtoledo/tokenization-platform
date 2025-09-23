@@ -1,6 +1,6 @@
 import { useAccount, useReadContract, useWriteContract } from 'wagmi';
 import { contracts } from '../config/contracts';
-import PresaleFactoryABI from '@tokenization-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory';
+import PresaleFactoryABI from '@launchpad-platform/contracts/abi_ts/contracts/PresaleFactory.sol/PresaleFactory';
 
 export function usePresaleFactory() {
   const { chainId } = useAccount();

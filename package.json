@@ -1,5 +1,5 @@
 {
-  "name": "tokenization-platform",
+  "name": "launchpad-platform",
   "workspaces": [
     "apps/*",
     "packages/*"

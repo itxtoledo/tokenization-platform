@@ -29,7 +29,9 @@ describe("PresaleFactory", function () {
 
   describe("Initialization", function () {
     it("should initialize with correct presale and token addresses", async function () {
-      const { presaleFactory, presale, token } = await loadFixture(deployFactory);
+      const { presaleFactory, presale, token } = await loadFixture(
+        deployFactory
+      );
 
       const factoryPresaleAddress = await presaleFactory.read.presale();
       const factoryTokenAddress = await presaleFactory.read.token();
@@ -38,7 +40,9 @@ describe("PresaleFactory", function () {
       const expectedPresaleAddress = presale.address.toLowerCase();
       const expectedTokenAddress = token.address.toLowerCase();
 
-      expect(factoryPresaleAddress.toLowerCase()).to.equal(expectedPresaleAddress);
+      expect(factoryPresaleAddress.toLowerCase()).to.equal(
+        expectedPresaleAddress
+      );
       expect(factoryTokenAddress.toLowerCase()).to.equal(expectedTokenAddress);
     });
   });
@@ -56,9 +60,8 @@ describe("PresaleFactory", function () {
         1000n,
         parseEther("0.01"),
         parseEther("10"), // hardCap
-        parseEther("5"),  // softCap
-        currentTime,      // startTime
-        futureTime        // endTime
+        currentTime, // startTime
+        futureTime, // endTime
       ]);
       await publicClient.waitForTransactionReceipt({ hash });
 
@@ -66,14 +69,18 @@ describe("PresaleFactory", function () {
       expect(presaleEvents).to.have.lengthOf(1);
       const createdPresaleAddress = presaleEvents[0].args.presale;
 
-      const paginatedPresales = await presaleFactory.read.getPaginatedPresales([1]);
+      const paginatedPresales = await presaleFactory.read.getPaginatedPresales([
+        1,
+      ]);
       expect(paginatedPresales).to.have.lengthOf(1);
       expect(paginatedPresales[0]).to.equal(createdPresaleAddress);
     });
 
     it("Should return empty array for out of bounds page", async function () {
       const { presaleFactory } = await loadFixture(deployFactory);
-      const paginatedPresales = await presaleFactory.read.getPaginatedPresales([2]);
+      const paginatedPresales = await presaleFactory.read.getPaginatedPresales([
+        2,
+      ]);
       expect(paginatedPresales).to.have.lengthOf(0);
     });
 
@@ -90,9 +97,8 @@ describe("PresaleFactory", function () {
           1000n,
           parseEther("0.01"),
           parseEther("10"), // hardCap
-          parseEther("5"),  // softCap
-          currentTime,      // startTime
-          futureTime        // endTime
+          currentTime, // startTime
+          futureTime, // endTime
         ]);
         await publicClient.waitForTransactionReceipt({ hash });
       }
@@ -120,9 +126,8 @@ describe("PresaleFactory", function () {
           1000n,
           parseEther("0.01"),
           parseEther("10"), // hardCap
-          parseEther("5"),  // softCap
-          currentTime,      // startTime
-          futureTime        // endTime
+          currentTime, // startTime
+          futureTime, // endTime
         ]);
 
         await publicClient.waitForTransactionReceipt({ hash });
@@ -180,9 +185,8 @@ describe("PresaleFactory", function () {
           1000n,
           1n,
           parseEther("10"), // hardCap
-          parseEther("5"),  // softCap
-          currentTime,      // startTime
-          futureTime        // endTime
+          currentTime, // startTime
+          futureTime, // endTime
         ]);
         await publicClient.waitForTransactionReceipt({ hash });
 

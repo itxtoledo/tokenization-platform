@@ -1,6 +1,6 @@
 import { useParams } from '@tanstack/react-router';
 import { useReadContract } from 'wagmi';
-import MintableERC20 from '@tokenization-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20';
+import MintableERC20 from '@launchpad-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Skeleton } from '../components/ui/skeleton';
 

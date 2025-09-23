@@ -3,21 +3,21 @@ import { HomeIcon, PlusCircleIcon, ListOrderedIcon, WalletCardsIcon } from "luci
 
 export default function BottomNav() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg md:hidden z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t dark:border-gray-800 shadow-lg md:hidden z-50">
       <nav className="flex justify-around h-16 items-center">
-        <Link to="/" className="flex flex-col items-center text-xs font-medium text-gray-600 hover:text-orange-800 transition duration-150">
+        <Link to="/" className="flex flex-col items-center text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-orange-800 dark:hover:text-orange-500 transition duration-150">
           <HomeIcon className="h-6 w-6" />
           Home
         </Link>
-        <Link to="/presales" className="flex flex-col items-center text-xs font-medium text-gray-600 hover:text-orange-800 transition duration-150">
+        <Link to="/presales" className="flex flex-col items-center text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-orange-800 dark:hover:text-orange-500 transition duration-150">
           <ListOrderedIcon className="h-6 w-6" />
           Presales
         </Link>
-        <Link to="/presale-creation" className="flex flex-col items-center text-xs font-medium text-gray-600 hover:text-orange-800 transition duration-150">
+        <Link to="/presale-creation" className="flex flex-col items-center text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-orange-800 dark:hover:text-orange-500 transition duration-150">
           <PlusCircleIcon className="h-6 w-6" />
           Create
         </Link>
-        <Link to="/my-tokens" className="flex flex-col items-center text-xs font-medium text-gray-600 hover:text-orange-800 transition duration-150">
+        <Link to="/my-tokens" className="flex flex-col items-center text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-orange-800 dark:hover:text-orange-500 transition duration-150">
           <WalletCardsIcon className="h-6 w-6" />
           My Tokens
         </Link>

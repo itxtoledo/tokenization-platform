@@ -26,7 +26,6 @@ contract PresaleFactory {
         uint256 supply,
         uint256 price,
         uint256 hardCap,
-        uint256 softCap,
         uint256 startTime,
         uint256 endTime
     ) external {
@@ -34,7 +33,7 @@ contract PresaleFactory {
         address newPresale = Clones.clone(address(presale));
 
         MintableERC20(newToken).initialize(msg.sender, newPresale, name, symbol, supply);
-        Presale(newPresale).initialize(msg.sender, newToken, price, hardCap, softCap, startTime, endTime);
+        Presale(newPresale).initialize(msg.sender, newToken, price, hardCap, startTime, endTime);
 
         allPresales.push(newPresale);
 

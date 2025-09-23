@@ -12,9 +12,6 @@ export const presaleSchema = z.object({
   hardCap: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
     message: "Hard Cap must be a positive number",
   }),
-  softCap: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Soft Cap must be a positive number",
-  }),
   startTime: z.string().min(1, "Start Time is required"),
   endTime: z.string().min(1, "End Time is required"),
 });

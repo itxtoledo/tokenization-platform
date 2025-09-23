@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { FaucetButton } from "@/components/FaucetButton";
 
 import { useState, useEffect } from "react";
 import { useParams } from "@tanstack/react-router";
@@ -24,8 +25,8 @@ import {
 import { formatEther, formatUnits, type Address, parseUnits } from "viem";
 
 // importing contract ABI
-import presaleAbi from "@tokenization-platform/contracts/abi_ts/contracts/Presale.sol/Presale";
-import tokenAbi from "@tokenization-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20";
+import presaleAbi from "@launchpad-platform/contracts/abi_ts/contracts/Presale.sol/Presale";
+import tokenAbi from "@launchpad-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20";
 import { useReadContracts } from "wagmi";
 import { useNativeCurrency } from "@/hooks";
 
@@ -77,10 +78,7 @@ export default function PresaleDetails() {
         ...presaleContract,
         functionName: "hardCap",
       },
-      {
-        ...presaleContract,
-        functionName: "softCap",
-      },
+
       {
         ...presaleContract,
         functionName: "startTime",
@@ -113,10 +111,9 @@ export default function PresaleDetails() {
         tokenAddress: readTokenAddress.data,
         price: multicallQuery.data[3].result,
         hardCap: multicallQuery.data[5].result,
-        softCap: multicallQuery.data[6].result,
-        startTime: multicallQuery.data[7].result,
-        endTime: multicallQuery.data[8].result,
-        totalContributed: multicallQuery.data[9].result,
+        startTime: multicallQuery.data[6].result,
+        endTime: multicallQuery.data[7].result,
+        totalContributed: multicallQuery.data[8].result,
       };
 
       console.log("=== TOKEN DATA ===");
@@ -128,18 +125,24 @@ export default function PresaleDetails() {
         token: {
           name: tokenData.name,
           symbol: tokenData.symbol,
-          totalSupply: formatUnits(tokenData.totalSupply ?? 0n, tokenData.decimals ?? 18),
+          totalSupply: formatUnits(
+            tokenData.totalSupply ?? 0n,
+            tokenData.decimals ?? 18
+          ),
           decimals: tokenData.decimals,
         },
         presale: {
           tokenAddress: presaleData.tokenAddress,
           price: formatEther(presaleData.price ?? 0n),
           hardCap: formatEther(presaleData.hardCap ?? 0n),
-          softCap: formatEther(presaleData.softCap ?? 0n),
-          startTime: new Date(Number(presaleData.startTime ?? 0n) * 1000).toLocaleString(),
-          endTime: new Date(Number(presaleData.endTime ?? 0n) * 1000).toLocaleString(),
+          startTime: new Date(
+            Number(presaleData.startTime ?? 0n) * 1000
+          ).toLocaleString(),
+          endTime: new Date(
+            Number(presaleData.endTime ?? 0n) * 1000
+          ).toLocaleString(),
           totalContributed: formatEther(presaleData.totalContributed ?? 0n),
-        }
+        },
       });
     }
   }, [multicallQuery.isSuccess, readTokenAddress.data, multicallQuery.data]);
@@ -183,10 +186,9 @@ export default function PresaleDetails() {
     });
 
   const hardCap = multicallQuery.data?.[5].result ?? 0n;
-  const softCap = multicallQuery.data?.[6].result ?? 0n;
-  const startTime = multicallQuery.data?.[7].result ?? 0n;
-  const endTime = multicallQuery.data?.[8].result ?? 0n;
-  const totalContributed = multicallQuery.data?.[9].result ?? 0n;
+  const startTime = multicallQuery.data?.[6].result ?? 0n;
+  const endTime = multicallQuery.data?.[7].result ?? 0n;
+  const totalContributed = multicallQuery.data?.[8].result ?? 0n;
   const tokenPrice = multicallQuery.data?.[3].result ?? 0n;
   const tokenSymbol = multicallQuery.data?.[1].result ?? "";
   const tokenDecimals = multicallQuery.data?.[4].result ?? 18n;
@@ -199,8 +201,13 @@ export default function PresaleDetails() {
       {(multicallQuery.isLoading || readTokenAddress.isLoading) && (
         <Card className="w-full max-w-4xl mx-auto my-8">
           <CardHeader>
-            <Skeleton className="h-10 w-3/4" />
-            <Skeleton className="h-5 w-full" />
+            <div className="flex justify-between items-center">
+              <div>
+                <Skeleton className="h-10 w-3/4" />
+                <Skeleton className="h-5 w-full" />
+              </div>
+              <Skeleton className="h-10 w-32" /> {/* Space for FaucetButton */}
+            </div>
           </CardHeader>
           <CardContent className="grid gap-12 lg:grid-cols-2 lg:gap-24">
             <div className="space-y-6">
@@ -240,10 +247,15 @@ export default function PresaleDetails() {
       {multicallQuery.isSuccess && (
         <Card className="w-full max-w-4xl mx-auto my-8">
           <CardHeader>
-            <CardTitle>{multicallQuery.data[0].result} Presale</CardTitle>
-            <CardDescription>
-              Get in early on the {multicallQuery.data[0].result} presale.
-            </CardDescription>
+            <div className="flex justify-between items-center">
+              <div>
+                <CardTitle>{multicallQuery.data[0].result} Presale</CardTitle>
+                <CardDescription>
+                  Get in early on the {multicallQuery.data[0].result} presale.
+                </CardDescription>
+              </div>
+              <FaucetButton />
+            </div>
           </CardHeader>
           <CardContent className="grid gap-12 lg:grid-cols-2 lg:gap-24">
             <div className="space-y-6">
@@ -265,7 +277,8 @@ export default function PresaleDetails() {
                     Price
                   </div>
                   <div>
-                    {formatEther(multicallQuery.data[3].result ?? 0n)} {nativeCurrencySymbol}
+                    {formatEther(multicallQuery.data[3].result ?? 0n)}{" "}
+                    {nativeCurrencySymbol}
                   </div>
                 </div>
                 <div className="space-y-1">
@@ -283,14 +296,11 @@ export default function PresaleDetails() {
                   <div className="text-sm font-medium text-muted-foreground">
                     Hard Cap
                   </div>
-                  <div>{formatEther(hardCap)} {nativeCurrencySymbol}</div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-sm font-medium text-muted-foreground">
-                    Soft Cap
+                  <div>
+                    {formatEther(hardCap)} {nativeCurrencySymbol}
                   </div>
-                  <div>{formatEther(softCap)} {nativeCurrencySymbol}</div>
                 </div>
+
                 <div className="space-y-1">
                   <div className="text-sm font-medium text-muted-foreground">
                     Start Time
@@ -312,8 +322,13 @@ export default function PresaleDetails() {
                 </div>
                 <Progress value={progressValue} />
                 <div className="flex justify-between text-sm">
-                  <div>{formatEther(totalContributed)} {nativeCurrencySymbol} contributed</div>
-                  <div>{formatEther(hardCap)} {nativeCurrencySymbol} hard cap</div>
+                  <div>
+                    {formatEther(totalContributed)} {nativeCurrencySymbol}{" "}
+                    contributed
+                  </div>
+                  <div>
+                    {formatEther(hardCap)} {nativeCurrencySymbol} hard cap
+                  </div>
                 </div>
               </div>
             </div>
@@ -361,7 +376,8 @@ export default function PresaleDetails() {
 
                 {/* Rate Display */}
                 <div className="text-sm text-muted-foreground px-1">
-                  1 {tokenSymbol} = {formatEther(tokenPrice)} {nativeCurrencySymbol}
+                  1 {tokenSymbol} = {formatEther(tokenPrice)}{" "}
+                  {nativeCurrencySymbol}
                 </div>
 
                 <Button type="submit" disabled={isPending} className="w-full">
@@ -372,8 +388,7 @@ export default function PresaleDetails() {
                 {isConfirmed && <div>Transaction confirmed.</div>}
                 {error && (
                   <div>
-                    Alert:{" "}
-                    {(error as BaseError).shortMessage || error.message}
+                    Alert: {(error as BaseError).shortMessage || error.message}
                   </div>
                 )}
               </form>

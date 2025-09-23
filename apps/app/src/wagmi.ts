@@ -13,14 +13,14 @@ const connectors = connectorsForWallets(
     },
   ],
   {
-    appName: "Tokenization Platform",
+    appName: "Launchpad Platform",
     projectId: import.meta.env.VITE_WC_PROJECT_ID,
   }
 );
 
 export const config = getDefaultConfig({
   projectId: import.meta.env.VITE_WC_PROJECT_ID,
-  appName: "Tokenization Platform",
+  appName: "Launchpad Platform",
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   chains: CHAINS,

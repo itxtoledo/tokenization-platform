@@ -53,6 +53,11 @@
   --spacing: 0.25rem;
 }
 
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
 .dark {
   --background: #0a0a0a;
   --foreground: #fafafa;
@@ -155,4 +160,9 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
 }

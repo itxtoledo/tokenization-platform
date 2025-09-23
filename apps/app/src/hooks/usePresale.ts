@@ -1,94 +1,84 @@
-import { useReadContract } from 'wagmi';
-import PresaleABI from '@tokenization-platform/contracts/abi_ts/contracts/Presale.sol/Presale';
-import MintableERC20ABI from '@tokenization-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20';
+import { useReadContract } from "wagmi";
+import PresaleABI from "@launchpad-platform/contracts/abi_ts/contracts/Presale.sol/Presale";
+import MintableERC20ABI from "@launchpad-platform/contracts/abi_ts/contracts/MintableERC20.sol/MintableERC20";
 
 export function usePresale(presaleAddress: `0x${string}`) {
   // Return functions that encapsulate the useReadContract hooks
-  const useTokenAddress = () => 
+  const useTokenAddress = () =>
     useReadContract({
       address: presaleAddress,
       abi: PresaleABI,
-      functionName: 'token',
+      functionName: "token",
       query: {
         enabled: !!presaleAddress,
       },
     });
 
-  const useTokenName = (tokenAddress: `0x${string}`) => 
+  const useTokenName = (tokenAddress: `0x${string}`) =>
     useReadContract({
       address: tokenAddress,
       abi: MintableERC20ABI,
-      functionName: 'name',
+      functionName: "name",
       query: {
         enabled: !!tokenAddress,
       },
     });
 
-  const useTokenSymbol = (tokenAddress: `0x${string}`) => 
+  const useTokenSymbol = (tokenAddress: `0x${string}`) =>
     useReadContract({
       address: tokenAddress,
       abi: MintableERC20ABI,
-      functionName: 'symbol',
+      functionName: "symbol",
       query: {
         enabled: !!tokenAddress,
       },
     });
 
-  const usePrice = () => 
+  const usePrice = () =>
     useReadContract({
       address: presaleAddress,
       abi: PresaleABI,
-      functionName: 'price',
+      functionName: "price",
       query: {
         enabled: !!presaleAddress,
       },
     });
 
-  const useSoftCap = () => 
+  const useTotalContributed = () =>
     useReadContract({
       address: presaleAddress,
       abi: PresaleABI,
-      functionName: 'softCap',
+      functionName: "totalContributed",
       query: {
         enabled: !!presaleAddress,
       },
     });
 
-  const useTotalContributed = () => 
+  const useHardCap = () =>
     useReadContract({
       address: presaleAddress,
       abi: PresaleABI,
-      functionName: 'totalContributed',
+      functionName: "hardCap",
       query: {
         enabled: !!presaleAddress,
       },
     });
 
-  const useHardCap = () => 
+  const useStartTime = () =>
     useReadContract({
       address: presaleAddress,
       abi: PresaleABI,
-      functionName: 'hardCap',
+      functionName: "startTime",
       query: {
         enabled: !!presaleAddress,
       },
     });
 
-  const useStartTime = () => 
+  const useEndTime = () =>
     useReadContract({
       address: presaleAddress,
       abi: PresaleABI,
-      functionName: 'startTime',
-      query: {
-        enabled: !!presaleAddress,
-      },
-    });
-
-  const useEndTime = () => 
-    useReadContract({
-      address: presaleAddress,
-      abi: PresaleABI,
-      functionName: 'endTime',
+      functionName: "endTime",
       query: {
         enabled: !!presaleAddress,
       },
@@ -99,7 +89,6 @@ export function usePresale(presaleAddress: `0x${string}`) {
     useTokenName,
     useTokenSymbol,
     usePrice,
-    useSoftCap,
     useTotalContributed,
     useHardCap,
     useStartTime,

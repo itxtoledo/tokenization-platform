@@ -13,7 +13,6 @@ contract Presale is OwnableUpgradeable {
 
     uint256 public price;
     uint256 public hardCap;
-    uint256 public softCap;
     uint256 public startTime;
     uint256 public endTime;
 
@@ -32,7 +31,6 @@ contract Presale is OwnableUpgradeable {
         address token_,
         uint256 price_,
         uint256 hardCap_,
-        uint256 softCap_,
         uint256 startTime_,
         uint256 endTime_
     ) external initializer {
@@ -40,13 +38,12 @@ contract Presale is OwnableUpgradeable {
         token = MintableERC20(token_);
         price = price_;
         hardCap = hardCap_;
-        softCap = softCap_;
         startTime = startTime_;
         endTime = endTime_;
     }
 
     function contribute(uint256 amount) external payable {
-        if (block.timestamp < startTime || block.timestamp > endTime) revert PresaleNotActive();
+        if (block.timestamp < startTime || (endTime != 0 && block.timestamp > endTime)) revert PresaleNotActive();
 
         uint256 total = amount * price;
 
